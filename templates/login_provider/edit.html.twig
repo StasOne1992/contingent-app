@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit LoginProvider{% endblock %}
+
+{% block body %}
+    <h1>Edit LoginProvider</h1>
+
+    {{ include('login_provider/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_login_provider_index') }}">back to list</a>
+
+    {{ include('login_provider/_delete_form.html.twig') }}
+{% endblock %}

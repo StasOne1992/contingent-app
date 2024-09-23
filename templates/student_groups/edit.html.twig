@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% set refer = 1 %}
+{% set canreset = 0 %}
+{% set page_title =  'Группа '~student_group.name~' ('~student_group.code~')' %}
+{% set sub_page_title = 'Редактировать данные группы' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+
+    {% block topmenu_items %}
+        {{ parent() }}
+        <input form="student_groups" type="submit" class="btn btn-sm btn-primary" value="Обновить">
+    {% endblock %}
+
+{% block body %}
+
+    {{ include('student_groups/_form.html.twig') }}
+    {{ include('student_groups/_delete_form.html.twig') }}
+
+
+{% endblock %}

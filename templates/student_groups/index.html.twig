@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+{% set page_title = 'Студенческие группы' %}
+{% set sub_page_title = 'Список групп' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block topmenu_items %}
+    <a href="{{ path('app_student_groups_new') }}" type="button"
+       class="btn btn-light btn-sm w-100 js-bs-popover-enabled"
+       data-bs-toggle="popover"
+       data-bs-placement="top" title=""
+       data-bs-content="Добавить"
+       data-bs-original-title="Добавить новую группу">
+        <i class="far fa-fw fa-plus"></i> Добавить группу
+    </a>
+{% endblock %}
+
+{% block body %}
+    <div class="">
+        <div class="block block-rounded block-themed block-bordered">
+            <div class="block-header block-header-default bg-secondary">
+                <h3 class="block-title">{{ page_title }} <small></small></h3>
+                <div class="block-options">
+
+
+                </div>
+            </div>
+            <div class="block-content">
+                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-borderless table-striped table-vcenter js-dataTable-responsive"
+                                   aria-describedby="DataTables_Table_0_info">
+                                <thead class="text-center">
+                                <th style="width:20px">№</th>
+                                <th>Имя группы</th>
+                                <th>Куратор</th>
+                                <th>Курс/Параллель</th>
+                                <th>Действия</th>
+                                </thead>
+                                <tbody>
+
+                                {% for student_group in student_groups %}
+                                    <tr>
+                                        <td>{{ loop.index }}</td>
+                                        <td>
+                                            <a class="fw-semibold"
+                                               href="{{ path('app_student_groups_show', {'id': student_group.id}) }}"> {{ student_group.Name }}</a>
+                                            <br><small
+                                                    class="text-muted text-small">{{ student_group.Code }}</small></td>
+                                        <td>{{ student_group.GroupLeader }}</td>
+                                        <td>{{ student_group.CourseNumber }}/{{ student_group.ParallelNumber }}</td>
+                                        <td style="max-width: 180px">
+                                            <div class="btn-toolbar ">
+                                                <div class="btn-group btn-group-sm me-2 mx-auto">
+                                                    <a class="btn btn-alt-secondary"
+                                                       href="{{ path('app_student_groups_show', {'id': student_group.id}) }}"><i
+                                                                class="fa fa-info-circle"></i> Сведения</a>
+                                                    <a class="btn btn-alt-secondary"
+                                                       href="{{ path('app_student_groups_edit', {'id': student_group.id}) }}"><i
+                                                                class="fa fa-pencil"></i> Редактировать</a>
+                                                    <button type="button"
+                                                            class="btn btn-alt-secondary
+                                                            dropdown-toggle
+                                                            dropdown-toggle-split"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <span class="visually-hidden">Toggle Dropdown</span>
+                                                    </button>
+
+                                                    <ul class="dropdown-menu fs-sm">
+                                                        <li>
+                                                        </li>
+                                                        <li><a class="dropdown-item"
+                                                               href="{{ path('app_student_groups_show', {'id': student_group.id}) }}"><i
+                                                                        class="fa-solid fa-turn-up"></i> Перевести на
+                                                                сл. курс</a></li>
+                                                        <li>
+                                                            <hr class="dropdown-divider">
+                                                        </li>
+                                                        <li><a class="dropdown-item"
+                                                               href="{{ path('app_student_groups_list_to_elearning', {'id': student_group.id}) }}">Сгенерировать
+                                                                файл для ЦКП</a>
+                                                        </li>
+                                                        <li><a class="dropdown-item"
+                                                               href="{{ path('app_student_groups_list_to_school_portal', {'id': student_group.id}) }}">Сгенерировать
+                                                                файл для ШП</a>
+                                                        </li>
+                                                        <li><a class="dropdown-item"
+                                                               href="{{ path('app_student_groups_list_to_PerCo', {'id': student_group.id}) }}">Сгенерировать
+                                                                файл для PerCo</a>
+                                                        </li>
+                                                        <li>
+                                                            <hr class="dropdown-divider">
+                                                        </li>
+                                                        <li><a class="dropdown-item"
+                                                               href="{{ path('app_student_groups_generate_access_card_list', {'id': student_group.id}) }}">Сгенерировать лист ознакомления с правилами СКУД</a>
+                                                        </li>
+                                                        <li><a class="dropdown-item"
+                                                               href="{{ path('app_student_groups_generate_access_issue_card_list', {'id': student_group.id}) }}">Сгенерировать
+                                                                ведомость выдачи</a>
+                                                        </li>
+                                                        <li>
+                                                            <hr class="dropdown-divider">
+                                                        </li>
+                                                        <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4">Нет ни одной записи</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

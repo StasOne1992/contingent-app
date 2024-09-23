@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% set refer = 1 %}
+{% set page_title = 'Мероприятия' %}
+{% set refer_link = path('app_events_list_index') %}
+{% set sub_page_title =  'Изменить мероприятие' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block topmenu_items %}
+    {{ parent() }}
+    <button type="submit" form="events_list" class="btn btn-sm btn-primary push" >Обновить</button>
+    <button type="button" class="btn btn-sm btn-danger push" data-bs-toggle="modal" data-bs-target="#modal-block-vcenter">Удалить</button>
+    {% include('events_list/_delete_form.html.twig') %}
+{% endblock %}
+
+{% block body %}
+
+    {{ include('events_list/_form.html.twig') }}
+
+{% endblock %}

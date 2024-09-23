@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit LegalRepresentativeTypeList{% endblock %}
+
+{% block body %}
+    <h1>Edit LegalRepresentativeTypeList</h1>
+
+    {{ include('legal_representative_type_list/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_legal_representative_type_list_index') }}">back to list</a>
+
+    {{ include('legal_representative_type_list/_delete_form.html.twig') }}
+{% endblock %}

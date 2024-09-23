@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LoginValues index{% endblock %}
+
+{% block body %}
+    <h1>LoginValues index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>LoginValue</th>
+                <th>PasswordValue</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for login_value in login_values %}
+            <tr>
+                <td>{{ login_value.id }}</td>
+                <td>{{ login_value.LoginValue }}</td>
+                <td>{{ login_value.PasswordValue }}</td>
+                <td>
+                    <a href="{{ path('app_login_values_show', {'id': login_value.id}) }}">show</a>
+                    <a href="{{ path('app_login_values_edit', {'id': login_value.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_login_values_new') }}">Create new</a>
+{% endblock %}

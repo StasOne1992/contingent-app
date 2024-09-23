@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New StudentPunishment{% endblock %}
+
+{% block body %}
+    <h1>Create new StudentPunishment</h1>
+
+    {{ include('student_punishment/_form.html.twig') }}
+
+    <a href="{{ path('app_student_punishment_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LegalRepresentative{% endblock %}
+
+{% block body %}
+    <h1>LegalRepresentative</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ legal_representative.id }}</td>
+            </tr>
+            <tr>
+                <th>FirstName</th>
+                <td>{{ legal_representative.FirstName }}</td>
+            </tr>
+            <tr>
+                <th>LastName</th>
+                <td>{{ legal_representative.LastName }}</td>
+            </tr>
+            <tr>
+                <th>MiddleName</th>
+                <td>{{ legal_representative.MiddleName }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ legal_representative.Phone }}</td>
+            </tr>
+            <tr>
+                <th>Comment</th>
+                <td>{{ legal_representative.Comment }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_legal_representative_index') }}">back to list</a>
+
+    <a href="{{ path('app_legal_representative_edit', {'id': legal_representative.id}) }}">edit</a>
+
+    {{ include('legal_representative/_delete_form.html.twig') }}
+{% endblock %}

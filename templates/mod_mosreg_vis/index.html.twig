@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ModMosregVis index{% endblock %}
+
+{% block body %}
+    <h1>ModMosregVis index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Active</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for mod_mosreg_vi in mod_mosreg_vis %}
+            <tr>
+                <td>{{ mod_mosreg_vi.id }}</td>
+                <td>{{ mod_mosreg_vi.username }}</td>
+                <td>{{ mod_mosreg_vi.Password }}</td>
+                <td>{{ mod_mosreg_vi.Active ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_mod_mosreg_vis_show', {'id': mod_mosreg_vi.id}) }}">show</a>
+                    <a href="{{ path('app_mod_mosreg_vis_edit', {'id': mod_mosreg_vi.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_mod_mosreg_vis_new') }}">Create new</a>
+{% endblock %}

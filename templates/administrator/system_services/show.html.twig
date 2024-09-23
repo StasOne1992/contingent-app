@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SystemSerivces{% endblock %}
+
+{% block body %}
+    <h1>SystemSerivces</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ system_serivce.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ system_serivce.Title }}</td>
+            </tr>
+            <tr>
+                <th>SystemName</th>
+                <td>{{ system_serivce.SystemName }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_system_serivces_index') }}">back to list</a>
+
+    <a href="{{ path('app_system_serivces_edit', {'id': system_serivce.id}) }}">edit</a>
+
+    {{ include('system_serivces/_delete_form.html.twig') }}
+{% endblock %}

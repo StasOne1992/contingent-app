@@ -1,0 +1,11 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    paths:
+        '%kernel.project_dir%/App/MainApp/Templates': 'MainApp'
+        '%kernel.project_dir%/App/mod_student_app/Templates': 'mod_student_app'
+        '%kernel.project_dir%/App/mod_mosregvis/Templates': 'mod_mosregvis'
+        'assets/media/avatars': 'noavatar'
+
+when@test:
+    twig:
+        strict_variables: true

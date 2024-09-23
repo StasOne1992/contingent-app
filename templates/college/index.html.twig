@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+{% set page_title = 'Профессиональные образовательные организации' %}
+{% set sub_page_title = 'Список организаций' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block topmenu_items %}
+    <a href="{{ path('app_college_new') }}" type="button"
+       class="btn btn-light btn-sm w-100 js-bs-popover-enabled"
+       data-bs-toggle="popover"
+       data-bs-placement="top" title=""
+       data-bs-content="Добавить"
+       data-bs-original-title="Добавить новое ПОО">
+        <i class="far fa-fw fa-plus"></i> Добавить
+    </a>
+{% endblock %}
+
+{% block body %}
+    <div class="">
+        <div class="block block-rounded block-themed block-bordered">
+            <div class="block-header block-header-default bg-secondary">
+                <h3 class="block-title">{{ page_title }} <small></small></h3>
+                <div class="block-options">
+                </div>
+            </div>
+            <div class="block-content">
+                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>№ п/п</th>
+                                    <th>logo path</th>
+                                    <th>Наименование</th>
+                                    <th>
+                                        Юридический адрес
+                                    </th>
+                                    <th>Email</th>
+                                    <th>Веб-сайт</th>
+                                    <th>Телефон</th>
+                                    <th>Действия</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for college in colleges %}
+                                    <tr>
+                                        <td>{{ college.id }}</td>
+                                        <td>{{ college.logo }}</td>
+                                        <td>{{ college.shortName }}</td>
+                                        <td class="small">
+                                            {{ college.registeredAddress }}
+                                        </td>
+                                        <td><a href="mailto:{{ college.email }}"> {{ college.email }}</a></td>
+                                        <td><a href="{{ college.webSite }}"> {{ college.webSite }}</a></td>
+                                        <td><a href="tel:{{ college.phone }}"> {{ college.phone }}</a></td>
+                                        <td>
+                                            <a href="{{ path('app_college_show', {'id': college.id}) }}">show</a>
+                                            <a href="{{ path('app_college_edit', {'id': college.id}) }}">edit</a>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="11">Нет ни одной записи</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

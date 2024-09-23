@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ContingentDocumentType{% endblock %}
+
+{% block body %}
+    <h1>Create new ContingentDocumentType</h1>
+
+    {{ include('contingent_document_type/_form.html.twig') }}
+
+    <a href="{{ path('app_contingent_document_type_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+{% set refer = 1 %}
+{% set page_title = 'Студенческие группы' %}
+{% set sub_page_title =  'Группа '~student_group.name~' '~student_group.code %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block topmenu_items %}
+    {{ parent() }}
+    <a href="{{ path('app_student_groups_edit', {'id': student_group.id}) }}" type="button" class="btn btn-sm btn-primary">Редактировать</a>
+
+    <button type="button" class="btn btn-sm btn-danger push" data-bs-toggle="modal" data-bs-target="#modal-block-vcenter">Удалить</button>
+    {% include('student_groups/_delete_form.html.twig') %}
+{% endblock %}
+
+
+
+
+{% block body %}
+    <div class="block block-rounded">
+        <ul class="nav nav-tabs nav-tabs-block" role="tablist">
+            <li class="nav-item">
+                <button class="nav-link active" id="btabs-static-summary-tab" data-bs-toggle="tab"
+                        data-bs-target="#btabs-static-summary" role="tab" aria-controls="btabs-static-summary"
+                        aria-selected="true">Сводка о группе
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" id="btabs-static-student-list-tab" data-bs-toggle="tab"
+                        data-bs-target="#btabs-static-student-list" role="tab" aria-controls="btabs-static-student-list"
+                        aria-selected="false">Список студентов
+                </button>
+            </li>
+            <li class="nav-item ms-auto">
+                <button class="nav-link" id="btabs-static-service-tab" data-bs-toggle="tab"
+                        data-bs-target="#btabs-static-service" role="tab" aria-controls="btabs-static-service"
+                        aria-selected="false">
+                    <i class="si si-settings"></i>
+                    <span class="visually-hidden">Служебные</span>
+                </button>
+            </li>
+        </ul>
+        <div class="block-content tab-content">
+            <div class="tab-pane active" id="btabs-static-summary" role="tabpanel"
+                 aria-labelledby="btabs-static-summary-tab" tabindex="0">
+                {% include('student_groups/_static-summary.html.twig') %}
+            </div>
+            <div class="tab-pane" id="btabs-static-student-list" role="tabpanel" aria-labelledby="btabs-static-student-list-tab"
+                 tabindex="0">
+                {% include('student_groups/_static-student-list.html.twig') %}
+            </div>
+            <div class="tab-pane" id="btabs-static-service" role="tabpanel" aria-labelledby="btabs-static-service-tab"
+                 tabindex="0">
+                {% include('student_groups/_static-service.html.twig') %}
+            </div>
+        </div>
+    </div>
+
+topmenu_items
+    <a href="{{ path('app_student_groups_index') }}">back to list</a>
+
+
+
+{% endblock %}

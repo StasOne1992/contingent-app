@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Faculty index{% endblock %}
+
+{% block body %}
+    <h1>Faculty index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for faculty in faculties %}
+            <tr>
+                <td>{{ faculty.id }}</td>
+                <td>{{ faculty.Name }}</td>
+                <td>
+                    <a href="{{ path('app_faculty_show', {'id': faculty.id}) }}">show</a>
+                    <a href="{{ path('app_faculty_edit', {'id': faculty.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_faculty_new') }}">Create new</a>
+{% endblock %}

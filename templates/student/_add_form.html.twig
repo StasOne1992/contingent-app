@@ -1,0 +1,209 @@
+{{ form_start(form) }}
+    {# }{ form_widget(form) } #}
+
+<!-- Form Labels on top - Default Style -->
+<form name="{{ form.vars.name }}" method="POST">
+    <div class="row">
+
+        <div class="col-12 col-md-10">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="block block-rounded block-bordered">
+                        <div class="block-header block-header-default">
+                            <h3 class="block-title">Основная информация <small> </small></h3>
+                        </div>
+                        <div class="block-content">
+                            <div class="col-12 ">
+                                <div class="mb-2">
+                                    <div class="input-group">
+                                        <span class="input-group-text">{{ form_label(form.LastName,'Фамилия') }}</span>
+                                        {{ form_widget(form.LastName,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                        {{ form_errors(form.LastName,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                        <small>{{ form_help(form.LastName) }}</small>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <div class="input-group">
+                                        <span class="input-group-text">{{ form_label(form.FirstName,'Имя') }}</span>
+                                        {{ form_widget(form.FirstName,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                        {{ form_errors(form.FirstName,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                        <small>{{ form_help(form.FirstName) }}</small>
+                                    </div>
+                                </div>
+                                <div class="col-12  mb-2">
+                                    <div class="input-group">
+                                        <span class="input-group-text">{{ form_label(form.MiddleName,'Отчество') }}</span>
+                                        {{ form_widget(form.MiddleName,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                        {{ form_errors(form.MiddleName,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                        <small>{{ form_help(form.MiddleName) }}</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4  mb-2">
+                                        <div class="input-group">
+                                            <span class="input-group-text">{{ form_label(form.Gender,'Пол') }}</span>
+                                            {{ form_widget(form.Gender,{ 'attr': {'class': 'js-maxlength form-select js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                            {{ form_errors(form.Gender,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                            <small>{{ form_help(form.Gender) }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-8  mb-2">
+                                        <div class="input-group">
+                                            <span class="input-group-text">{{ form_label(form.BirthDate,'Дата рождения') }}</span>
+                                            {{ form_widget(form.BirthDate,{ 'attr': {'class': 'js-maxlength form-select js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                            {{ form_errors(form.BirthDate,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                            <small>{{ form_help(form.BirthDate) }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="block block-rounded block-bordered">
+                        <div class="block-header block-header-default">
+                            <h3 class="block-title">Адреса и контакты <small> </small></h3>
+                        </div>
+                        <div class="block-content">
+                            <div class="col-12">
+                                <div class="mb-2">
+                                    <div class="input-group">
+                                        <span class="input-group-text">{{ form_label(form.AddressFact,'Адрес факт.') }}</span>
+                                        {{ form_widget(form.AddressFact,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                        {{ form_errors(form.AddressFact,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                        <small>{{ form_help(form.AddressFact) }}</small>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <div class="input-group">
+                                        <span class="input-group-text">{{ form_label(form.AddressMain,'Адрес рег.') }}</span>
+                                        {{ form_widget(form.AddressMain,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                        {{ form_errors(form.AddressMain,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                        <small>{{ form_help(form.AddressMain) }}</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-2">
+                                        <div class="input-group">
+                                            <span class="input-group-text">{{ form_label(form.email,'Email') }}</span>
+                                            {{ form_widget(form.email,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                            {{ form_errors(form.email,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                            <small>{{ form_help(form.email) }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-2">
+                                        <div class="input-group">
+                                            <span class="input-group-text">{{ form_label(form.PhoneNumber,'Телефон') }}</span>
+                                            {{ form_widget(form.PhoneNumber,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                            {{ form_errors(form.PhoneNumber,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                            <small>{{ form_help(form.PhoneNumber) }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="block block-rounded block-bordered">
+                        <div class="block-header block-header-default">
+                            <h3 class="block-title">Социальный учёт <small> </small></h3>
+                        </div>
+
+                        <div class="block-content">
+                            <div class="col-12 ">
+                                <div class="mb-2">
+                                    <div class="input-group">
+                                        <span class="input-group-text">{{ form_label(form.FamilyTypeID,'Тип семьи') }}</span>
+                                        {{ form_widget(form.FamilyTypeID,{ 'attr': {'class': 'js-maxlength form-select js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                        <button type="button" class="btn btn-outline-secondary"><i
+                                                    class="fa-solid fa-circle-plus"></i></button>
+                                        {{ form_errors(form.FamilyTypeID,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                        <small>{{ form_help(form.FamilyTypeID) }}</small>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <div class="input-group">
+                                        <span class="input-group-text">{{ form_label(form.HealtgGroupID,'Группа здоровья') }}</span>
+                                        {{ form_widget(form.HealtgGroupID,{ 'attr': {'class': 'js-maxlength form-select js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                        <button type="button" class="btn btn-outline-secondary"><i
+                                                    class="fa-solid fa-circle-plus"></i></button>
+                                        {{ form_errors(form.HealtgGroupID,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                        <small>{{ form_help(form.HealtgGroupID) }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="block block-rounded block-bordered">
+                        <div class="block-header block-header-default">
+                            <h3 class="block-title">Докуметы <small> </small></h3>
+                        </div>
+                        <div class="block-content">
+                            <div class="col-12 ">
+                                <div class="mb-2">
+                                    <div class="input-group">
+                                        <span class="input-group-text">{{ form_label(form.NumberZachetka,'Номер зачётки') }}</span>
+                                        {{ form_widget(form.NumberZachetka,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                        {{ form_errors(form.NumberZachetka,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                        <small>{{ form_help(form.NumberZachetka) }}</small>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <div class="input-group">
+                                        <span class="input-group-text">{{ form_label(form.NumberStudBilet,'Номер студ. билета') }}</span>
+                                        {{ form_widget(form.NumberStudBilet,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                        {{ form_errors(form.NumberStudBilet,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                        <small>{{ form_help(form.NumberStudBilet) }}</small>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <div class="input-group">
+                                        <span class="input-group-text">{{ form_label(form.DocumentSnils,'СНИЛС') }}</span>
+                                        {{ form_widget(form.DocumentSnils,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                        {{ form_errors(form.DocumentSnils,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                        <small>{{ form_help(form.DocumentSnils) }}</small>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <div class="input-group">
+                                        <span class="input-group-text">{{ form_label(form.DocumentMedicalID,'Страховой полис') }}</span>
+                                        {{ form_widget(form.DocumentMedicalID,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                        {{ form_errors(form.DocumentMedicalID,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                        <small>{{ form_help(form.DocumentMedicalID) }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {{ form_row(form._token) }}
+    <div class="row">
+        <div class="block block-rounded">
+            <div class="block-header  ">
+                <h3 class="block-title"> </h3>
+                <div class="block-options">
+                    <button class="btn btn-primary">{%if buttonicon is defined %}<i class="fa-fw {{ buttonicon }}"></i> {% endif %}{{ button_label|default('Save') }}</button>
+
+                    {% if canreset==1 %}<button type="reset" class="btn btn-alt-danger"> <i class="fa-regular fa-fw fa-eraser"></i> Очистить </button>{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="row">
+    {{ form_widget(form) }}
+</div>
+</form>
+{{ form_end(form) }}

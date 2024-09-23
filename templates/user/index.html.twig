@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+{% set page_title = 'Пользователи' %}
+{% set sub_page_title = 'Список пользователей' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="block block-rounded block-bordered block-themed">
+        <div class="block-header block-header-default bg-secondary">
+            <h3 class="block-title">Пользователи <small></small></h3>
+            <div class="block-options">
+                <div class="dropdown">
+                    <button type="button" class="btn btn-outline-light dropdown-toggle"
+                            id="dropdown-default-primary"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa-regular fa-plus"></i> <span>Добавить</span>
+                    </button>
+                    <div class="dropdown-menu fs-sm" aria-labelledby="dropdown-default-primary">
+                        <a class="dropdown-item" href="{{ path('app_user_new') }}">Студента</a>
+                        <a class="dropdown-item" href="{{ path('app_user_new') }}">Сотрудника</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="block-content">
+            <table class="table table-bordered table-striped table-vcenter js-dataTable-responsive">
+                <thead class="table-secondary">
+                <tr>
+                    <th>Id</th>
+                    <th>Логин</th>
+                    <th>Статус</th>
+                    <th>Физическое лицо</th>
+                    <th>Роли</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td  class="w-25">{{ user.email }}</td>
+                        <td >
+                            {% if user.isStudent %}
+                                {{ 'Студент' }}
+
+                            {% else %}
+                                {{ 'Сотрудник' }}
+                            {% endif %}
+                        </td>
+                        <td  class="w-25">
+                            {% if user.isStudent %}
+                                {{ user.student }}
+
+                            {% else %}
+                                {{ user.staff }}
+                            {% endif %}
+                        </td>
+                        <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                        <td>
+                            <a class="btn btn-sm btn-alt-secondary"
+                               href="{{ path('app_user_show', {'id': user.id}) }}"><i
+                                        class="far fa-fw  fa-file-user"></i></a>
+                            <a class="btn btn-sm btn-alt-secondary "
+                               href="{{ path('app_user_edit', {'id': user.id}) }}"><i
+                                        class="fa fa-fw fa-pencil-alt"></i></a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">Нет ни одной записи</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

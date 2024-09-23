@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Person index{% endblock %}
+
+{% block body %}
+    <h1>Person index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>MiddleName</th>
+                <th>INN</th>
+                <th>SNILS</th>
+                <th>MedicalSeries</th>
+                <th>MedicalNumber</th>
+                <th>BirthPlace</th>
+                <th>MedicalDateIssue</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for person in people %}
+            <tr>
+                <td>{{ person.id }}</td>
+                <td>{{ person.FirstName }}</td>
+                <td>{{ person.LastName }}</td>
+                <td>{{ person.MiddleName }}</td>
+                <td>{{ person.INN }}</td>
+                <td>{{ person.SNILS }}</td>
+                <td>{{ person.MedicalSeries }}</td>
+                <td>{{ person.MedicalNumber }}</td>
+                <td>{{ person.BirthPlace }}</td>
+                <td>{{ person.MedicalDateIssue ? person.MedicalDateIssue|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_person_show', {'id': person.id}) }}">show</a>
+                    <a href="{{ path('app_person_edit', {'id': person.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_person_new') }}">Create new</a>
+{% endblock %}

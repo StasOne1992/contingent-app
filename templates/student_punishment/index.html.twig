@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}StudentPunishment index{% endblock %}
+
+{% block body %}
+    <h1>StudentPunishment index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for student_punishment in student_punishments %}
+            <tr>
+                <td>{{ student_punishment.id }}</td>
+                <td>{{ student_punishment.Date ? student_punishment.Date|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_student_punishment_show', {'id': student_punishment.id}) }}">show</a>
+                    <a href="{{ path('app_student_punishment_edit', {'id': student_punishment.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_student_punishment_new') }}">Create new</a>
+{% endblock %}

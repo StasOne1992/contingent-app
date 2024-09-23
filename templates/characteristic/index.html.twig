@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+{% set page_title = 'Характеристики студентов' %}
+{% set sub_page_title = 'Все характеристики' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+    {% block topmenu_items %}
+            {{ parent() }}
+        <a href="{{ path('app_characteristic_new') }}" type="button"
+           class="btn btn-light btn-sm w-100 js-bs-popover-enabled"
+           data-bs-toggle="popover"
+           data-bs-placement="top" title=""
+           data-bs-content="Добавить"
+           data-bs-original-title="Добавить характеристику">
+            <i class="far fa-fw fa-plus"></i>Добавить
+        </a>
+        {% endblock %}
+
+{% block body %}
+
+    <div class="">
+        <div class="block block-rounded block-themed block-bordered">
+            <div class="block-content">
+                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-striped table-vcenter js-dataTable-responsive"
+                                   aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Студент</th>
+                                    <th>Дата создания</th>
+                                    <th>Содержание</th>
+                                    <th>Действия</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for characteristic in characteristics %}
+                                    <tr>
+                                        <td>{{ characteristic.id }}</td>
+                                        <td>{{ characteristic.student }}</td>
+                                        <td>{{ characteristic.CreateData ? characteristic.CreateData|date('Y-m-d') : '' }}</td>
+                                        <td>{{ characteristic.Content |raw }}</td>
+                                        <td>
+                                            <a href="{{ path('app_characteristic_show', {'id': characteristic.id}) }}">show</a>
+                                            <a href="{{ path('app_characteristic_edit', {'id': characteristic.id}) }}">edit</a>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4">Нет ни одной записи</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

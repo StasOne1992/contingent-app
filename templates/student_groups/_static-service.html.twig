@@ -1,0 +1,23 @@
+<h4 class="fw-normal">Генерация</h4>
+<div class="row row-cols-auto pb-4 mx-auto">
+    <div class="col">
+        <a type="button" class="btn btn-secondary mx-atuo"
+           href="{{ path('app_student_groups_list_to_elearning', {'id': student_group.id}) }}">Сгенерировать
+            файл для ЦКП</a>
+    </div>
+    <div class="col">
+        <a type="button" class="btn btn-secondary mx-atuo"
+           href="{{ path('app_student_groups_list_to_school_portal', {'id': student_group.id}) }}">Сгенерировать
+            файл для ШП</a>
+    </div>
+    <div class="col">
+        <a type="button" class="btn btn-secondary mx-atuo"
+           href="{{ path('app_student_groups_list_to_PerCo', {'id': student_group.id}) }}">Сгенерировать
+            файл для СКУД PerCo</a>
+    </div>
+    <div class="col">
+        <a type="button" class="btn btn-secondary mx-atuo"
+           href="{{ path('app_student_groups_list_to_ent', {'id': student_group.id}) }}">Сгенерировать
+            файл для СКУД ЭНТ контроль доступа</a>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit ModMosregVis{% endblock %}
+
+{% block body %}
+    <h1>Edit ModMosregVis</h1>
+
+    {{ include('mod_mosreg_vis/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_mod_mosreg_vis_index') }}">back to list</a>
+
+    {{ include('mod_mosreg_vis/_delete_form.html.twig') }}
+{% endblock %}

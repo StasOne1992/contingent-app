@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EventsResultTypes{% endblock %}
+
+{% block body %}
+    <h1>EventsResultTypes</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ events_result_type.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ events_result_type.Name }}</td>
+            </tr>
+            <tr>
+                <th>IsWinner</th>
+                <td>{{ events_result_type.IsWinner ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsAwarded</th>
+                <td>{{ events_result_type.IsAwarded ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsParticipant</th>
+                <td>{{ events_result_type.IsParticipant ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_events_result_types_index') }}">back to list</a>
+
+    <a href="{{ path('app_events_result_types_edit', {'id': events_result_type.id}) }}">edit</a>
+
+    {{ include('events_result_types/_delete_form.html.twig') }}
+{% endblock %}

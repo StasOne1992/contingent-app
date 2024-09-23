@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AccessSystemControl{% endblock %}
+
+{% block body %}
+    <h1>AccessSystemControl</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ access_system_control.id }}</td>
+            </tr>
+            <tr>
+                <th>AccessCardSeries</th>
+                <td>{{ access_system_control.AccessCardSeries }}</td>
+            </tr>
+            <tr>
+                <th>AccesCardNumber</th>
+                <td>{{ access_system_control.AccesCardNumber }}</td>
+            </tr>
+            <tr>
+                <th>IssueDate</th>
+                <td>{{ access_system_control.IssueDate ? access_system_control.IssueDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>IsLocked</th>
+                <td>{{ access_system_control.IsLocked ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>LockDate</th>
+                <td>{{ access_system_control.LockDate ? access_system_control.LockDate|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {% for  key, value  in convertString%}
+        {{ key }} - {{ value }}<br>
+    {% endfor %}
+
+    <a href="{{ path('app_access_system_control_index') }}">back to list</a>
+
+    <a href="{{ path('app_access_system_control_edit', {'id': access_system_control.id}) }}">edit</a>
+
+    {{ include('access_system_control/_delete_form.html.twig') }}
+{% endblock %}

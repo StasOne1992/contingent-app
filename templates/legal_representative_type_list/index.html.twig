@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LegalRepresentativeTypeList index{% endblock %}
+
+{% block body %}
+    <h1>LegalRepresentativeTypeList index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for legal_representative_type_list in legal_representative_type_lists %}
+            <tr>
+                <td>{{ legal_representative_type_list.id }}</td>
+                <td>{{ legal_representative_type_list.Name }}</td>
+                <td>
+                    <a href="{{ path('app_legal_representative_type_list_show', {'id': legal_representative_type_list.id}) }}">show</a>
+                    <a href="{{ path('app_legal_representative_type_list_edit', {'id': legal_representative_type_list.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_legal_representative_type_list_new') }}">Create new</a>
+{% endblock %}

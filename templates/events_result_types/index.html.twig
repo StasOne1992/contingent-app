@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EventsResultTypes index{% endblock %}
+
+{% block body %}
+    <h1>EventsResultTypes index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>IsWinner</th>
+                <th>IsAwarded</th>
+                <th>IsParticipant</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for events_result_type in events_result_types %}
+            <tr>
+                <td>{{ events_result_type.id }}</td>
+                <td>{{ events_result_type.Name }}</td>
+                <td>{{ events_result_type.IsWinner ? 'Yes' : 'No' }}</td>
+                <td>{{ events_result_type.IsAwarded ? 'Yes' : 'No' }}</td>
+                <td>{{ events_result_type.IsParticipant ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_events_result_types_show', {'id': events_result_type.id}) }}">show</a>
+                    <a href="{{ path('app_events_result_types_edit', {'id': events_result_type.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_events_result_types_new') }}">Create new</a>
+{% endblock %}

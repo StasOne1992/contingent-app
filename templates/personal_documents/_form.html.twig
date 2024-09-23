@@ -1,0 +1,132 @@
+{{ form_start(form) }}
+
+<form name="{{ form.vars.name }}" method="POST">
+    <div class="row">
+        <div class="col-12 ">
+
+            <div class="row">
+                <div class="col-4 ">
+                    <div class="block block-rounded block-bordered pb-3">
+                        <div class="block-header block-header-default">
+                            <h3 class="block-title">Сведения о документе <small>Основные сведения </small></h3>
+                        </div>
+                        <div class="block-content text-left">
+                            <div class="mb-4">
+                            </div>
+                            <div class="mb-2">
+                                <div class="mb-2">
+                                    <div class="input-group">
+                                        <span class="input-group-text">{{ form_label(form.Student,'Студент') }}</span>
+                                        {% if  form.vars.value.disableuserselect %}
+                                            {{ form_widget(form.Student, { 'attr': {'class': 'js-maxlength form-select js-maxlength-enabled ','disabled':"disabled",'maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                        {% endif %}
+                                        {% if   form.vars.value.disableuserselect==false %}
+                                            {{ form_widget(form.Student, { 'attr': {'class': 'js-maxlength form-select js-maxlength-enabled ','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                        {% endif %}
+                                        {{ form_errors(form.Student,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                        <small>{{ form_help(form.Student) }}</small>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <div class="input-group">
+                                        <span class="input-group-text">{{ form_label(form.DocumentType,'Вид документа') }}</span>
+                                        {{ form_widget(form.DocumentType, { 'attr': {'class': 'js-maxlength form-select js-maxlength-enabled ','maxlength':'50','data-always-show':'true', 'data-placement':'top','readonly':'readonly'} }) }}
+                                        {{ form_errors(form.DocumentType,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                        <small>{{ form_help(form.DocumentType) }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 ">
+                    <div class="block block-rounded block-bordered pb-3">
+                        <div class="block-header block-header-default">
+                            <h3 class="block-title">Сведения о документе <small> Реквизиты документа </small></h3>
+                        </div>
+                        <div class="block-content text-left">
+                            <div class="mb-4">
+                            </div>
+                            <div class="mb-2">
+                                <div class="row  mb-2">
+                                    <div class="col-6">
+                                        <div class="input-group">
+                                            <span class="input-group-text">{{ form_label(form.DocumentSeries,'Серия') }}</span>
+
+                                            {{ form_widget(form.DocumentSeries,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+
+                                            {{ form_errors(form.DocumentSeries,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                            <small>{{ form_help(form.DocumentSeries) }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="input-group">
+                                            <span class="input-group-text">{{ form_label(form.DocumentNumber,'Номер') }}</span>
+
+                                            {{ form_widget(form.DocumentNumber,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                            {{ form_errors(form.DocumentNumber,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                            <small>{{ form_help(form.DocumentNumber) }}</small>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-7">
+                                        <div class="input-group">
+                                            <span class="input-group-text">{{ form_label(form.DocumentOfficialSeal,'Выдан') }}</span>
+
+                                            {{ form_widget(form.DocumentOfficialSeal,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','data-always-show':'true', 'data-placement':'top'} }) }}
+                                            {{ form_errors(form.DocumentOfficialSeal,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                            <small>{{ form_help(form.DocumentOfficialSeal) }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="input-group">
+                                            <span class="input-group-text">{{ form_label(form.DocumentIssueDate,'Дата выдачи') }}</span>
+                                            {{ form_widget(form.DocumentIssueDate,{ 'attr': {'class': 'js-maxlength form-select js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                            {{ form_errors(form.DocumentIssueDate,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                            <small>{{ form_help(form.DocumentIssueDate) }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="input-group">
+                                        <span class="input-group-text">{{ form_label(form.Comment,'Комментарий') }}</span>
+
+                                        {{ form_widget(form.Comment,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','data-always-show':'true', 'data-placement':'top'} }) }}
+                                        {{ form_errors(form.Comment,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                        <small>{{ form_help(form.Comment) }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            {{ form_widget(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="block block-rounded">
+            <div class="block-header  ">
+                <h3 class="block-title"></h3>
+                <div class="block-options">
+                    <button class="btn btn-primary">{% if buttonicon is defined %}<i
+                            class="fa-fw {{ buttonicon }}"></i> {% endif %}{{ button_label|default('Сохранить') }}
+                    </button>
+
+                    {% if canreset==1 %}
+                        <button type="reset" class="btn btn-alt-danger"><i
+                                    class="fa-regular fa-fw fa-eraser"></i> Очистить
+                        </button>{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{{ form_end(form) }}

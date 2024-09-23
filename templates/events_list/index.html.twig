@@ -1,0 +1,167 @@
+{% extends 'base.html.twig' %}
+{% set refer = 1 %}
+{% set page_title = 'Мероприятия' %}
+{% set sub_page_title =  'Добавить мероприятие' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block topmenu_items %}
+    {{ parent() }}
+    <a href="{{ path('app_events_list_new') }}" class="btn btn-sm btn-outline-light push"><i class="fa fa-plus"></i>
+        Добавить</a>
+{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>EventDate</th>
+                <th>EventStartTime</th>
+                <th>EventEndTime</th>
+                <th>Comment</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for events_list in events_lists %}
+
+            <tr>
+                {% if events_list.IsGroupEvent==true %}
+                    {{ "fff" }}
+                {% endif %}
+
+                <td>{{ events_list.id }}</td>
+                <td>{{ events_list.Name }}<br><small
+                            class="text-muted">{{ events_list.IsGroupEvent ? 'Групповое' : 'Индивидуальное' }}</small>
+                </td>
+                <td>{{ events_list.EventDate ? events_list.EventDate|date('Y-m-d') : '' }}</td>
+                <td>{{ events_list.EventStartTime ? events_list.EventStartTime|date('H:i:s') : '' }}</td>
+                <td>{{ events_list.EventEndTime ? events_list.EventEndTime|date('H:i:s') : '' }}</td>
+                <td>{{ events_list.Comment }}</td>
+                <td>
+                    <button onclick="getStudentList({{ events_list.id }},{{ events_list.IsGroupEvent }})">Назначить
+                        участников
+                    </button>
+                    <a href="{{ path('app_events_list_show', {'id': events_list.id}) }}">Просмотреть</a>
+                    <a href="{{ path('app_events_list_edit', {'id': events_list.id}) }}">Редактировать</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="EventSubscribeForm" method="POST" action="{{ path('app_events_result_set_student') }}">
+                        <input type="text" id="eventId">
+                        <div id="studentList" class="form-check"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" form="EventSubscribeForm" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+
+{% block customjs %}
+
+    function getStudentList(eventId, IsGroupEvent) {
+        if (IsGroupEvent || IsGroupEvent != undefined) {
+            $container = document.getElementById("studentList");
+            document.getElementById("eventId").setAttribute("value", eventId);
+            $container.replaceChildren();
+            $.ajax({
+                type: "GET",
+                url: "/student/json/",
+                dataType: 'json',
+                data: {
+                    requestType: "EventList",
+                    event: eventId},
+                success: function (result) {
+                    result.forEach(function (value) {
+                            var checkbox = document.createElement('input');
+                            checkbox.type = "checkbox";
+                        checkbox.classList = "form-check-input";
+                            checkbox.name = "name";
+                            checkbox.value = value["id"];
+                            checkbox.id = value["id"];
+                            var label = document.createElement('label')
+                            label.htmlFor = "id";
+                            label.appendChild(document.createTextNode(value['LastName'] + " " + value['FirstName'] + " " + value['MiddleName']));
+                            $container.appendChild(checkbox);
+                            $container.appendChild(label);
+                        }
+                    )
+                    $('#exampleModal').modal('show');
+                    //(element)=>console.log(element));
+                },
+                error: function (result) {
+                    alert('error');
+                }
+            });
+        } else {
+            $container = document.getElementById("studentList");
+            document.getElementById("eventId").setAttribute("value", eventId);
+            $container.replaceChildren();
+            $.ajax({
+                type: "GET",
+                url: "/student/json/",
+                dataType: 'json',
+                data: {
+                    requestType: "EventList",
+                    event: eventId
+                },
+                success: function (result) {
+                    result.forEach(function (value) {
+                            var checkbox = document.createElement('input');
+                            checkbox.type = "checkbox";
+                            checkbox.classList = "form-check-input";
+                            checkbox.name = "name";
+                            checkbox.value = value["id"];
+                            checkbox.id = value["id"];
+                            var label = document.createElement('label')
+                            label.htmlFor = "id";
+                            label.appendChild(document.createTextNode(value['LastName'] + " " + value['FirstName'] + " " + value['MiddleName']));
+                            $container.appendChild(checkbox);
+                            $container.appendChild(label);
+                        }
+                    )
+                    $('#exampleModal').modal('show');
+                    //(element)=>console.log(element));
+                },
+                error: function (result) {
+                    alert('error');
+                }
+            });
+        }
+    }
+
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New LegalRepresentativeTypeList{% endblock %}
+
+{% block body %}
+    <h1>Create new LegalRepresentativeTypeList</h1>
+
+    {{ include('legal_representative_type_list/_form.html.twig') }}
+
+    <a href="{{ path('app_legal_representative_type_list_index') }}">back to list</a>
+{% endblock %}

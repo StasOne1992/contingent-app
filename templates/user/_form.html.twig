@@ -1,0 +1,133 @@
+{{ form_start(form, {'attr': {'id': 'form_user_edit'}}) }}
+ {% if form.userphoto.vars.value!="" %}
+     {% set useravatar=form.userphoto.vars.value %}
+ {% else %}
+     {% set useravatar='/assets/media/avatars/avatar0.jpg' %}
+ {% endif %}
+
+
+<form name="form_user_edit">
+    <div class="row">
+        <div class="col-md-6 col-xl-6">
+            <div class="row">
+                <div class="block block-fx-pop block-rounded">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">Основные данные <small></small></h3>
+                    </div>
+                    <div class="block-content ">
+                        <div class="row mb-4">
+                            <div class="col-3">
+                                <h2 class="content-heading border-bottom mb-4 pb-2">Фото профиля</h2>
+                                <img class="mx-auto" src="{{ useravatar }}" alt="">
+                            </div>
+                            <div class="col-9">
+                                <div class="row mb-2">
+                                    {{ form_row(form.email,{ 'attr': {'type': 'email','class':'form-control'} }) }}
+                                </div>
+
+                                <h2 class="content-heading border-bottom mb-4 pb-2">Связь с физическим лицом</h2>
+                                <div class="form-check form-switch form-check-inline">
+                                    <label class="form-check-label" for="example-switch-inline1"> Пользователь
+                                        является
+                                        студентом</label>
+                                    {{ form_widget(form.isStudent) }}
+                                </div>
+                                <div class=" mb-2">
+                                    {{ form_row(form.student,{ 'attr': {'class': 'js-select2 form-select'} }) }}
+                                </div>
+                                <div class=" mb-2">
+                                    {{ form_row(form.staff,{ 'attr': {'class': 'js-select2 form-select'} }) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="block block-fx-pop block-rounded">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">Основные данные <small></small></h3>
+                    </div>
+                    <div class="block-content">
+                        <div class=" mb-2">
+                            {{ form_row(form.password) }}
+                        </div>
+                        <div class=" mb-2">
+                            {{ form_row(form.userphoto) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--BLOCK USER ROLES -->
+        <div class="col-md-6 col-xl-3">
+            <div class="block block-fx-pop block-rounded">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Назначенные разрешения <small></small></h3>
+                </div>
+                <div class="block-content ">
+                    <div class="space-y-2 mb-4 d-none">
+                        Текущие роли: {{ form_widget(form.roles) }}
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        {% for item in form.systemroles %}
+                            <div class="form-check">
+                                {{ form_widget(item,{ 'attr': {'class': 'form-check-input'} }) }}
+                                {{ form_label(item) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {{ form_widget(form) }}
+
+    <button class="btn btn-outline-light">{{ button_label }}</button>
+</form>
+
+<script>
+    document.querySelector("#form_user_edit").addEventListener(
+        "submit", function (e) {
+            doFunction();
+        }
+    );
+
+    function doFunction() {
+        var checkedBoxes = document.querySelectorAll('input[name="user[systemroles][]"]:checked');
+        var roles = '';
+        checkedBoxes.forEach(element => roles = roles.concat(element.value, ','));
+        roles = roles.slice(0, -1);
+        console.log('Set roles:', roles);
+        console.log(roles.split(','))
+        document.getElementById('user_roles').value = roles;
+    }
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        console.log('EventListener. Document.Loaded()');
+        var roleslist = document.getElementById('user_roles').value;
+        var rolesarray = roleslist.split(',');
+
+        var checkedBoxes = document.querySelectorAll('input[name="user[systemroles][]"]');
+        var itter = 0;
+        for (var j = 0; j < checkedBoxes.length; j++) {
+            var currcheckbox = checkedBoxes[j];
+            for (var i = 0; i < rolesarray.length; i++) {
+                var currentrolesitem = rolesarray[i];
+                if (currentrolesitem == currcheckbox.value) {
+                    console.log(currcheckbox);
+                    currcheckbox.setAttribute('checked', true);
+
+                }
+
+            }
+        }
+        ;
+
+    });
+
+</script>
+
+{{ form_end(form) }}

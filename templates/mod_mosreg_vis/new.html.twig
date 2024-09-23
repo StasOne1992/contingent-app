@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ModMosregVis{% endblock %}
+
+{% block body %}
+    <h1>Create new ModMosregVis</h1>
+
+    {{ include('mod_mosreg_vis/_form.html.twig') }}
+
+    <a href="{{ path('app_mod_mosreg_vis_index') }}">back to list</a>
+{% endblock %}

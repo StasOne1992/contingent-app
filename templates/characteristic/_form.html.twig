@@ -1,0 +1,44 @@
+{{ form_start(form, {'attr': {'id': 'characteristic'}}) }}
+<div class="row">
+    <div class="col-12">
+        <div class="block block-rounded block-bordered block-themed ">
+            <div class="block-header block-header-default bg-secondary">
+                <h3 class="block-title">Сведения о студенте<small> </small></h3>
+            </div>
+            <div class="block-content text-left">
+                <div class="row pb-4">
+                    <div class="col-12 col-sm-4">
+                        <label class="form-label">    {{ form_label(form.Student) }} </label>
+                        {% if blockStudentEdit==true %}
+                            {{ form_widget(form.Student,{'attr': {'class': 'form-select','disabled':"disabled"} }) }}
+                        {% else %}
+                            {{ form_widget(form.Student,{ 'attr': {'class': 'form-select'} }) }}
+                        {% endif %}
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <label class="form-label"> {{ form_label(form.CreateData) }} </label>
+                        {{ form_widget(form.CreateData,{ 'attr': {'class': 'js-maxlength form-select js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label"> {{ form_label(form.Content) }}</label>
+                        {{ form_widget(form.Content,{'id':'ckeditor','attr': {'name': 'ckeditor','rows':10, 'data-placement':'top'} }) }}
+                    </div>
+                </div>
+            </div>
+            <div class="block-header block-header-default   bg-secondary">
+                <div class="block-title"></div>
+                <diV class="block-options">
+
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+{{ form_end(form) }}
+
+

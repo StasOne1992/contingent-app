@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="description"
+          content="{% block description %}{% endblock %}">
+    <meta name="author" content="pixelcave">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Open Graph Meta -->
+    <meta property="og:title" content="">
+    <meta property="og:site_name" content="AIS@vatholm">
+    <meta property="og:description"
+          content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <!-- Icons -->
+    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+    <link rel="shortcut icon" href="/assets/media/favicons/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/media/favicons/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/media/favicons/apple-touch-icon-180x180.png">
+    <!-- END Icons -->
+    <!-- Fonts and OneUI framework -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap">
+    <link rel="stylesheet" href="/assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="/assets/js/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+    <link rel="stylesheet" href="/assets/js/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/assets/js/plugins/ion-rangeslider/css/ion.rangeSlider.css">
+    <link rel="stylesheet" href="/assets/js/plugins/dropzone/min/dropzone.min.css">
+    <link rel="stylesheet" href="/assets/js/plugins/flatpickr/flatpickr.min.css">
+
+
+    <link rel="stylesheet" id="css-main" href="/assets/css/oneui.css">
+    <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+    <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/amethyst.min.css"> -->
+    <!-- END Stylesheets -->
+    <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+    <!-- <link rel="stylesheet" id="css-theme" href="/assets/css/themes/amethyst.min.css"> -->
+    <!-- END Stylesheets -->
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {# } Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+    {% block stylesheets %}
+        {# { encore_entry_link_tags('app') } #}
+    {% endblock %}
+
+    {% block javascripts %}
+        {# { encore_entry_script_tags('app') } #}
+    {% endblock %}
+</head>
+<body>
+
+<div id="page-container" class="page-header-dark main-content-boxed">
+
+    <!-- Header -->
+    <header id="page-header">
+        <!-- Header Content -->
+        <div class="content-header">
+            <!-- Left Section -->
+            <div class="d-flex align-items-center">
+                <!-- Logo -->
+                <a class="fw-semibold fs-5 tracking-wider text-dual me-3" href="index.html">Личный кабинет студента<span class="fw-normal"></span>
+                </a>
+                <!-- END Logo -->
+
+                <!-- Notifications Dropdown -->
+                <div class="dropdown d-inline-block me-2">
+                    <button type="button" class="btn btn-sm btn-alt-secondary" id="page-header-notifications-dropdown"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-fw fa-bell"></i>
+                        <span class="text-primary">•</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-lg p-0 border-0 fs-sm"
+                         aria-labelledby="page-header-notifications-dropdown">
+                        <div class="p-2 bg-body-light border-bottom text-center rounded-top">
+                            <h5 class="dropdown-header text-uppercase">Notifications</h5>
+                        </div>
+                        <ul class="nav-items mb-0">
+                            <li>
+                                <a class="text-dark d-flex py-2" href="javascript:void(0)">
+                                    <div class="flex-shrink-0 me-2 ms-3">
+                                        <i class="fa fa-fw fa-check-circle text-success"></i>
+                                    </div>
+                                    <div class="flex-grow-1 pe-2">
+                                        <div class="fw-semibold">You have a new follower</div>
+                                        <span class="fw-medium text-muted">15 min ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="text-dark d-flex py-2" href="javascript:void(0)">
+                                    <div class="flex-shrink-0 me-2 ms-3">
+                                        <i class="fa fa-fw fa-plus-circle text-primary"></i>
+                                    </div>
+                                    <div class="flex-grow-1 pe-2">
+                                        <div class="fw-semibold">1 new sale, keep it up</div>
+                                        <span class="fw-medium text-muted">22 min ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="text-dark d-flex py-2" href="javascript:void(0)">
+                                    <div class="flex-shrink-0 me-2 ms-3">
+                                        <i class="fa fa-fw fa-times-circle text-danger"></i>
+                                    </div>
+                                    <div class="flex-grow-1 pe-2">
+                                        <div class="fw-semibold">Update failed, restart server</div>
+                                        <span class="fw-medium text-muted">26 min ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="text-dark d-flex py-2" href="javascript:void(0)">
+                                    <div class="flex-shrink-0 me-2 ms-3">
+                                        <i class="fa fa-fw fa-plus-circle text-primary"></i>
+                                    </div>
+                                    <div class="flex-grow-1 pe-2">
+                                        <div class="fw-semibold">2 new sales, keep it up</div>
+                                        <span class="fw-medium text-muted">33 min ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="text-dark d-flex py-2" href="javascript:void(0)">
+                                    <div class="flex-shrink-0 me-2 ms-3">
+                                        <i class="fa fa-fw fa-user-plus text-success"></i>
+                                    </div>
+                                    <div class="flex-grow-1 pe-2">
+                                        <div class="fw-semibold">You have a new subscriber</div>
+                                        <span class="fw-medium text-muted">41 min ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="text-dark d-flex py-2" href="javascript:void(0)">
+                                    <div class="flex-shrink-0 me-2 ms-3">
+                                        <i class="fa fa-fw fa-check-circle text-success"></i>
+                                    </div>
+                                    <div class="flex-grow-1 pe-2">
+                                        <div class="fw-semibold">You have a new follower</div>
+                                        <span class="fw-medium text-muted">42 min ago</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="p-2 border-top text-center">
+                            <a class="d-inline-block fw-medium" href="javascript:void(0)">
+                                <i class="fa fa-fw fa-arrow-down me-1 opacity-50"></i> Load More..
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- END Notifications Dropdown -->
+            </div>
+            <!-- END Left Section -->
+
+            <!-- Right Section -->
+            <div class="d-flex align-items-center">
+                <!-- Open Search Section (visible on smaller screens) -->
+                <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+                <button type="button" class="btn btn-sm btn-alt-secondary d-md-none" data-toggle="layout"
+                        data-action="header_search_on">
+                    <i class="fa fa-fw fa-search"></i>
+                </button>
+                <!-- END Open Search Section -->
+
+                <!-- Search Form (visible on larger screens) -->
+                <form class="d-none d-md-inline-block" action="bd_search.html" method="POST">
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control form-control-alt" placeholder="Search.."
+                               id="page-header-search-input2" name="page-header-search-input2"/>
+                        <span class="input-group-text bg-body border-0">
+                  <i class="fa fa-fw fa-search"></i>
+                </span>
+                    </div>
+                </form>
+                <!-- END Search Form -->
+
+                <!-- User Dropdown -->
+             {%include('student-app/_userdropdown.html.twig') %}
+                <!-- END User Dropdown -->
+            </div>
+            <!-- END Right Section -->
+        </div>
+        <!-- END Header Content -->
+
+        <!-- Header Search -->
+        <div id="page-header-search" class="overlay-header bg-body-extra-light">
+            <div class="content-header">
+                <form class="w-100" action="bd_search.html" method="POST">
+                    <div class="input-group">
+                        <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+                        <button type="button" class="btn btn-alt-danger" data-toggle="layout"
+                                data-action="header_search_off">
+                            <i class="fa fa-fw fa-times-circle"></i>
+                        </button>
+                        <input type="text" class="form-control" placeholder="Search or hit ESC.."
+                               id="page-header-search-input" name="page-header-search-input"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END Header Search -->
+
+        <!-- Header Loader -->
+        <!-- Please check out the Loaders page under Components category to see examples of showing/hiding it -->
+        <div id="page-header-loader" class="overlay-header bg-primary-lighter">
+            <div class="content-header">
+                <div class="w-100 text-center">
+                    <i class="fa fa-fw fa-circle-notch fa-spin text-primary"></i>
+                </div>
+            </div>
+        </div>
+        <!-- END Header Loader -->
+    </header>
+    <!-- END Header -->
+
+    <!-- Main Container -->
+    <main id="main-container">
+        <!-- Navigation -->
+        <div class="bg-primary-darker">
+            <div class="content py-3">
+                <!-- Toggle Main Navigation -->
+                <div class="d-lg-none">
+                    <!-- Class Toggle, functionality initialized in Helpers.oneToggleClass() -->
+                    <button type="button"
+                            class="btn w-100 btn-alt-secondary d-flex justify-content-between align-items-center"
+                            data-toggle="class-toggle" data-target="#main-navigation" data-class="d-none">
+                        Menu
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </div>
+                <!-- END Toggle Main Navigation -->
+
+                <!-- Main Navigation -->
+           {% include ('student-app/_menu.html.twig') %}
+                <!-- END Main Navigation -->
+            </div>
+        </div>
+        <!-- END Navigation -->
+        <!-- Page Content -->
+        <div class="content">
+            <!-- Hero -->
+            <div class="block block-rounded">
+                <div class="block-content block-content-full">
+                    <div class="py-4 text-center">
+                        {% block body %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+            <!-- END Hero -->
+
+
+            <!-- END Dummy content -->
+        </div>
+        <!-- END Page Content -->
+    </main>
+    <!-- END Main Container -->
+
+    <!-- Footer -->
+    <footer id="page-footer" class="bg-body-extra-light">
+        <div class="content py-3">
+            <div class="row fs-sm">
+                <div class="col-sm-6 order-sm-2 py-1 text-center text-sm-end">
+                    Crafted with <i class="fa fa-heart text-danger"></i> by <a class="fw-semibold"
+                                                                               href="https://1.envato.market/ydb"
+                                                                               target="_blank">pixelcave</a>
+                </div>
+                <div class="col-sm-6 order-sm-1 py-1 text-center text-sm-start">
+                    <a class="fw-semibold" href="https://1.envato.market/AVD6j" target="_blank">OneUI 5.2</a> &copy;
+                    <span data-toggle="year-copy"></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- END Footer -->
+</div>
+<!-- END Page Container -->
+
+
+<script src="/assets/js/oneui.app.min.js"></script>
+<script src="/assets/js/lib/jquery.min.js"></script>
+
+<!-- Page JS Plugins -->
+<script src="/assets/js/plugins/easy-pie-chart/jquery.easypiechart.min.js"></script>
+<script src="/assets/js/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
+<script src="/assets/js/plugins/chart.js/chart.min.js"></script>
+<script src="/assets/js/pages/be_comp_charts.min.js"></script>
+</body>
+</html>

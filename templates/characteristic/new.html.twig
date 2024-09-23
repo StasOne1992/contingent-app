@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% if  form.vars.value.blockStudentEdit is defined %}
+    {% set blockStudentEdit= form.vars.value.blockStudentEdit %}
+{% else %}
+    {% set blockStudentEdit=false %}
+{% endif %}
+{% if form.vars.value.ShowGenerator is defined %}
+    {% set ShowGenerator= form.vars.value.ShowGenerator %}
+{% else %}
+    {% set ShowGenerator=false %}
+{% endif %}
+{% set student=form.vars.value.student %}
+{% set refer =1 %}
+{% set canreset = 0 %}
+
+{% block title %}New Characteristic{% endblock %}
+    {% block topmenu_items %}
+        {{ parent() }}
+        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop">
+            Сгенерировать характеристику (dev)
+        </button>
+        <button type="submit" form="characteristic" class="btn btn-sm  btn-alt-primary">{{ button_label|default('Save') }}</button>
+    {% endblock %}
+{% block body %}
+    <h1>Create new Characteristic</h1>
+
+    {{ include('characteristic/_form.html.twig') }}
+
+    <a href="{{ path('app_characteristic_index') }}">back to list</a>
+{% endblock %}

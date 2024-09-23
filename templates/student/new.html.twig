@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% set refer = 1 %}
+{% set canreset = 1 %}
+{% set page_title =  'Создать студента'  %}
+{% set sub_page_title = '' %}
+{% set refer_link =path('app_student_index') %}
+{% block title %}Создать студента{% endblock %}
+
+{% block body %}
+    {% set buttonicon= 'fa-regular fa-plus'%}
+    {{ include('student/_add_form.html.twig', {'button_label': 'Добавить студента'}) }}
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+{% set page_title = 'Студенты' %}
+{% set sub_page_title = 'Список студентов' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="block block-rounded block-bordered block-themed">
+        <div class="block-header block-header-default bg-secondary">
+            <h3 class="block-title">Студенты <small></small></h3>
+            <div class="block-options">
+                <div class="dropdown">
+                    <button type="button" class="btn btn-outline-light dropdown-toggle"
+                            id="dropdown-default-primary"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa-regular fa-plus"></i> <span>Добавить</span>
+                    </button>
+                    <div class="dropdown-menu fs-sm" aria-labelledby="dropdown-default-primary">
+                        <a class="dropdown-item" href="{{ path('app_student_new') }}">Добавить студента</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path('app_student_import') }}">Импортировать студентов</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="block-content">
+            <table class="table table-bordered table-striped table-vcenter js-dataTable-responsive">
+                <thead class="table-secondary">
+                <tr>
+                    <th>№<br> п/п</th>
+                    <th>Фамилия Имя Отчество</th>
+                    <th class="d-none d-xl-table-cell">Специальность</th>
+                    <th class="d-none d-xl-table-cell">Группа</th>
+                    <th class="d-none d-xl-table-cell">Номер зачётки/<br>Номер студ. билета</th>
+                    <th class="d-table-cell d-xl-none">Сведения</th>
+                    <th >Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set iterator = 0 %}
+                {% for student in students %}
+                    {% set iterator = iterator + 1 %}
+                    <tr>
+                        <td>{{ iterator }}</td>
+                        <td>
+                            <div class="row  align-items-center">
+
+                                <div class="col-12">
+                                    {{ student.LastName }} {{ student.FirstName }} {{ student.MiddleName }}
+                                </div>
+
+                                <div class="row row-cols-auto mx-auto small">
+                                    {% if(student.IsInvalid) %}
+                                        <div class="col p-1">
+                                            <span class="badge bg-info">Инв</span>
+                                        </div>
+                                    {% endif %}
+                                    {% if(student.IsPoor) %}
+                                        <div class="col p-1">
+                                            <span class="badge  bg-secondary">М/И</span>
+                                        </div>
+                                    {% endif %}
+                                    {% if(student.IsOrphan) %}
+                                        <div class="col p-1">
+                                            <span class="badge bg-danger">Сир</span>
+                                        </div>
+                                    {% endif %}
+                                    {% if(student.IsPaid) %}
+                                        <div class="col p-1">
+                                            <span class="badge bg-warning">Плат</span>
+                                        </div>
+                                    {% endif %}
+                                    {% if(student.isLiveStudentAccommondation) %}
+                                        <div class="col p-1">
+                                            <span class="badge bg-warning">Общ</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
+                        <td class="d-none d-xl-table-cell">
+
+                            {% if not ( student.studentGroup is null) %}
+                                <small>    {{ student.studentGroup.faculty.specialization.code~" "~student.studentGroup.faculty.specialization.name }}</small>
+                            {% else %}
+                                <small>Группа не назначена</small>
+                            {% endif %}
+                        </td>
+                        <td class="d-none d-xl-table-cell">
+                            {% if not ( student.studentGroup is null) %}
+                                {{ student.studentGroup.name }}
+                            {% else %}
+                                <small>Группа не назначена</small>
+                            {% endif %}</td>
+                        <td class="d-none d-xl-table-cell">{{ student.NumberZachetka }}
+                            / {{ student.NumberStudBilet }}</td>
+
+
+                        <td class="d-xl-none d-table-cell col-5 fs-sm">
+                            <div class="row"> {% if not ( student.studentGroup is null) %}
+                                    <span> <b>Группа:</b> {{ student.studentGroup.name }}</span>
+                                {% else %}
+                                    <small>Группа не назначена</small>
+                                {% endif %}
+                            </div>
+                            <div class="row">
+                                <span>  <b>Студ.билет:</b> {{ student.NumberStudBilet }}</span>
+                            </div>
+                            <div class="row">
+                                <span>   <b>Зачетка:</b> {{ student.NumberZachetka }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row gap-1">
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="14">Записи отсутствуют</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

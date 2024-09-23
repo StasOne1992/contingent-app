@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GroupMembership index{% endblock %}
+
+{% block body %}
+    <h1>GroupMembership index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DateStart</th>
+                <th>DateEnd</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for group_membership in group_memberships %}
+            <tr>
+                <td>{{ group_membership.id }}</td>
+                <td>{{ group_membership.DateStart ? group_membership.DateStart|date('Y-m-d') : '' }}</td>
+                <td>{{ group_membership.DateEnd ? group_membership.DateEnd|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_group_membership_show', {'id': group_membership.id}) }}">show</a>
+                    <a href="{{ path('app_group_membership_edit', {'id': group_membership.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_group_membership_new') }}">Create new</a>
+{% endblock %}

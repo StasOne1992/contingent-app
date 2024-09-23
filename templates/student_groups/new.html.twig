@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% set refer = 1 %}
+{% set page_title = 'Студенческие группы' %}
+{% set sub_page_title =  'Добавление группы' %}
+{% set refer = 1 %}
+{% set refer_link = path('app_student_groups_index')  %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block topmenu_items %}
+    {{ parent() }}
+    <button type="submit" class="btn btn-sm btn-primary" form="student_groups"><i class="fa fa-floppy-disk-circle-arrow-right"></i> Сохранить</button>
+
+    <button type="button" class="btn btn-sm btn-danger push" data-bs-toggle="modal" data-bs-target="#modal-block-vcenter">Удалить</button>
+
+{% endblock %}
+{% block body %}
+    {{ include('student_groups/_form.html.twig') }}
+{% endblock %}

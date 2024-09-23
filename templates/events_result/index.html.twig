@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EventsResult index{% endblock %}
+
+{% block body %}
+    <h1>EventsResult index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for events_result in events_results %}
+            <tr>
+                <td>{{ events_result.id }}</td>
+                <td>
+                    <a href="{{ path('app_events_result_show', {'id': events_result.id}) }}">show</a>
+                    <a href="{{ path('app_events_result_edit', {'id': events_result.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_events_result_new') }}">Create new</a>
+{% endblock %}

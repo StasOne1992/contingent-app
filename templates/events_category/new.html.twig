@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New EventsCategory{% endblock %}
+
+{% block body %}
+    <h1>Create new EventsCategory</h1>
+
+    {{ include('events_category/_form.html.twig') }}
+
+    <a href="{{ path('app_events_category_index') }}">back to list</a>
+{% endblock %}

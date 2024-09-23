@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+{% set page_title = 'Администрирование' %}
+{% set sub_page_title = 'Управление сервисами' %}
+{% set refer = 0 %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block body %}
+
+
+
+    <div class="row">
+
+        <div class="col-12 ">
+            <div class="block block-rounded block-bordered block-themed">
+                <div class="block-header block-header-default bg-secondary">
+                    <h3 class="block-title">Сервисы<small></small></h3>
+                </div>
+                <div class="block-content">
+                    <div class="row row-cols-1 row-cols-sm-auto">
+                        {% for service in services %}
+                            <div class="d-block w-25 block-rounded text-center mb-3">
+                                <div class="block-content bg-body-light ">
+                                    <div class="fs-3 fw-semibold">{{ service.Title }}</div>
+                                    <div class=" small pb-4 text-break">{{ service.ServiceCurrentState|nl2br }}</div>
+                                    <div class="row row-cols-3">
+                                        <a href="#" class="btn btn-sm btn-primary">Остановить</a>
+                                        <a href="#" class="btn btn-sm btn-primary">Запустить</a>
+                                        <a href="#" class="btn btn-sm btn-primary">Обновить статус</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ dump() }}
+    <h4 id="TextBox1">Нет данных </h4>
+    <script>
+        const request = new XMLHttpRequest();
+        const url = "/administrator/services/supervisorctl status" + '/run';
+
+
+        fetch(url, {
+            method: "GET",
+            headers: {"content-type": "application/x-www-form-urlencoded"}
+        })
+            .then(response => {
+                if (response.status !== 200) {
+
+                    return Promise.reject();
+                }
+
+                return response.text()
+            })
+            .then(i => document.getElementById('TextBox1').innerText = i)
+            .catch(() => console.log('ошибка'));
+
+
+    </script>
+{% endblock %}

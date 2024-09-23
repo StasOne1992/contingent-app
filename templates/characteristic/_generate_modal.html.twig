@@ -1,0 +1,20 @@
+<!-- Button trigger modal -->
+{% set version ='0.1 alpha' %}
+
+<!-- Modal -->
+<div class="modal" id="staticBackdrop" tabindex="-1" role="dialog"
+     aria-labelledby="modal-block-extra-large" aria-hidden="true">
+    <div class="modal-dialog  modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary">
+                <h1 class="modal-title  text-white fs-5" id="staticBackdropLabel">Генератор характеристики <small
+                            class="fs-6 text-gray">{{ version }}</small></h1>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ include('characteristic/_generate_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
+

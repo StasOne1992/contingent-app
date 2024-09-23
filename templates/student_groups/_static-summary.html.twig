@@ -1,0 +1,313 @@
+<h3 class="fw-large">Группа {{ student_group.name }} ({{ student_group.code }})</h3>
+<div class="row">
+    <div class="col-12">
+        <div class="p-2  bg-body-light  block block-bordered block-rounded ">
+            <div class="row">
+                <div class="col">
+                    <h2 class="content-heading p-2">Сведения о группе. Общая информация</h2>
+                </div>
+            </div>
+            <div class="row p-2">
+                <div class="col ">
+                    <div class="fw-semibold">Специальность</div>
+                    <div class="fs-sm text-muted mt-1">{{ student_group.faculty }}</div>
+                </div>
+                <div class="col">
+                    <div class="fw-semibold">Классный руководитель</div>
+                    <div class="fs-sm text-muted mt-1">{{ student_group.groupLeader }}</div>
+                </div>
+                <div class="col">
+                    <div class="fw-semibold">Дата поступления / выпуска
+                    </div>
+                    <div class="fs-sm text-muted mt-1">
+                        {{ student_group.dateStart|format_datetime('medium', 'none', locale='ru') }}
+                        / {{ student_group.dataEnd|format_datetime('medium', 'none', locale='ru') }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-xl-6">
+
+        <div class="block block-rounded block-themed">
+            <div class="block-header bg-default-dark">
+                <h3 class="block-title">Default Dark</h3>
+            </div>
+            <div class="block-content bg-body-light  block">
+                <p>Block’s content..</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-xl-6 pb-4">
+        <div class="bg-body-light  block block-bordered block-rounded block-themed h-100 mb-0">
+            <div class="block-header bg-default-dark">
+                <h3 class="block-title">Сведения о группе. Распределение по полу</h3>
+            </div>
+            <div class="row ps-4 pe-4 pt-4 pb-2">
+                <div class="col-12 col-md-4">
+                    <div class="block block-rounded block-link-shadow bg-success">
+                        <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                            <div>
+                                <i class="far fa-2x fa-users text-white-50"></i>
+                            </div>
+                            <dl class="ms-3 text-end mb-0">
+                                <dt class="text-white h3 fw-extrabold mb-0">
+                                    {{ student_group.socialPassport.countStudents }}
+                                </dt>
+                                <dd class="text-white fs-sm fw-medium text-muted mb-0">
+                                    Всего
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4">
+                    <div class="block block-rounded block-link-shadow bg-amethyst">
+                        <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                            <div class="d-none d-md-block">
+                                <i class="far fa-2x fa-person text-white-50"></i>
+                            </div>
+                            <dl class="ms-0 ms-md-3 text-center text-md-end mb-0">
+                                <dt class="text-white h3 fw-extrabold mb-0">
+                                    {{ student_group.socialPassport.countMan }}
+                                </dt>
+                                <dd class="text-white fs-sm fw-medium text-muted mb-0">
+                                    Мужской пол
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4">
+                    <div class="block block-rounded block-link-shadow bg-smooth">
+                        <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                            <div class="d-none d-md-block">
+                                <i class="far fa-2x fa-person-dress text-white-50"></i>
+                            </div>
+                            <dl class="ms-0 ms-md-3 text-center text-md-end mb-0">
+                                <dt class="text-white h3 fw-extrabold mb-0">
+                                    {{ student_group.socialPassport.countWoman }}
+                                </dt>
+                                <dd class="text-white fs-sm fw-medium text-muted mb-0">
+                                    Женский пол
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-xl-6 pb-4">
+        <div class="  bg-body-light  block block-bordered block-rounded  block-themed h-100 mb-0">
+
+            <div class="block-header bg-default-dark">
+                <h3 class="block-title">Сведения о группе. Распределение по возрасту</h3>
+            </div>
+            <div class="block-content">
+            <div class="row p-2 row-cols-1 row-cols-md-2">
+                <div class="col">
+                    <div class="block block-rounded block-link-shadow bg-gray-dark">
+                        <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                            <div class="d-none d-md-block">
+                                <i class="fa-regular fa-2x fa-user text-white-50"></i>
+                            </div>
+                            <dl class="ms-0 ms-md-3 text-center text-md-end mb-0">
+                                <dt class="text-white h3 fw-extrabold mb-0">
+                                    {{ student_group.socialPassport.countNotAdult }}
+                                </dt>
+                                <dd class="text-white fs-sm fw-medium text-muted mb-0">
+                                    Несовершеннолетние
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="block block-rounded block-link-shadow bg-success">
+                        <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                            <div class="d-none d-md-block">
+                                <i class="fas fa-2x fa-user text-white-50"></i>
+                            </div>
+                            <dl class="ms-0 ms-md-3 text-center text-md-end mb-0">
+                                <dt class="text-white h3 fw-extrabold mb-0">
+                                    {{ student_group.socialPassport.countAdult }}
+                                </dt>
+                                <dd class="text-white fs-sm fw-medium text-muted mb-0">
+                                    Совершеннолетние
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-xl-6 ">
+        <div class="p-1 bg-body-light block block-bordered block-rounded h-100 ">
+            <h2 class="content-heading ps-4 pe-4">Сведения о группе. Распределение социальному статусу</h2>
+            <div class="row p-2 row-cols-1 row-cols-md-2">
+                <div class="col">
+                    <div class="block  block-rounded block-link-shadow bg-gray-dark">
+                        <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                            <div class="d-none d-md-block">
+                                <i class="fa-regular fa-2x fa-user text-white-50"></i>
+                            </div>
+                            <dl class="ms-0 ms-md-3 text-center text-md-end mb-0">
+                                <dt class="text-white h3 fw-extrabold mb-0">
+                                    {{ student_group.socialPassport.countOrphan }}
+                                </dt>
+                                <dd class="text-white fs-sm fw-medium text-muted mb-0">
+                                    Дети сироты
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="block block-rounded block-link-shadow bg-success">
+                        <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                            <div class="d-none d-md-block">
+                                <i class="fas fa-2x fa-user text-white-50"></i>
+                            </div>
+                            <dl class="ms-0 ms-md-3 text-center text-md-end mb-0">
+                                <dt class="text-white h3 fw-extrabold mb-0">
+                                    {{ student_group.socialPassport.countWithoutParents }}
+                                </dt>
+                                <dd class="text-white fs-sm fw-medium text-muted mb-0">
+                                    Дети, оставшиеся без попечения родителей
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="block block-rounded block-link-shadow bg-success">
+                        <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                            <div class="d-none d-md-block">
+                                <i class="fas fa-2x fa-user text-white-50"></i>
+                            </div>
+                            <dl class="ms-0 ms-md-3 text-center text-md-end mb-0">
+                                <dt class="text-white h3 fw-extrabold mb-0">
+                                    {{ student_group.socialPassport.countInvalid }}
+                                </dt>
+                                <dd class="text-white fs-sm fw-medium text-muted mb-0">
+                                    Дети инвалиды
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="block block-rounded block-link-shadow bg-success">
+                        <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                            <div class="d-none d-md-block">
+                                <i class="fas fa-2x fa-user text-white-50"></i>
+                            </div>
+                            <dl class="ms-0 ms-md-3 text-center text-md-end mb-0">
+                                <dt class="text-white h3 fw-extrabold mb-0">
+                                    {{ student_group.socialPassport.countIsPoor }}
+                                </dt>
+                                <dd class="text-white fs-sm fw-medium text-muted mb-0">
+                                    Малоимущие
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-6 ">
+        <div class="row row-cols-2">
+            <div class="col">
+                <div class="p-1 bg-danger-light block block-bordered block-rounded ">
+                    <h2 class="content-heading p-2 text-danger-emphasis">Дисциплина в группе</h2>
+                    <div class="row p-2 row-cols-1">
+                        <div class="col">
+                            <div class="block block-rounded block-link-shadow bg-gray-dark">
+                                <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                                    <div class="d-none d-md-block">
+                                        <i class="fa-regular fa-2x fa-user text-white-50"></i>
+                                    </div>
+                                    <dl class="ms-0 ms-md-3 text-center text-md-end mb-0">
+                                        <dt class="text-white h3 fw-extrabold mb-0">
+                                            {{ student_group.socialPassport.countStudentsHavePunishment }}
+                                        </dt>
+                                        <dd class="text-white fs-sm fw-medium text-muted mb-2">
+                                            Имеют взыскания
+                                        </dd>
+                                        <a class="btn btn-sm btn-outline-light" href="#"> Открыть список </a>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="block block-rounded block-link-shadow bg-success">
+                                <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                                    <div class="d-none d-md-block">
+                                        <i class="fas fa-2x fa-user text-white-50"></i>
+                                    </div>
+                                    <dl class="ms-0 ms-md-3 text-center text-md-end mb-0">
+                                        <dt class="text-white h3 fw-extrabold mb-0">
+                                            {{ student_group.socialPassport.countWithoutParents }}
+                                        </dt>
+                                        <dd class="text-white fs-sm fw-medium text-muted mb-2">
+                                            На учёте в ППДН, КДНиЗП
+                                        </dd>
+                                        <a class="btn btn-sm btn-outline-light" href="#"> Открыть список </a>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="p-1 bg-danger-light block block-bordered block-rounded ">
+                    <h2 class="content-heading p-2 text-danger-emphasis">Состоят на учёте</h2>
+            <div class="row p-2 row-cols-1">
+                <div class="col">
+                    <div class="block block-rounded block-link-shadow bg-gray-dark">
+                        <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                            <div class="d-none d-md-block">
+                                <i class="fa-regular fa-2x fa-user text-white-50"></i>
+                            </div>
+                            <dl class="ms-0 ms-md-3 text-center text-md-end mb-0">
+                                <dt class="text-white h3 fw-extrabold mb-0">
+                                    {{ student_group.socialPassport.countOrphan }}
+                                </dt>
+                                <dd class="text-white fs-sm fw-medium text-muted mb-0">
+                                    На внутреннем учёте
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="block block-rounded block-link-shadow bg-success">
+                        <div class="block-content block-content-full d-flex align-items-center justify-content-between">
+                            <div class="d-none d-md-block">
+                                <i class="fas fa-2x fa-user text-white-50"></i>
+                            </div>
+                            <dl class="ms-0 ms-md-3 text-center text-md-end mb-0">
+                                <dt class="text-white h3 fw-extrabold mb-0">
+                                    {{ student_group.socialPassport.countWithoutParents }}
+                                </dt>
+                                <dd class="text-white fs-sm fw-medium text-muted mb-0">
+                                    На учёте в ППДН, КДНиЗП
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+    </div>
+</div>

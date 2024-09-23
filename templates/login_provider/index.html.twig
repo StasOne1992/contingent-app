@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LoginProvider index{% endblock %}
+
+{% block body %}
+    <h1>LoginProvider index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>LoginKey</th>
+                <th>PasswordKey</th>
+                <th>CustomParams</th>
+                <th>AuthPath</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for login_provider in login_providers %}
+            <tr>
+                <td>{{ login_provider.id }}</td>
+                <td>{{ login_provider.Title }}</td>
+                <td>{{ login_provider.loginKey }}</td>
+                <td>{{ login_provider.PasswordKey }}</td>
+                <td>{{ login_provider.CustomParams }}</td>
+                <td>{{ login_provider.AuthPath }}</td>
+                <td>
+                    <a href="{{ path('app_login_provider_show', {'id': login_provider.id}) }}">show</a>
+                    <a href="{{ path('app_login_provider_edit', {'id': login_provider.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_login_provider_new') }}">Create new</a>
+{% endblock %}

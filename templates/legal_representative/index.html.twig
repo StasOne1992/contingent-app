@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LegalRepresentative index{% endblock %}
+
+{% block body %}
+    <h1>LegalRepresentative index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>MiddleName</th>
+                <th>Phone</th>
+                <th>Comment</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for legal_representative in legal_representatives %}
+            <tr>
+                <td>{{ legal_representative.id }}</td>
+                <td>{{ legal_representative.FirstName }}</td>
+                <td>{{ legal_representative.LastName }}</td>
+                <td>{{ legal_representative.MiddleName }}</td>
+                <td>{{ legal_representative.Phone }}</td>
+                <td>{{ legal_representative.Comment }}</td>
+                <td>
+                    <a href="{{ path('app_legal_representative_show', {'id': legal_representative.id}) }}">show</a>
+                    <a href="{{ path('app_legal_representative_edit', {'id': legal_representative.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_legal_representative_new') }}">Create new</a>
+{% endblock %}

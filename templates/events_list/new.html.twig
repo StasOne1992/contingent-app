@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% set refer = 1 %}
+{% set page_title = 'Мероприятия' %}
+{% set sub_page_title =  'Добавить мероприятие' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block topmenu_items %}
+    {{ parent() }}
+      <button type="submit" form="events_list" class="btn btn-sm btn-primary push" >Сохранить</button>
+{% endblock %}
+
+{% block body %}
+
+    {{ include('events_list/_form.html.twig') }}
+
+    <a href="{{ path('app_events_list_index') }}">back to list</a>
+{% endblock %}

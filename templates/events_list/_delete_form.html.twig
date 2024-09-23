@@ -1,0 +1,28 @@
+<div class="modal" id="modal-block-vcenter" tabindex="-1" role="dialog" aria-labelledby="modal-block-vcenter" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="block block-rounded block-transparent mb-0">
+
+                <div class="block-header bg-danger">
+                    <h3 class="block-title fw-black">Удаление мероприятия</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <form method="post" action="{{ path('app_events_list_delete', {'id': events_list.id}) }}" onsubmit="return confirm('Подтверждаете удаление. Данное действие невозможно отменить');">
+                    <div class="block-content fs-sm">
+
+                        <h5 class="text-black">Вы действительно хотите удалить мероприятие {{ events_list.name }} из системы?</h5>
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ events_list.id) }}">
+                    </div>
+                    <div class="block-content block-content-full text-end bg-body">
+                        <button type="reset" class="btn btn-sm btn-alt-secondary me-1" data-bs-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-sm btn-danger" data-bs-dismiss="modal">Удалить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

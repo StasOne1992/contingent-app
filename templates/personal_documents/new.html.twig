@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% set refer = 1 %}
+{% set page_title = 'Персональные документы' %}
+{% set sub_page_title =  'Создать новый' %}
+{% set canreset = 1 %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block body %}
+    {{ include('personal_documents/_form.html.twig') }}
+    <a href="{{ path('app_personal_documents_index') }}">back to list</a>
+{% endblock %}

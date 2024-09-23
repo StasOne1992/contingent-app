@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <title>OneUI - Bootstrap 5 Admin Template &amp; UI Framework</title>
+
+    <meta name="description"
+          content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
+    <meta name="author" content="pixelcave">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Open Graph Meta -->
+    <meta property="og:title" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework">
+    <meta property="og:site_name" content="OneUI">
+    <meta property="og:description"
+          content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <!-- Icons -->
+    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+    <link rel="shortcut icon" href="/assets/media/favicons/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/media/favicons/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/media/favicons/apple-touch-icon-180x180.png">
+    <!-- END Icons -->
+    <!-- Fonts and OneUI framework -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap">
+    <link rel="stylesheet" href="/assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="/assets/js/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+    <link rel="stylesheet" href="/assets/js/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/assets/js/plugins/ion-rangeslider/css/ion.rangeSlider.css">
+    <link rel="stylesheet" href="/assets/js/plugins/dropzone/min/dropzone.min.css">
+    <link rel="stylesheet" href="/assets/js/plugins/flatpickr/flatpickr.min.css">
+
+
+
+    <link rel="stylesheet" id="css-main" href="/assets/css/oneui.css">
+    <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+    <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/amethyst.min.css"> -->
+    <!-- END Stylesheets -->
+    <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+    <!-- <link rel="stylesheet" id="css-theme" href="/assets/css/themes/amethyst.min.css"> -->
+    <!-- END Stylesheets -->
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+    {% block stylesheets %}
+        {# { encore_entry_link_tags('app') } #}
+    {% endblock %}
+
+    {% block javascripts %}
+        {# { encore_entry_script_tags('app') } #}
+    {% endblock %}
+</head>
+<body>
+{% block body %}{% endblock %}
+
+<script src="/assets/js/oneui.app.min.js"></script>
+<script src="/assets/js/lib/jquery.min.js"></script>
+
+<!-- Page JS Plugins -->
+<script src="/assets/js/plugins/easy-pie-chart/jquery.easypiechart.min.js"></script>
+<script src="/assets/js/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
+<script src="/assets/js/plugins/chart.js/chart.min.js"></script>
+<script src="/assets/js/pages/be_comp_charts.min.js"></script>
+</body>
+</html>

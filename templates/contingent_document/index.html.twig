@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+{% set page_title = 'Документы' %}
+{% set sub_page_title = 'Приказы о движении' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block topmenu_items %}
+    {{ parent() }}
+    <a href="{{ path('app_contingent_document_new') }}" type="button" class="btn btn-sm btn-primary"><i
+                class="fa fa-plus"></i> Создать документ</a>
+{% endblock %}
+
+
+{% block body %}
+    <div class="block block-rounded block-bordered block-themed">
+        <div class="block-content pt-4 pb-4">
+            <table class="table table-bordered table-striped table-vcenter js-dataTable-responsive">
+                <thead class="table-secondary">
+                <tr>
+                    <th>№</th>
+                    <th>Наименование</th>
+                    <th>Регистрационный номер</th>
+                    <th>Дата приказа</th>
+                    <th>Действия</th>
+                </tr>
+        </thead>
+        <tbody>
+        {% for contingent_document in contingent_documents %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td><a href="{{ path('app_contingent_document_show', {'id': contingent_document.id}) }}">{{ contingent_document }}</a><br>
+                {% if contingent_document.isIsActive!=true %}
+                   <span class="badge bg-danger"> Приказ не проведён</span>
+                 {% else %}
+                     <span class="badge bg-success">  Приказ проведён</span>
+                {% endif %}
+                </td>
+                <td>{{ contingent_document.number }}</td>
+                <td>{{ contingent_document.createDate ? contingent_document.createDate|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_contingent_document_show', {'id': contingent_document.id}) }}">show</a>
+                    <a href="{{ path('app_contingent_document_edit', {'id': contingent_document.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Нет записей</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        </div>
+    </div>
+
+    <a href="{{ path('app_contingent_document_new') }}">Create new</a>
+{% endblock %}

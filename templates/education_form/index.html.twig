@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EducationForm index{% endblock %}
+
+{% block body %}
+    <h1>EducationForm index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for education_form in education_forms %}
+            <tr>
+                <td>{{ education_form.id }}</td>
+                <td>{{ education_form.Name }}</td>
+                <td>
+                    <a href="{{ path('app_education_form_show', {'id': education_form.id}) }}">show</a>
+                    <a href="{{ path('app_education_form_edit', {'id': education_form.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_education_form_new') }}">Create new</a>
+{% endblock %}

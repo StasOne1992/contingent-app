@@ -1,0 +1,35 @@
+<div class="dropdown d-inline-block ms-2">
+    <button type="button" class="btn btn-sm btn-alt-secondary" id="page-header-notifications-dropdown"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-fw fa-bell"></i>
+        <span class="text-primary">•</span>
+    </button>
+    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0 border-0 fs-sm"
+         aria-labelledby="page-header-notifications-dropdown">
+        <div class="p-2 bg-body-light border-bottom text-center rounded-top">
+            <h5 class="dropdown-header text-uppercase">Notifications</h5>
+        </div>
+        <ul class="nav-items mb-0">
+
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <li class="flash-{{ label }}">
+                        <a class="text-dark d-flex py-2" href="javascript:void(0)">
+                            <div class="flex-shrink-0 me-2 ms-3">
+                                <i class="fa fa-fw fa-check-circle text-success"></i>
+                            </div>
+                            <div class="flex-grow-1 pe-2">
+                                <div class="fw-semibold">  {{ message }}</div>
+                                <span class="fw-medium text-muted">15 min ago</span>
+                            </div>
+                    </li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+        <div class="p-2 border-top text-center">
+            <a class="d-inline-block fw-medium" href="javascript:void(0)">
+                <i class="fa fa-fw fa-arrow-down me-1 opacity-50"></i> Load More..
+            </a>
+        </div>
+    </div>
+</div>

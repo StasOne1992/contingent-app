@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Specialization index{% endblock %}
+
+{% block body %}
+    <h1>Specialization index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for specialization in specializations %}
+            <tr>
+                <td>{{ specialization.id }}</td>
+                <td>
+                    <a href="{{ path('app_specialization_show', {'id': specialization.id}) }}">show</a>
+                    <a href="{{ path('app_specialization_edit', {'id': specialization.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_specialization_new') }}">Create new</a>
+{% endblock %}

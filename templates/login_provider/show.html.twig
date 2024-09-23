@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LoginProvider{% endblock %}
+
+{% block body %}
+    <h1>LoginProvider</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ login_provider.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ login_provider.Title }}</td>
+            </tr>
+            <tr>
+                <th>LoginKey</th>
+                <td>{{ login_provider.loginKey }}</td>
+            </tr>
+            <tr>
+                <th>PasswordKey</th>
+                <td>{{ login_provider.PasswordKey }}</td>
+            </tr>
+            <tr>
+                <th>LoginValue</th>
+                <td>{{ login_provider.LoginValue }}</td>
+            </tr>
+            <tr>
+                <th>PasswordValue</th>
+                <td>{{ login_provider.PasswordValue }}</td>
+            </tr>
+            <tr>
+                <th>AuthPath</th>
+                <td>{{ login_provider.AuthPath }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_login_provider_index') }}">back to list</a>
+
+    <a href="{{ path('app_login_provider_edit', {'id': login_provider.id}) }}">edit</a>
+
+    {{ include('login_provider/_delete_form.html.twig') }}
+{% endblock %}

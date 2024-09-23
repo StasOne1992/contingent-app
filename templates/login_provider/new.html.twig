@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New LoginProvider{% endblock %}
+
+{% block body %}
+    <h1>Create new LoginProvider</h1>
+
+    {{ include('login_provider/_form.html.twig') }}
+
+    <a href="{{ path('app_login_provider_index') }}">back to list</a>
+{% endblock %}

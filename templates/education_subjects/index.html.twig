@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EducationSubjects index{% endblock %}
+
+{% block body %}
+    <h1>EducationSubjects index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for education_subject in education_subjects %}
+            <tr>
+                <td>{{ education_subject.id }}</td>
+                <td>{{ education_subject.Name }}</td>
+                <td>
+                    <a href="{{ path('app_education_subjects_show', {'id': education_subject.id}) }}">show</a>
+                    <a href="{{ path('app_education_subjects_edit', {'id': education_subject.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_education_subjects_new') }}">Create new</a>
+{% endblock %}

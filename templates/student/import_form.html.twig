@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% set refer = 1 %}
+{% set canreset = 0 %}
+{% set page_title =  student.LastName~" "~student.FirstName~" "~student.MiddleName  %}
+{% set sub_page_title = 'Импортировать студентов' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+
+{% block body %}
+    {% set buttonicon= ''%}
+{% endblock %}

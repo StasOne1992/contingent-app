@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PersonalDocuments index{% endblock %}
+
+{% block body %}
+    <h1>PersonalDocuments index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DocumentSeries</th>
+                <th>DocumentNumber</th>
+                <th>DocumentIssueDate</th>
+                <th>DocumentOfficialSeal</th>
+                <th>Comment</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for personal_document in personal_documents %}
+            <tr>
+                <td>{{ personal_document.id }}</td>
+                <td>{{ personal_document.DocumentSeries }}</td>
+                <td>{{ personal_document.DocumentNumber }}</td>
+                <td>{{ personal_document.DocumentIssueDate ? personal_document.DocumentIssueDate|date('Y-m-d') : '' }}</td>
+                <td>{{ personal_document.DocumentOfficialSeal }}</td>
+                <td>{{ personal_document.Comment }}</td>
+                <td>
+                    <a href="{{ path('app_personal_documents_show', {'id': personal_document.id}) }}">show</a>
+                    <a href="{{ path('app_personal_documents_edit', {'id': personal_document.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_personal_documents_new') }}">Create new</a>
+{% endblock %}

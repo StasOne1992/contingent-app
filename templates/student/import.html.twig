@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% set refer = 1 %}
+{% set canreset = 0 %}
+{% set page_title =  'Импорт студентов'  %}
+{% set sub_page_title = '' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+
+{% block body %}
+    {{ form_start(form) }}
+    {# ... #}
+
+    {{ form_row(form.brochure) }}
+    {{ form_end(form) }}
+    {% set buttonicon= ''%}
+{% endblock %}

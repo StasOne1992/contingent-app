@@ -1,0 +1,53 @@
+{{ form_start(form,{'attr': {'id': 'events_list'}}) }}
+
+<div class="row">
+    <div class="col-12">
+        <div class="block block-rounded block-themed ">
+            <div class="block-header bg-secondary">
+                <h3 class="block-title">Сведения о мероприятии </h3>
+            </div>
+            <div class="block-content pb-4">
+                <div class="row">
+                    <div class="col-12 col-xl-4">
+                        <h2 class="content-heading p-2">Учетная информация</h2>
+                        {{ form_row(form.EventDate) }}
+                        <div class="row row-cols-2">
+                            <div class="col">{{ form_row(form.EventStartTime) }}</div>
+                            <div class="col">{{ form_row(form.EventEndTime) }}</div>
+                        </div>
+                        {{ form_row(form.EventLevel) }}
+                        {{ form_row(form.EventPlace) }}
+                        {{ form_row(form.EventCategory) }}
+                    </div>
+                    <div class="col-12 col-xl-8">
+                        <h2 class="content-heading p-2">Описание мероприятия</h2>
+                        {{ form_row(form.Name) }}
+                        {{ form_row(form.Comment) }}
+                    </div>
+                </div>
+
+                <div class="col-12 col-xl-4">
+                    <h2 class="content-heading p-2">Служебные метки</h2>
+                    <div class=" form-check form-check-inline">
+                        {{ form_widget(form.IsArchived) }}
+                        <label class="form-check-label">{{ form_label(form.IsArchived) }}</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.IsGroupEvent) }}
+                        <label class="form-check-label">{{ form_label(form.IsGroupEvent) }}</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.IsPublic) }}
+                        <label class="form-check-label">{{ form_label(form.IsPublic) }}</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.IsCanHaveResults) }}
+                        <label class="form-check-label">{{ form_label(form.IsCanHaveResults) }}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_widget(form) }}
+
+    {{ form_end(form) }}

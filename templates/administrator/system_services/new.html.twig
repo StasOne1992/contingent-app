@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New SystemServices{% endblock %}
+
+{% block body %}
+    <h1>Create new SystemServices</h1>
+
+    {{ include('administrator/system_services/_form.html.twig') }}
+
+    <a href="{{ path('app_system_services_index') }}">back to list</a>
+{% endblock %}

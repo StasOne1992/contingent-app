@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}StudentPunishment{% endblock %}
+
+{% block body %}
+    <h1>StudentPunishment</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ student_punishment.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ student_punishment.Date ? student_punishment.Date|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_student_punishment_index') }}">back to list</a>
+
+    <a href="{{ path('app_student_punishment_edit', {'id': student_punishment.id}) }}">edit</a>
+
+    {{ include('student_punishment/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,252 @@
+{% extends 'student-app/base.html.twig' %}
+{% set refer = 1 %}
+{% set page_title = 'Профиль студента' %}
+{% set sub_page_title =  student.LastName~" "~student.FirstName~" "~student.MiddleName %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-12 col-xl-4">
+            <div class="row">
+                <div class="block pb-4">
+                    <div class="block-content text-center">
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                             alt="avatar"
+                             class="rounded-circle img-fluid" style="width: 150px;">
+                        <h5 class="my-1">{{ student.firstName~" "~student.LastName }}</h5>
+                        <p class="text-muted text-sm-center mb-1">{{ student.email }}</p>
+                        {% set difference = date(student.BirthDate|date('Y/m/d')).diff(date('now'|date('Y/m/d'))) %}
+                        {% set leftDays = difference.days %}
+
+                        <small class="text-muted mb-2"> {{ (leftDays // 365)~" лет" }} ...role... группа ..., </small>
+                        <div class="d-flex justify-content-center mb-2">
+                            <a type="button" class="btn btn-primary"
+                               href="{{ path('app_student_edit', {'id': student.id}) }}">Редактировать</a>
+                            {{ include('student/_delete_form.html.twig') }}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="block pb-4 block-rounded block-bordered">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title text-center">Активность студента</h3>
+                    </div>
+                    <div class="block-content block-content-full">
+                        <div class="row text-center">
+                            <div class="col-6 col-xl-4 py-3">
+                                <!-- Pie Chart Container -->
+                                <div class="js-pie-chart pie-chart js-pie-chart-enabled" data-percent="80"
+                                     data-line-width="3" data-size="100" data-bar-color="#abe37d"
+                                     data-track-color="#eeeeee" data-scale-color="#dddddd">
+                                    <span>80<br><small class="text-muted">/100</small></span>
+                                    <canvas height="100" width="100"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 py-3">
+                                <!-- Pie Chart Container -->
+                                <div class="js-pie-chart pie-chart js-pie-chart-enabled" data-percent="45"
+                                     data-line-width="3" data-size="100" data-bar-color="#fadb7d"
+                                     data-track-color="#eeeeee" data-scale-color="#dddddd">
+                                    <span>45%</span>
+                                    <canvas height="100" width="100"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 py-3">
+                                <!-- Pie Chart Container -->
+                                <div class="js-pie-chart pie-chart js-pie-chart-enabled" data-percent="25"
+                                     data-line-width="3" data-size="100" data-bar-color="#faad7d"
+                                     data-track-color="#eeeeee" data-scale-color="#dddddd">
+                                    <span>25.00<br><small class="text-muted">/100mb</small></span>
+                                    <canvas height="100" width="100"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 py-3">
+                                <!-- Pie Chart Container -->
+                                <div class="js-pie-chart pie-chart js-pie-chart-enabled" data-percent="80"
+                                     data-line-width="3" data-size="100" data-bar-color="#abe37d"
+                                     data-track-color="#eeeeee">
+                                    <span>80<br><small class="text-muted">/100</small></span>
+                                    <canvas height="100" width="100"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 py-3">
+                                <!-- Pie Chart Container -->
+                                <div class="js-pie-chart pie-chart js-pie-chart-enabled" data-percent="45"
+                                     data-line-width="3" data-size="100" data-bar-color="#fadb7d"
+                                     data-track-color="#eeeeee">
+                                    <span>45%</span>
+                                    <canvas height="100" width="100"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 py-3">
+                                <!-- Pie Chart Container -->
+                                <div class="js-pie-chart pie-chart js-pie-chart-enabled" data-percent="25"
+                                     data-line-width="3" data-size="100" data-bar-color="#faad7d"
+                                     data-track-color="#eeeeee">
+                                    <span>25.00<br><small class="text-muted">/100mb</small></span>
+                                    <canvas height="100" width="100"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-12 col-xl-8">
+            <div class="block mb-4">
+                <div class="block-content">
+
+                    <div class="block block-rounded row g-0">
+                        <ul class="nav nav-tabs nav-tabs-block flex-md-column col-md-4 col-xxl-2" role="tablist">
+                            <li class="nav-item d-md-flex flex-md-column">
+                                <button class="nav-link text-md-start active" id="btabs-vertical-info-home-tab"
+                                        data-bs-toggle="tab" data-bs-target="#btabs-vertical-info-home" role="tab"
+                                        aria-controls="btabs-vertical-info-home" aria-selected="true">
+                                    <i class="fa fa-fw fa-home opacity-50 me-1 d-none d-sm-inline-block"></i>
+                                    <span>Основная информация</span>
+                                    <span class="d-none d-md-block fs-xs fw-medium opacity-75 mt-md-2"> </span>
+                                </button>
+                            </li>
+                            <li class="nav-item d-md-flex flex-md-column">
+                                <button class="nav-link text-md-start" id="btabs-vertical-info-profile-tab"
+                                        data-bs-toggle="tab" data-bs-target="#btabs-vertical-info-profile" role="tab"
+                                        aria-controls="btabs-vertical-info-profile" aria-selected="false">
+                                    <i class="fa fa-fw fa-user-circle opacity-50 me-1 d-none d-sm-inline-block"></i>
+                                    <span>Документы</span>
+                                    <span class="d-none d-md-block fs-xs fw-medium opacity-75 mt-md-2"> </span>
+                                </button>
+                            </li>
+                            <li class="nav-item d-md-flex flex-md-column">
+                                <button class="nav-link text-md-start" id="btabs-vertical-info-settings-tab"
+                                        data-bs-toggle="tab" data-bs-target="#btabs-vertical-info-settings" role="tab"
+                                        aria-controls="btabs-vertical-info-settings" aria-selected="false">
+                                    <i class="fa-regular fa-fw  fa-diagram-subtask opacity-50 me-1 d-none d-sm-inline-block"></i>
+                                    <span>Движение</span>
+                                    <span class="d-none d-md-block fs-xs fw-medium opacity-75 mt-md-2">
+                        Update your email, password and set up your recovery options
+                      </span>
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="tab-content col-md-8 col-xxl-10">
+                            <div class="block-content tab-pane active" id="btabs-vertical-info-home" role="tabpanel"
+                                 aria-labelledby="btabs-vertical-info-home-tab">
+                                <h4 class="fw-semibold">Основные сведения</h4>
+                                <p class="fs-sm">
+                                <div class="row">
+                                    <div class="col-4"><h6>Фамилия Имя Отчество</h6></div>
+                                    <div class="col-8">{{ student.firstName~" "~student.LastName~" "~student.middlename }}</div>
+                                    <hr>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4"><h6>Дата рождения</h6></div>
+                                    <div class="col-3">{{ student.BirthDate|format_datetime('medium', 'none', locale='ru') }}</div>
+                                    <div class="col-2"><h6>Пол</h6></div>
+                                    <div class="col-3">{{ student.sex }}</div>
+                                    <hr>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 col-md-2"><h6>Телефон</h6></div>
+                                    <div class="col-6 col-md-4">{{ student.phoneNumber }}</div>
+                                    <div class="col-6 col-md-2"><h6>E-mail</h6></div>
+                                    <div class="col-6 col-md-4">{{ student.email }}</div>
+                                    <hr>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4"><h6>Фамилия Имя Отчество</h6></div>
+                                    <div class="col-8">{{ student.firstName~" "~student.LastName~" "~student.middlename }}</div>
+                                    <hr>
+                                </div>
+
+                            </div>
+                            <div class="block-content tab-pane" id="btabs-vertical-info-profile" role="tabpanel"
+                                 aria-labelledby="btabs-vertical-info-profile-tab">
+                                <h4 class="fw-semibold">Документы</h4>
+                                <p class="fs-sm">
+                                <table class="table table-bordered table-striped table-vcenter js-dataTable-full dataTable no-footer">
+                                    <thead>
+                                    <th class="">Вид документа</th>
+                                    <th class="">Серия</th>
+                                    <th class="">Номер</th>
+                                    <th class="d-none d-xl-table-cell">Дата выдачи</th>
+                                    <th class="d-none d-xl-table-cell">Кто выдал</th>
+                                    <th class="d-none d-xl-table-cell">Комментарий</th>
+                                    <th class="">Действия</th>
+
+                                    </thead>
+                                    <tbody>
+                                    {% for presonaldoc in student.personalDocuments %}
+                                        <tr>
+                                            <td>{{ presonaldoc.getDocumentType() }}</td>
+                                            <td>{{ presonaldoc.getDocumentSeries() }}</td>
+                                            <td> {{ presonaldoc.getDocumentNumber() }}</td>
+                                            <td class="d-none d-xl-table-cell">{{ presonaldoc.getDocumentIssueDate()|format_date('short',locale="ru") }}</td>
+                                            <td class="d-none d-xl-table-cell">{{ presonaldoc.getDocumentOfficialSeal() }}</td>
+                                            <td class="d-none d-xl-table-cell">{{ presonaldoc.getComment() }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled"
+                                                       href="{{ path('app_student_edit', {'id': student.id}) }}" ><i class="fa-solid fa-file"></i></a>
+                                                    <a class="btn btn-sm btn-alt-secondary js-bs-tooltip-enabled"
+                                                       href="{{ path('app_student_edit', {'id': student.id}) }}"><i
+                                                                class="fa fa-fw fa-pencil-alt"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="block-content tab-pane" id="btabs-vertical-info-settings" role="tabpanel"
+                                 aria-labelledby="btabs-vertical-info-settings-tab">
+                                <h4 class="fw-semibold">Приказы о движении</h4>
+                                <p class="fs-sm">
+                                    Integer fermentum tincidunt auctor. Vestibulum ullamcorper, odio sed rhoncus
+                                    imperdiet, enim elit sollicitudin orci, eget dictum leo mi nec lectus. Nam commodo
+                                    turpis id lectus scelerisque vulputate. Integer sed dolor erat. Fusce erat ipsum,
+                                    varius vel euismod sed, tristique et lectus? Etiam egestas fringilla enim, id
+                                    convallis lectus laoreet at. Fusce purus nisi, gravida sed consectetur ut, interdum
+                                    quis nisi. Quisque egestas nisl id lectus facilisis scelerisque? Proin rhoncus dui
+                                    at ligula vestibulum ut facilisis ante sodales! Suspendisse potenti. Aliquam
+                                    tincidunt sollicitudin sem nec ultrices. Sed at mi velit.
+                                </p>
+                                <p class="fs-sm">
+                                    Integer fermentum tincidunt auctor. Vestibulum ullamcorper, odio sed rhoncus
+                                    imperdiet, enim elit sollicitudin orci, eget dictum leo mi nec lectus. Nam commodo
+                                    turpis id lectus scelerisque vulputate. Integer sed dolor erat. Fusce erat ipsum,
+                                    varius vel euismod sed, tristique et lectus? Etiam egestas fringilla enim, id
+                                    convallis lectus laoreet at. Fusce purus nisi, gravida sed consectetur ut, interdum
+                                    quis nisi. Quisque egestas nisl id lectus facilisis scelerisque? Proin rhoncus dui
+                                    at ligula vestibulum ut facilisis ante sodales! Suspendisse potenti. Aliquam
+                                    tincidunt sollicitudin sem nec ultrices. Sed at mi velit.
+                                </p>
+                                <p class="fs-sm">
+                                    Integer fermentum tincidunt auctor. Vestibulum ullamcorper, odio sed rhoncus
+                                    imperdiet, enim elit sollicitudin orci, eget dictum leo mi nec lectus. Nam commodo
+                                    turpis id lectus scelerisque vulputate. Integer sed dolor erat. Fusce erat ipsum,
+                                    varius vel euismod sed, tristique et lectus? Etiam egestas fringilla enim, id
+                                    convallis lectus laoreet at. Fusce purus nisi, gravida sed consectetur ut, interdum
+                                    quis nisi. Quisque egestas nisl id lectus facilisis scelerisque? Proin rhoncus dui
+                                    at ligula vestibulum ut facilisis ante sodales! Suspendisse potenti. Aliquam
+                                    tincidunt sollicitudin sem nec ultrices. Sed at mi velit.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

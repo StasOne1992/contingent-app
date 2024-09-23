@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+{% set page_title = 'Администрирование' %}
+{% set sub_page_title = 'Управление сервисами' %}
+{% set refer = 0 %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block body %}
+    <script>
+
+        function getStatus(url,elementID) {
+            const request = new XMLHttpRequest();
+
+            fetch(url, {
+                method: "GET",
+                headers: {"content-type": "application/x-www-form-urlencoded"}
+            })
+                .then(response => {
+                    if (response.status !== 200) {
+
+                        return Promise.reject();
+                    }
+
+                    return response.text()
+                })
+                .then(i => document.getElementById(elementID).innerText = i)
+                .catch(() => console.log('ошибка'));
+        }
+        function serviceStart(url,elementID) {
+            const request = new XMLHttpRequest();
+
+            fetch(url, {
+                method: "GET",
+                headers: {"content-type": "application/x-www-form-urlencoded"}
+            })
+                .then(response => {
+                    if (response.status !== 200) {
+
+                        return Promise.reject();
+                    }
+
+                    return response.text()
+                })
+                .then(i => document.getElementById(elementID).innerText = i)
+                .catch(() => console.log('ошибка'));
+        }
+        function serviceStop(url,elementID) {
+            const request = new XMLHttpRequest();
+
+            fetch(url, {
+                method: "GET",
+                headers: {"content-type": "application/x-www-form-urlencoded"}
+            })
+                .then(response => {
+                    if (response.status !== 200) {
+
+                        return Promise.reject();
+                    }
+
+                    return response.text()
+                })
+                .then(i => document.getElementById(elementID).innerText = i)
+                .catch(() => console.log('ошибка'));
+        }
+    </script>
+
+
+
+    <div class="row">
+
+        <div class="col-12 ">
+            <div class="block block-rounded block-bordered block-themed">
+                <div class="block-header block-header-default bg-secondary">
+                    <h3 class="block-title">Сервисы<small></small></h3>
+                    <div class="block-options">
+                        <div class="block-options-item"><a href="{{ path('app_system_services_new') }}" class="btn btn-outline-light"><i
+                                        class="fa fa-plus"></i> Зарегистрировать сервис</a></div>
+                    </div>
+                </div>
+
+                <div class="block-content">
+                    <div class="row row-cols-1 row-cols-sm-auto">
+                        {% for service in system_services %}
+                            <div class="d-block w-25 block-rounded text-center mb-3">
+                                <div class="block-content bg-body-light ">
+                                    <div class="fs-3 fw-semibold">{{ service.Title }}</div>
+                                    <div id="Service-{{ service.id }}-CurrentState" class=" small pb-4 text-break"><script>getStatus('{{ absolute_url(path('app_system_services_status',{'id':service.id})) }}','Service-{{ service.id }}-CurrentState')</script></div>
+                                    <div class="row">
+                                        <div class="btn-group d-flex" role="group" aria-label="...">
+                                            <button type="button" onclick="getStatus('{{ absolute_url(path('app_system_services_status',{'id':service.id})) }}','Service-{{ service.id }}-CurrentState')"  type="button" class="btn btn-outline-light w-100"><span class="fs-sm"><i class="fa fa-arrow-rotate-forward"></i> Update</span></button>
+                                            <button type="button" onclick="serviceStart('{{ absolute_url(path('app_system_services_start',{'id':service.id})) }}','Service-{{ service.id }}-CurrentState')"  class="btn btn-outline-light w-100"><span class="fs-sm"><i class="fa fa-play"></i> Start</span></button>
+                                            <button type="button" onclick="serviceStop('{{ absolute_url(path('app_system_services_stop',{'id':service.id})) }}','Service-{{ service.id }}-CurrentState')"  class="btn btn-outline-light w-100"><span class="fs-sm"><i class="fa fa-stop"></i> Stop</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ dump() }}
+    <h4 id="TextBox1">Нет данных </h4>
+
+{% endblock %}

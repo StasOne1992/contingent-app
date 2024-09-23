@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+{% set page_title = 'Интеграция с ВИС Московской области' %}
+{% set sub_page_title = 'Настройка модуля интеграции' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block topmenu_items %}
+    <a href="{{ path('mod_mosregvis_new') }}" type="button"
+       class="btn btn-light btn-sm w-100 js-bs-popover-enabled"
+       data-bs-toggle="popover"
+       data-bs-placement="top" title=""
+       data-bs-content="Добавить"
+       data-bs-original-title="Добавить новую группу">
+        <i class="far fa-fw fa-plus"></i> Добавить настройку
+    </a>
+{% endblock %}
+{% block body %}
+    <div class="">
+        <div class="block block-rounded block-themed block-bordered">
+            <div class="block-header block-header-default bg-secondary">
+                <h3 class="block-title">{{ page_title }} <small></small></h3>
+                <div class="block-options">
+
+
+                </div>
+            </div>
+            <div class="block-content">
+                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-borderless table-striped table-vcenter js-dataTable-responsive"
+                                   aria-describedby="DataTables_Table_0_info">
+                                <thead class="text-center">
+                                <th style="width:20px">№</th>
+                                <th>ПОО</th>
+                                <th>Пользователь</th>
+                                <th>Действия</th>
+                                </thead>
+                                <tbody>
+                                {% for item in modMosregVis %}
+                                    <tr>
+                                        <td>{{ loop.index }}</td>
+                                        <td>{{ item.mosregVISCollege }}</td>
+                                        <td>{{ item.username }}</td>
+                                        <td>
+                                            <div class="btn-toolbar">
+                                                <div class="btn-group btn-group-sm me-2 mx-auto">
+                                                    <a class="btn btn-alt-secondary"
+                                                       href="{{ path('mod_mosregvis_edit', {'id': item.id}) }}">
+                                                        <i class="fa fa-eye"></i> Просмотреть
+                                                    </a>
+                                                    <a class="btn btn-alt-secondary"
+                                                       href="{{ path('mod_mosregvis_edit', {'id': item.id}) }}">
+                                                        <i class="fa fa-pencil"></i> Изменить
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="11">Нет ни одной записи</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

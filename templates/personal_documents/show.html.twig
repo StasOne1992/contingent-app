@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PersonalDocuments{% endblock %}
+
+{% block body %}
+    <h1>PersonalDocuments</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ personal_document.id }}</td>
+            </tr>
+            <tr>
+                <th>DocumentSeries</th>
+                <td>{{ personal_document.DocumentSeries }}</td>
+            </tr>
+            <tr>
+                <th>DocumentNumber</th>
+                <td>{{ personal_document.DocumentNumber }}</td>
+            </tr>
+            <tr>
+                <th>DocumentIssueDate</th>
+                <td>{{ personal_document.DocumentIssueDate ? personal_document.DocumentIssueDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DocumentOfficialSeal</th>
+                <td>{{ personal_document.DocumentOfficialSeal }}</td>
+            </tr>
+            <tr>
+                <th>Comment</th>
+                <td>{{ personal_document.Comment }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_personal_documents_index') }}">back to list</a>
+
+    <a href="{{ path('app_personal_documents_edit', {'id': personal_document.id}) }}">edit</a>
+
+    {{ include('personal_documents/_delete_form.html.twig') }}
+{% endblock %}

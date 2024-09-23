@@ -1,0 +1,296 @@
+{{ form_start(form) }}
+{% if abiturient_petition.getAdmissionPlanPosition() is null or abiturient_petition.getAdmissionPlanPosition() is empty %}
+    {% set HaveAdmissionExamination = false %}
+{% else %}
+    {% set HaveAdmissionExamination = abiturient_petition.getAdmissionPlanPosition().HaveAdmissionExamination %}
+{% endif %}
+<div class="row">
+    <div class="col-12 col-sm-4">
+        <div class="block block-themed block-bordered">
+            <div class="block-header bg-dark block-header-default">
+                <h3 class="block-title">Учётная информация</h3>
+            </div>
+            <div class="block-content">
+                <div class="row">
+                    <div class="mb-2">
+                        {{ form_row(form.GUID) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-2">
+                        {{ form_row(form.status) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-2">
+                        {{ form_row(form.number) }}
+                    </div>
+                </div>
+                <div class="row row-cols-2 mb-2">
+                    {{ form_row(form.localNumber) }}
+                    {{ form_row(form.createdTs) }}
+                </div>
+                <div class="row">
+                    <div class="mb-2">
+                        {{ form_row(form.admission) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="mb-2">
+                        {{ form_row(form.Faculty) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-2">
+                        {{ form_row(form.AdmissionPlanPosition) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-2">
+                        {{ form_row(form.Region) }}
+                    </div>
+                </div>
+                <h2 class="content-heading border-bottom mb-4 pb-2">Решение об оказании услуги</h2>
+                <div class="row row-cols-2 mb-2">
+                    {{ form_row(form.DateProvision) }}
+                    {{ form_row(form.NumberProvision) }}
+                </div>
+                <h2 class="content-heading border-bottom mb-2 pb-2">Решение об отказе в услуге</h2>
+                <div class="row row-cols-2 mb-2 ">
+                    {{ form_row(form.DateCancel) }}
+                    {{ form_row(form.NumberCancel) }}
+                </div>
+                <div class="row">
+                    {{ form_row(form.CancelReason) }}
+                </div>
+                <h2 class="content-heading border-bottom mb-2 pb-2">Служебные метки</h2>
+                <div class="row mx-auto mb-2">
+
+                    <div class="form-check form-switch form-check-inline">
+                        <label class="form-check-label"
+                               for="example-switch-inline1"> {{ form_label(form.canceled) }}</label>
+                        {{ form_widget(form.canceled) }}
+                    </div>
+                    <div class="form-check form-switch form-check-inline">
+                        <label class="form-check-label"
+                               for="example-switch-inline1"> {{ form_label(form.loadToFISGIA) }}</label>
+                        {{ form_widget(form.loadToFISGIA) }}
+                    </div>
+                    <div class="form-check form-switch form-check-inline">
+                        <label class="form-check-label"
+                               for="example-switch-inline1"> {{ form_label(form.documentObtained) }}</label>
+                        {{ form_widget(form.documentObtained) }}
+                    </div>
+                    <div class="form-check form-switch form-check-inline">
+                        <label class="form-check-label"
+                               for="example-switch-inline1"> {{ form_label(form.CanPay) }}</label>
+                        {{ form_widget(form.CanPay) }}
+                    </div>
+                    <div class="form-check form-switch form-check-inline">
+                        <label class="form-check-label"
+                               for="example-switch-inline1"> {{ form_label(form.HaveErrorInPetition) }}</label>
+                        {{ form_widget(form.HaveErrorInPetition) }}
+                    </div>
+                    <div class="form-check form-switch form-check-inline">
+                        <label class="form-check-label"
+                               for="example-switch-inline1"> {{ form_label(form.LockUpdateFormVIS) }}</label>
+                        {{ form_widget(form.LockUpdateFormVIS) }}
+                    </div>
+                    <div class="form-check form-switch form-check-inline">
+                        <label class="form-check-label"
+                               for="example-switch-inline1"> {{ form_label(form.HasTargetAgreement) }}</label>
+                        {{ form_widget(form.HasTargetAgreement) }}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="block block-themed block-bordered">
+            <div class="block-header bg-dark block-header-default">
+                <h3 class="block-title">Комментарий</h3>
+            </div>
+            <div class="block-content pb-4">
+                {{ form_row(form.Comment) }}
+            </div>
+        </div>
+        <div class="block block-themed block-bordered">
+            <div class="block-header bg-dark block-header-default">
+                <h3 class="block-title">Вложения</h3>
+            </div>
+            <div class="block-content pb-4">
+                <div class="row row-cols-1">
+                    {% for attach in abiturient_petition.Attaches %}
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="fw-semibold fs-base mb-1">{{ attach.attach.documentType.category.title }}
+                                    <br>
+                                    <small>{{ attach.attach.documentType.name }} </small></div>
+                            </div>
+                            <div class="col-4">
+                                <div class="fs-sm text-muted"><a target="_blank"
+                                                                 href="http://prof.mo.mosreg.ru/api/file/{{ attach.attach.id }}">Открыть</a>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-8">
+        <div class="block block-themed block-bordered mb-4">
+            <div class="block-header bg-dark block-header-default">
+                <h3 class="block-title">Сведения об абитуриенте</h3>
+            </div>
+            <div class="block-content">
+                <h2 class="content-heading border-bottom mb-4 pb-2">Социальный учёт</h2>
+                <div class="row mx-auto row-cols-auto">
+                    <div class="form-check form-switch form-check-inline">
+                        <label class="form-check-label"
+                               for="example-switch-inline1"> {{ form_label(form.IsInvalid) }}</label>
+                        {{ form_widget(form.IsInvalid) }}
+                    </div>
+                    <div class="form-check form-switch form-check-inline">
+                        <label class="form-check-label"
+                               for="example-switch-inline1"> {{ form_label(form.IsPoor) }}</label>
+                        {{ form_widget(form.IsPoor) }}
+                    </div>
+
+                    <div class="form-check form-switch form-check-inline">
+                        <label class="form-check-label"
+                               for="example-switch-inline1"> {{ form_label(form.IsOrphan) }}</label>
+                        {{ form_widget(form.IsOrphan) }}
+                    </div>
+                    <div class="form-check form-switch form-check-inline">
+                        <label class="form-check-label"
+                               for="example-switch-inline1"> {{ form_label(form.NeedStudentAccommondation) }}</label>
+                        {{ form_widget(form.NeedStudentAccommondation) }}
+                    </div>
+                </div>
+                <h2 class="content-heading border-bottom mb-4 pb-2">Основные сведения</h2>
+                <div class="row row-cols-auto  mb-4">
+                    <div class="col-12 col-sm-4">  {{ form_row(form.lastName) }}</div>
+                    <div class="col-12 col-sm-4">  {{ form_row(form.firstName) }}</div>
+                    <div class="col-12 col-sm-4">  {{ form_row(form.middleName) }}</div>
+                </div>
+                <div class="row row-cols-auto  mb-4">
+                    <div class="col-12 col-sm-2">  {{ form_row(form.gender) }}
+                        {{ form_row(form.BirthDate) }}
+                    </div>
+                    <div class="col-12 col-sm-10">
+                        <div class="row"> {{ form_row(form.registrationAddress) }}</div>
+                        <div class="row"> {{ form_row(form.currentLocationAddress) }}</div>
+                    </div>
+                </div>
+                <div class="row row-cols-auto  mb-4">
+                    <div class="col-12 col-sm-6">{{ form_row(form.birthPlace) }}</div>
+                    <div class="col-12 col-sm-6">{{ form_row(form.phone) }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="block block-themed block-bordered mb-4">
+            <div class="block-header bg-dark block-header-default">
+                <h3 class="block-title">Документы абитуриента</h3>
+            </div>
+            <div class="block-content">
+                <div class="row row-cols-auto  mb-4">
+                    <div class="col-12 col-sm-6">  {{ form_row(form.documentSNILS) }}</div>
+                    <div class="col-12 col-sm-6"></div>
+                </div>
+
+                <h2 class="content-heading border-bottom mb-4 pb-2">Паспортные данные</h2>
+                <div class="row row-cols-2 mb-2">
+                    {{ form_row(form.pasportSeries) }}
+                    {{ form_row(form.pasportNumber) }}
+                    {{ form_row(form.PasportDateObtain) }}
+                </div>
+                <div class="row"> {{ form_row(form.pasport_issue_organ) }}</div>
+
+                <h2 class="content-heading border-bottom mb-4 pb-2">Документ об образовании</h2>
+                <div class="row row-cols-1 row-cols-sm-3 mb-2">
+                    {{ form_row(form.EducationDocumentName) }}
+                    {{ form_row(form.EducationDocumentNumber) }}
+                    {{ form_row(form.educationDocumentGPA) }}
+                </div>
+                <div class="row  mb-2">
+                    {{ form_row(form.SchoolName) }}
+                </div>
+            </div>
+        </div>
+        <div class="block block-themed block-bordered mb-4">
+            <div class="block-header bg-dark block-header-default">
+                <h3 class="block-title">Целевой договор</h3>
+            </div>
+            <div class="block-content">
+                <div class="row row-cols-12 row-cols-md-2 ">
+                    {{ form_row(form.TargetAgreementNumber) }}
+                    {{ form_row(form.TargetAgreementDate) }}
+                </div>
+                {{ form_row(form.TargetAgreementEmployer) }}
+
+
+            </div>
+        </div>
+        {% if HaveAdmissionExamination %}
+            <div class="block block-themed block-bordered mb-4">
+                <div class="block-header bg-dark block-header-default">
+                    <h3 class="block-title">Вступительные испытания</h3>
+                    <div class="block-options">
+                        <div class="block-options-item">
+                            <a class="btn btn-outline-light"
+                               href="{{ path('app_admission_examination_result_new_for_abiturient_petition',{'abiturientPetitionId':form.vars.value.id}) }}"><i
+                                        class="fa fa-plus"></i> Добавить</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="block-content">
+                    {% if abiturient_petition.getResult() %}
+                        <table class="table table-bordered table-responsive">
+                            <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Экзамен</th>
+                                <th>Результат</th>
+                                <th>Действия</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% set itter = 1 %}
+                            {% for AdmissionExamination in abiturient_petition.getResult() %}
+                                <tr>
+                                    <td>{{ itter }}</td>
+                                    <td>{{ AdmissionExamination.AdmissionExamination }}</td>
+                                    <td>{{ AdmissionExamination.Mark }}</td>
+                                    <td>
+                                        <a href="{{ path( 'app_admission_examination_result_edit',{'id':AdmissionExamination.id}) }}">Изменить</a>
+                                    </td>
+                                </tr>
+                                {% set itter = itter+1 %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+</div>
+<div class="block block-themed block-bordered mb-4">
+    <div class="block-header bg-dark block-header-default">
+        <div class="block-title"></div>
+        <div class="block-options">
+            <div class="block-options-item">
+                <button class="btn btn-outline-light">{{ button_label|default('Save') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_widget(form) }}
+
+{{ form_end(form) }}

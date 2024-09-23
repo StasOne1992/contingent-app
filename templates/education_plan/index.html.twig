@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EducationPlan index{% endblock %}
+
+{% block body %}
+    <h1>EducationPlan index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Faculty</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for education_plan in education_plans %}
+            <tr>
+                <td>{{ education_plan.id }}</td>
+                <td>{{ education_plan.Title }}</td>
+                <td>{{ education_plan.Faculty }}</td>
+                <td>
+                    <a href="{{ path('app_education_plan_show', {'id': education_plan.id}) }}">show</a>
+                    <a href="{{ path('app_education_plan_edit', {'id': education_plan.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_education_plan_new') }}">Create new</a>
+{% endblock %}

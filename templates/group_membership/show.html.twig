@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GroupMembership{% endblock %}
+
+{% block body %}
+    <h1>GroupMembership</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ group_membership.id }}</td>
+            </tr>
+            <tr>
+                <th>DateStart</th>
+                <td>{{ group_membership.DateStart ? group_membership.DateStart|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateEnd</th>
+                <td>{{ group_membership.DateEnd ? group_membership.DateEnd|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_group_membership_index') }}">back to list</a>
+
+    <a href="{{ path('app_group_membership_edit', {'id': group_membership.id}) }}">edit</a>
+
+    {{ include('group_membership/_delete_form.html.twig') }}
+{% endblock %}
