@@ -24,7 +24,7 @@ class DashboardController extends AbstractController
     public function index(StudentGroupsRepository $StudentGroupsRepository,UserRepository $UserRepository,BackgroudMessage $backgroudMessage): Response
     {
         $this->currentUser=$UserRepository->find($this->getUser());
-        if ($this->currentUser->getStaff()->getId()) {
+        if ($this->currentUser->getStaff()) {
         $this->groupLeaderId=$this->currentUser->getStaff()->getId();
         $this->groups=$StudentGroupsRepository->findAll();
         } else {
