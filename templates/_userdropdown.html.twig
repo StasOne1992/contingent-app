@@ -1,5 +1,5 @@
-{% if (app.user.staff is defined) %}
-{% if ((app.user.staff is null ) and (app.user.staff.photo=='')) %}
+{% if (app.user.staff is defined and app.user.staff is not null) %}
+{% if (app.user.staff.photo=='') %}
 {% set userphoto = '/assets/media/avatars/avatar0.jpg' %}
 {% else %}
     {% set userphoto=app.user.staff.photo %}
