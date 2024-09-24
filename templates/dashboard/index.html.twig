@@ -52,7 +52,7 @@
 
     {% if  groups is defined %}
         <div class="container">
-            {% if (groups|length)==1 %}
+            {% if (groups|length)==0 %}
                 <h2 class="content-heading">Мои группы </h2>
                 <div class="row push">
             {% for group in groups %}
