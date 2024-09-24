@@ -2,9 +2,10 @@
 
 namespace App\Global\Entity;
 
+use App\Global\Repository\AppConfigurationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: modMosregVisRepository::class)]
+#[ORM\Entity(repositoryClass: AppConfigurationRepository::class)]
 class AppConfiguration
 {
 
