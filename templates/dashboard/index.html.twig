@@ -13,10 +13,10 @@
     <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-center py-2 text-center text-md-start pb-4">
         <div class="flex-grow-1 mb-1 mb-md-0">
             <h2 class="h6 fw-medium fw-medium text-muted mb-0">
-                Добро пожаловать <a class="fw-semibold" href="{{ path('app_staff_show',{'id':app.user.staff.id}) }}">
+                Добро пожаловать!
                     {% if app.user.staff is not null and app.user.staff  is defined %}
-                        {{ app.user.staff.firstName~" "~app.user.staff.lastName }}
-                    {% endif %}</a>!
+                        <a class="fw-semibold" href="{{ path('app_staff_show',{'id':app.user.staff.id}) }}"> {{ app.user.staff.firstName~" "~app.user.staff.lastName }}
+                    {% endif %}</a>
             </h2>
         </div>
 
