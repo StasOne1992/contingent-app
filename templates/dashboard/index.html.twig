@@ -50,10 +50,9 @@
         </div>
     </div>
     {% if  groups is defined %}
-        {% if (groups|length)==1 %}
         <h2 class="content-heading">Мои группы </h2>
         <div class="row push">
-
+            {% if (groups|length)==1 %}
             {% for group in groups %}
                 <div class="col-12 col-md-6 col-xxl-3 pb-3">
                     <div class="block block-rounded d-flex flex-column ">
