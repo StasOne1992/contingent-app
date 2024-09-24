@@ -3,7 +3,7 @@
 namespace App\MainApp\Service;
 
 use App\MainApp\Entity\AccessSystemControl;
-use App\MainApp\Repository\StudentGroupsRepository;
+use App\mod_education\Repository\StudentGroupsRepository;
 use Npub\Gos\Snils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;

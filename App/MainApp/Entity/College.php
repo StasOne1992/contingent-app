@@ -3,7 +3,8 @@
 namespace App\MainApp\Entity;
 
 use App\MainApp\Repository\CollegeRepository;
-use App\mod_mosregvis\Entity\MosregVISCollege;
+use App\mod_admission\Entity\Admission;
+use App\mod_education\Entity\StudentGroups;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;

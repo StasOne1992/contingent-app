@@ -3,6 +3,7 @@
 namespace App\MainApp\Entity;
 
 use App\MainApp\Repository\LoginValuesRepository;
+use App\mod_education\Entity\Student;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LoginValuesRepository::class)]

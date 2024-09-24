@@ -3,6 +3,8 @@
 namespace App\MainApp\Entity;
 
 use App\MainApp\Repository\StaffRepository;
+use App\mod_education\Entity\StudentGroups;
+use App\mod_events\Entity\EventsList;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;

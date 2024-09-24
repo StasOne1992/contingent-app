@@ -2,8 +2,8 @@
 
 namespace App\MainApp\Service;
 
-use App\MainApp\Repository\CharacteristicRepository;
-use App\MainApp\Repository\StudentRepository;
+use App\mod_education\Repository\CharacteristicRepository;
+use App\mod_education\Repository\StudentRepository;
 
 
 class CharacteristicGenerate

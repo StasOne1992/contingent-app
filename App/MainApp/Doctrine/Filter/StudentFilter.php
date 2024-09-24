@@ -2,7 +2,7 @@
 
 namespace App\MainApp\Doctrine\Filter;
 
-use App\MainApp\Entity\Student;
+use App\mod_education\Entity\Student;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;
 

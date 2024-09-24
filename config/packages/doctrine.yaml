@@ -27,6 +27,21 @@ doctrine:
                 dir: '%kernel.project_dir%/App/mod_mosregvis/Entity'
                 prefix: 'App\mod_mosregvis\Entity'
                 alias: mod_mosregvis
+            mod_education:
+                is_bundle: false
+                dir: '%kernel.project_dir%/App/mod_education/Entity'
+                prefix: 'App\mod_education\Entity'
+                alias: mod_education
+            mod_admission:
+                is_bundle: false
+                dir: '%kernel.project_dir%/App/mod_admission/Entity'
+                prefix: 'App\mod_admission\Entity'
+                alias: mod_admission
+            global:
+                is_bundle: false
+                dir: '%kernel.project_dir%/App/Global/Entity'
+                prefix: 'App\Global\Entity'
+                alias: global
         filters:
             studentFilter:
                 class: App\MainApp\Doctrine\Filter\StudentFilter

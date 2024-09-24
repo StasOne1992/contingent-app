@@ -3,12 +3,12 @@
 namespace App\MainApp\Service;
 
 use App\MainApp\Entity\AccessSystemControl;
-use App\MainApp\Entity\AdmissionPlan;
-use App\MainApp\Entity\Student;
-use App\MainApp\Entity\StudentGroups;
-use App\MainApp\Repository\AbiturientPetitionRepository;
 use App\MainApp\Repository\CollegeRepository;
-use App\MainApp\Repository\StudentGroupsRepository;
+use App\mod_admission\Entity\AdmissionPlan;
+use App\mod_admission\Repository\AbiturientPetitionRepository;
+use App\mod_education\Entity\Student;
+use App\mod_education\Entity\StudentGroups;
+use App\mod_education\Repository\StudentGroupsRepository;
 
 
 class TypicalDocuments
@@ -93,7 +93,7 @@ class TypicalDocuments
 
         foreach ((array)$content->getStudent()->getValues() as $data) {
             /**
-             * @var Student $data
+             * @var \App\mod_education\Entity\Student $data
              */
 
             $rc[$data->getStudentGroup()->getId()][] = $data;

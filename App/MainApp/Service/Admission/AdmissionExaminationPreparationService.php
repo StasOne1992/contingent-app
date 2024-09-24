@@ -2,14 +2,14 @@
 
 namespace App\MainApp\Service\Admission;
 
-use App\MainApp\Entity\AbiturientPetition;
-use App\MainApp\Entity\AdmissionExaminationResult;
-use App\MainApp\Repository\AbiturientPetitionRepository;
-use App\MainApp\Repository\AdmissionExaminationRepository;
-use App\MainApp\Repository\AdmissionExaminationResultRepository;
-use App\MainApp\Repository\AdmissionExaminationSubjectsRepository;
-use App\MainApp\Repository\AdmissionPlanRepository;
-use App\MainApp\Repository\AdmissionRepository;
+use App\mod_admission\Entity\AbiturientPetition;
+use App\mod_admission\Entity\AdmissionExaminationResult;
+use App\mod_admission\Repository\AbiturientPetitionRepository;
+use App\mod_admission\Repository\AdmissionExaminationRepository;
+use App\mod_admission\Repository\AdmissionExaminationResultRepository;
+use App\mod_admission\Repository\AdmissionExaminationSubjectsRepository;
+use App\mod_admission\Repository\AdmissionPlanRepository;
+use App\mod_admission\Repository\AdmissionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -21,10 +21,10 @@ class AdmissionExaminationPreparationService
 {
     /***
      * @param AbiturientPetitionRepository $abiturientPetitionRepository
-     * @param AdmissionExaminationResultRepository $admissionExaminationResultRepository
-     * @param AdmissionExaminationRepository $admissionExaminationRepository
-     * @param AdmissionRepository $admissionRepository
-     * @param AdmissionExaminationSubjectsRepository $admissionExaminationSubjectsRepository
+     * @param \App\mod_admission\Repository\AdmissionExaminationResultRepository $admissionExaminationResultRepository
+     * @param \App\mod_admission\Repository\AdmissionExaminationRepository $admissionExaminationRepository
+     * @param \App\mod_admission\Repository\AdmissionRepository $admissionRepository
+     * @param \App\mod_admission\Repository\AdmissionExaminationSubjectsRepository $admissionExaminationSubjectsRepository
      * @param AdmissionPlanRepository $admissionPlanRepository
      * @param EntityManagerInterface $entityManager
      */

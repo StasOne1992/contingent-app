@@ -3,9 +3,9 @@
 namespace App\MainApp\Controller\Dashboard;
 
 
-use App\MainApp\Repository\StudentGroupsRepository;
 use App\MainApp\Repository\UserRepository;
 use App\MainApp\Service\Messenger\BackgroudMessage;
+use App\mod_education\Repository\StudentGroupsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

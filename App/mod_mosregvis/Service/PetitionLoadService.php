@@ -3,24 +3,24 @@
 namespace App\mod_mosregvis\Service;
 
 
-use App\MainApp\Entity\AbiturientPetition;
-use App\MainApp\Entity\AbiturientPetitionStatus;
 use App\MainApp\Message\PetitionLoadMessage;
 use App\MainApp\Message\PetitionNewLoadMessage;
-use App\MainApp\Repository\AbiturientPetitionRepository;
-use App\MainApp\Repository\AbiturientPetitionStatusRepository;
-use App\MainApp\Repository\AdmissionPlanRepository;
-use App\MainApp\Repository\AdmissionRepository;
-use App\MainApp\Repository\AdmissionStatusRepository;
 use App\MainApp\Repository\CollegeRepository;
-use App\MainApp\Repository\EducationFormRepository;
-use App\MainApp\Repository\EducationTypeRepository;
-use App\MainApp\Repository\FacultyRepository;
-use App\MainApp\Repository\FinancialTypeRepository;
 use App\MainApp\Repository\GenderRepository;
-use App\MainApp\Repository\SpecializationRepository;
 use App\MainApp\Repository\UserRepository;
 use App\Message\Stamp\AnotherStamp;
+use App\mod_admission\Entity\AbiturientPetition;
+use App\mod_admission\Entity\AbiturientPetitionStatus;
+use App\mod_admission\Repository\AbiturientPetitionRepository;
+use App\mod_admission\Repository\AbiturientPetitionStatusRepository;
+use App\mod_admission\Repository\AdmissionPlanRepository;
+use App\mod_admission\Repository\AdmissionRepository;
+use App\mod_admission\Repository\AdmissionStatusRepository;
+use App\mod_education\Repository\EducationFormRepository;
+use App\mod_education\Repository\EducationTypeRepository;
+use App\mod_education\Repository\FacultyRepository;
+use App\mod_education\Repository\FinancialTypeRepository;
+use App\mod_education\Repository\SpecializationRepository;
 use App\mod_mosregvis\Entity\mosregApiConnection;
 use DateTime;
 use Exception;
@@ -401,7 +401,7 @@ class PetitionLoadService
         }
 
         /***
-         * @var AbiturientPetition $petition
+         * @var \App\mod_admission\Entity\AbiturientPetition $petition
          */
 
         $petition->setFirstName($PetitionData['details']['document']['firstName']);

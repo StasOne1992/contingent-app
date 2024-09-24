@@ -2,7 +2,7 @@
 
 namespace App\MainApp\Doctrine\Filter;
 
-use App\MainApp\Entity\EventsResult;
+use App\mod_events\Entity\EventsResult;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;
 

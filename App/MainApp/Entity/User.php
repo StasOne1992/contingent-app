@@ -3,6 +3,7 @@
 namespace App\MainApp\Entity;
 
 use App\MainApp\Repository\UserRepository;
+use App\mod_education\Entity\Student;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;

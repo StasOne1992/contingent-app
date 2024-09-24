@@ -2,8 +2,8 @@
 
 namespace App\MainApp\Listener;
 
-use App\MainApp\Entity\StudentGroups;
 use App\MainApp\Entity\User;
+use App\mod_education\Entity\StudentGroups;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 

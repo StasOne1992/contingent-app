@@ -2,7 +2,7 @@
 
 namespace App\mod_mosregvis\Entity;
 
-use App\MainApp\Entity\Admission;
+use App\mod_admission\Entity\Admission;
 use App\mod_mosregvis\Repository\reference_SpoEducationYearRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;

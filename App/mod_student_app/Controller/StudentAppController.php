@@ -2,10 +2,10 @@
 
 namespace App\mod_student_app\Controller;
 
-use App\MainApp\Entity\Student;
-use App\StudentApp\Form\StudentProfile;
-use App\MainApp\Repository\StudentRepository;
 use App\MainApp\Service\StudentService;
+use App\mod_education\Entity\Student;
+use App\mod_education\Repository\StudentRepository;
+use App\StudentApp\Form\StudentProfile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

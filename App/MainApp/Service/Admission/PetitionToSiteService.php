@@ -2,11 +2,11 @@
 
 namespace App\MainApp\Service\Admission;
 
-use App\MainApp\Repository\AbiturientPetitionRepository;
-use App\MainApp\Repository\AbiturientPetitionStatusRepository;
-use App\MainApp\Repository\AdmissionRepository;
-use App\MainApp\Repository\AdmissionStatusRepository;
-use App\MainApp\Repository\FacultyRepository;
+use App\mod_admission\Repository\AbiturientPetitionRepository;
+use App\mod_admission\Repository\AbiturientPetitionStatusRepository;
+use App\mod_admission\Repository\AdmissionRepository;
+use App\mod_admission\Repository\AdmissionStatusRepository;
+use App\mod_education\Repository\FacultyRepository;
 use App\Service\Admission\Exception;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 

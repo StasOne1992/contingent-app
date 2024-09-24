@@ -3,10 +3,10 @@
 namespace App\MainApp\Form;
 
 use App\MainApp\Entity\staff;
-use App\MainApp\Entity\Student;
 use App\MainApp\Entity\User;
 use App\MainApp\Repository\RolesRepository;
 use App\MainApp\Repository\UserRepository;
+use App\mod_education\Entity\Student;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;

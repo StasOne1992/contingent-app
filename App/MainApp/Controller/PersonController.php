@@ -3,9 +3,9 @@
 namespace App\MainApp\Controller;
 
 use App\MainApp\Entity\Person;
-use App\MainApp\Entity\Student;
 use App\MainApp\Form\PersonType;
 use App\MainApp\Repository\PersonRepository;
+use App\mod_education\Entity\Student;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +41,7 @@ class PersonController extends AbstractController
                 dump("is student");
 
                 /**
-                 * @var Student $student
+                 * @var \App\mod_education\Entity\Student $student
                  */
                 $student = $item->getStudent()->getValues()[0];
                 $item->setBirthDate($student->getBirthDate());

@@ -2,10 +2,10 @@
 
 namespace App\MainApp\Service;
 
-use App\MainApp\Entity\Student;
-use App\MainApp\Entity\StudentGroups;
-use App\MainApp\Repository\StudentRepository;
 use App\MainApp\Repository\UserRepository;
+use App\mod_education\Entity\Student;
+use App\mod_education\Entity\StudentGroups;
+use App\mod_education\Repository\StudentRepository;
 
 
 class StudentService
@@ -29,7 +29,7 @@ class StudentService
     }
 
     /**
-     * @param Student $student
+     * @param \App\mod_education\Entity\Student $student
      * @return void
      */
     public function setStudentUUID($student): void
@@ -48,7 +48,7 @@ class StudentService
     }
 
     /**
-     * @param Student $student
+     * @param \App\mod_education\Entity\Student $student
      * @return void
      */
     public function setStudentEmailByUser($student): void
