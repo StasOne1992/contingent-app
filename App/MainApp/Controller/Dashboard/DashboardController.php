@@ -24,8 +24,13 @@ class DashboardController extends AbstractController
     public function index(StudentGroupsRepository $StudentGroupsRepository,UserRepository $UserRepository,BackgroudMessage $backgroudMessage): Response
     {
         $this->currentUser=$UserRepository->find($this->getUser());
+        if ($this->currentUser->getStaff()->getId()) {
         $this->groupLeaderId=$this->currentUser->getStaff()->getId();
         $this->groups=$StudentGroupsRepository->findAll();
+        } else {
+            $this->groupLeaderId = 0;
+            $this->groups = [];
+        }
         //$backgroudMessage->push('toast-notify', 'success', ' fa fa-check me-1 ', 'БЛОКИРОВКА. Заявление не доступно для изменения', "2123124124");
         return $this->render('dashboard/index.html.twig',
             [
