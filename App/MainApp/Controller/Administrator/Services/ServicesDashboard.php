@@ -22,6 +22,15 @@ class ServicesDashboard extends AbstractController
         $this->Services[] = $this->constructService('SuperVisor Service','supervisor','ServiceAddCommand_1','supervisorctl status');
     }
 
+    /***
+     * @param $serviceTitle
+     * @param $serviceSystemName
+     * @param $serviceCurrentStatusCommandName
+     * @param $serviceAddCommand_1
+     * @param $serviceAddCommand_2
+     * @param $serviceAddCommand_3
+     * @return array
+     */
     private function constructService($serviceTitle,$serviceSystemName,$serviceCurrentStatusCommandName,$serviceAddCommand_1='',$serviceAddCommand_2='',$serviceAddCommand_3=''): array
     {
         $serviceStartCommand = ['service', $serviceSystemName, 'start'];
