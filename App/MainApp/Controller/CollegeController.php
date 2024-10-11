@@ -2,7 +2,7 @@
 
 namespace App\MainApp\Controller;
 
-use App\Controller\App\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\MainApp\Entity\College;
 use App\MainApp\Form\CollegeType;
 use App\MainApp\Repository\CollegeRepository;
@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-//use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 #[Route('/college')]
 #[IsGranted("ROLE_USER")]

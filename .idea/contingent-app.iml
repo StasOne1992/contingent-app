@@ -9,6 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/App/mod_education" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/App/mod_mosregvis" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/App/mod_student_app" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/App/mod_student_app" isTestSource="false" packagePrefix="App\StudentApp\" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests/MainApp" isTestSource="true" packagePrefix="MainApp\Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/tests/StudentApp" isTestSource="true" packagePrefix="StudentApp\Tests\" />
@@ -167,6 +168,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/twig/intl-extra" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/twig/twig" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/public/bundles" />
+      <excludeFolder url="file://$MODULE_DIR$/var" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
