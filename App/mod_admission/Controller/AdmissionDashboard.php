@@ -59,9 +59,11 @@ class AdmissionDashboard extends AbstractController
      */
     private AbiturientPetitionStatus $statusINDUCTED;
     private \Doctrine\Common\Collections\Collection $currentAdmissionPlan;
-    private Admission $currentAdmission;
-    private ?array $SummaryMetricReport;
-    private ?array $byRegionsReport;
+    private ?Admission $currentAdmission = null;
+    private ?array $SummaryMetricReport = array();
+    private ?array $byRegionsReport = array();
+    private ?int $ToLoad = null;
+    private bool $HaveAddmission=false;
 
     public function __construct(
         AdmissionRepository                $admissionRepository,
@@ -81,44 +83,50 @@ class AdmissionDashboard extends AbstractController
         $this->abiturientPetitionStatusRepository = $abiturientPetitionStatusRepository;
         $this->abiturientPetitionRepository = $abiturientPetitionRepository;
         $this->admissionRepository = $admissionRepository;
-        $this->currentAdmission = $this->admissionRepository->findOneBy(['status' => $this->admissionStatusRepository->findOneBy(['Name' => 'RUNNING'])]);
-        $this->currentAdmissionPlan = $this->currentAdmission->getAdmissionPlans();
-        $this->facultyRepository->findAll();
-        $abiturientPetitionStatus = array();
-        foreach ($this->abiturientPetitionStatusRepository->findAll() as $item) {
-            /***
-             * @var AbiturientPetitionStatus $item
-             */
-            $abiturientPetitionStatus[$item->getName()] = $item;
-        }
-        $this->SummaryMetricReport = $admissionReports->SummaryMetricReport($this->currentAdmission);
+        if (count($this->admissionRepository->findAll()) > 0) {
+            $this->HaveAddmission=true;
+            $this->currentAdmission = $this->admissionRepository->findOneBy(['status' => $this->admissionStatusRepository->findOneBy(['Name' => 'RUNNING'])]);
+            $this->currentAdmissionPlan = $this->currentAdmission->getAdmissionPlans();
+            $this->facultyRepository->findAll();
+            $abiturientPetitionStatus = array();
+            foreach ($this->abiturientPetitionStatusRepository->findAll() as $item) {
+                /***
+                 * @var AbiturientPetitionStatus $item
+                 */
+                $abiturientPetitionStatus[$item->getName()] = $item;
+            }
+            $this->SummaryMetricReport = $admissionReports->SummaryMetricReport($this->currentAdmission);
 
-        $this->statusREGISTRED = $abiturientPetitionStatus['REGISTERED'];
-        $this->statusREJECTED = $abiturientPetitionStatus['REJECTED'];
-        $this->statusACCEPTED = $abiturientPetitionStatus['ACCEPTED'];
-        $this->statusCHECK = $abiturientPetitionStatus['CHECK'];
-        $this->statusRECOMMENDED = $abiturientPetitionStatus['RECOMMENDED'];
-        $this->statusDOCUMENTS_OBTAINED = $abiturientPetitionStatus['DOCUMENTS_OBTAINED'];
-        $this->statusINDUCTED = $abiturientPetitionStatus['INDUCTED'];
-        $petitionList = $this->currentAdmission->getAbiturientPetitions();
-        /*$this->SummaryMetricReport = array();
-*/
-        $this->ToLoad = $this->SummaryMetricReport['CanLoad']['Value'];
-        $this->byRegionsReport = $admissionReports->RegionReport($this->currentAdmission);
+            $this->statusREGISTRED = $abiturientPetitionStatus['REGISTERED'];
+            $this->statusREJECTED = $abiturientPetitionStatus['REJECTED'];
+            $this->statusACCEPTED = $abiturientPetitionStatus['ACCEPTED'];
+            $this->statusCHECK = $abiturientPetitionStatus['CHECK'];
+            $this->statusRECOMMENDED = $abiturientPetitionStatus['RECOMMENDED'];
+            $this->statusDOCUMENTS_OBTAINED = $abiturientPetitionStatus['DOCUMENTS_OBTAINED'];
+            $this->statusINDUCTED = $abiturientPetitionStatus['INDUCTED'];
+            $petitionList = $this->currentAdmission->getAbiturientPetitions();
+            /*$this->SummaryMetricReport = array();
+    */
+            $this->ToLoad = $this->SummaryMetricReport['CanLoad']['Value'];
+            $this->byRegionsReport = $admissionReports->RegionReport($this->currentAdmission);
 
 
-        $counter = 0;
-        foreach ($this->currentAdmissionPlan as $item) {
-            $this->facultyPetitionCount[$item->getId()]['Admission'] = $this->currentAdmission;
-            $this->facultyPetitionCount[$item->getId()]['Faculty'] = $item->getFaculty();
-            $this->facultyPetitionCount[$item->getId()]['Rejected'] = count($this->abiturientPetitionRepository->findBy(['admission' => $this->currentAdmission, 'Faculty' => $item->getFaculty(), 'status' => $this->statusREJECTED]));
-            $this->facultyPetitionCount[$item->getId()]['Registred'] = count($this->abiturientPetitionRepository->findBy(['admission' => $this->currentAdmission, 'Faculty' => $item->getFaculty(), 'status' => $this->statusREGISTRED]));
-            $this->facultyPetitionCount[$item->getId()]['Origins'] = count($this->abiturientPetitionRepository->findBy(['admission' => $this->currentAdmission, 'Faculty' => $item->getFaculty(), 'documentObtained' => true]));
-            $this->facultyPetitionCount[$item->getId()]['PetitionCount'] = $item->getFaculty()->getAbiturientPetitions()->count();
-            $this->facultyPetitionCount[$item->getId()]['Enroll'] = count($this->abiturientPetitionRepository->findBy(['admission' => $this->currentAdmission, 'Faculty' => $item->getFaculty(), 'status' => $this->statusRECOMMENDED]));
-            $this->facultyPetitionCount[$item->getId()]['Induct'] = count($this->abiturientPetitionRepository->findBy(['admission' => $this->currentAdmission, 'Faculty' => $item->getFaculty(), 'status' => $this->statusINDUCTED]));
-            $this->facultyPetitionCount[$item->getId()]['FISGIA'] = count($this->abiturientPetitionRepository->findBy(['admission' => $this->currentAdmission, 'Faculty' => $item->getFaculty(), 'LoadToFISGIA' => true]));
-            $counter++;
+            $counter = 0;
+            foreach ($this->currentAdmissionPlan as $item) {
+                $this->facultyPetitionCount[$item->getId()]['Admission'] = $this->currentAdmission;
+                $this->facultyPetitionCount[$item->getId()]['Faculty'] = $item->getFaculty();
+                $this->facultyPetitionCount[$item->getId()]['Rejected'] = count($this->abiturientPetitionRepository->findBy(['admission' => $this->currentAdmission, 'Faculty' => $item->getFaculty(), 'status' => $this->statusREJECTED]));
+                $this->facultyPetitionCount[$item->getId()]['Registred'] = count($this->abiturientPetitionRepository->findBy(['admission' => $this->currentAdmission, 'Faculty' => $item->getFaculty(), 'status' => $this->statusREGISTRED]));
+                $this->facultyPetitionCount[$item->getId()]['Origins'] = count($this->abiturientPetitionRepository->findBy(['admission' => $this->currentAdmission, 'Faculty' => $item->getFaculty(), 'documentObtained' => true]));
+                $this->facultyPetitionCount[$item->getId()]['PetitionCount'] = $item->getFaculty()->getAbiturientPetitions()->count();
+                $this->facultyPetitionCount[$item->getId()]['Enroll'] = count($this->abiturientPetitionRepository->findBy(['admission' => $this->currentAdmission, 'Faculty' => $item->getFaculty(), 'status' => $this->statusRECOMMENDED]));
+                $this->facultyPetitionCount[$item->getId()]['Induct'] = count($this->abiturientPetitionRepository->findBy(['admission' => $this->currentAdmission, 'Faculty' => $item->getFaculty(), 'status' => $this->statusINDUCTED]));
+                $this->facultyPetitionCount[$item->getId()]['FISGIA'] = count($this->abiturientPetitionRepository->findBy(['admission' => $this->currentAdmission, 'Faculty' => $item->getFaculty(), 'LoadToFISGIA' => true]));
+                $counter++;
+            }
+        } else {
+            $this->facultyPetitionCount = [];
+
         }
     }
 
@@ -127,6 +135,7 @@ class AdmissionDashboard extends AbstractController
     {
         return $this->render('admission_dashboard/admission_dashboard.html.twig',
             [
+                'HaveAdmission'=> $this->HaveAddmission,
                 'facultyPetitionCount' => $this->facultyPetitionCount,
                 'SummaryMetricReport' => $this->SummaryMetricReport,
                 'ToLoad' => $this->ToLoad,

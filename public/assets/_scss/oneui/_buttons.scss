@@ -40,6 +40,8 @@
 
 // Alternate secondary adapts on dark header/sidebar
 .page-header-dark #page-header .btn-alt-secondary,
-.sidebar-dark #sidebar .btn-alt-secondary {
+.sidebar-dark #sidebar .btn-alt-secondary,
+html.dark #page-header .btn-alt-secondary,
+html.dark #sidebar .btn-alt-secondary {
   @include button-variant(lighten($primary-darker, 5%), lighten($primary-darker, 5%), $white, darken($primary-darker, 5%), darken($primary-darker, 5%), $white);
 }

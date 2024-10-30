@@ -83,6 +83,9 @@ $spacers: (
 $body-bg:                   $white !default;
 $body-color:                $gray-900 !default;
 
+$body-bg-dark:              darken($light, 4.5%) !default;
+$body-color-dark:           shade-color($body-color, 8%) !default;
+
 
 // Links
 //

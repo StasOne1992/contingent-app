@@ -4,49 +4,38 @@
 // Overwrite/Extend styles
 // --------------------------------------------------
 
-table.dataTable {
-  &.table-striped > tbody > tr.odd > * {
+table.table.dataTable {
+  &.table-striped > tbody > tr:nth-of-type(2n+1) > * {
     box-shadow: inset 0 0 0 9999px lighten($light, 3.5%);
   }
 
-  td,
-  th {
-    box-sizing: border-box;
+  & thead > tr > th.dt-orderable-asc:hover,
+  & thead > tr > th.dt-orderable-desc:hover,
+  & thead > tr > td.dt-orderable-asc:hover,
+  & thead > tr > td.dt-orderable-desc:hover {
+    outline: none;
   }
 
   thead > tr {
-    > th.sorting_asc,
-    > th.sorting_desc,
-    > th.sorting,
-    > td.sorting_asc,
-    > td.sorting_desc,
-    > td.sorting {
-      padding-right: 1.25rem;
-    }
-
-    > th.sorting:before,
-    > th.sorting_asc:before,
-    > th.sorting_desc:before,
-    > th.sorting_asc_disabled:before,
-    > th.sorting_desc_disabled:before,
-    > td.sorting:before,
-    > td.sorting_asc:before,
-    > td.sorting_desc:before,
-    > td.sorting_asc_disabled:before,
-    > td.sorting_desc_disabled:before {
+    > th.dt-orderable-asc span.dt-column-order:before,
+    > th.dt-orderable-desc span.dt-column-order:before, 
+    > th.dt-ordering-asc span.dt-column-order:before, 
+    > th.dt-ordering-desc span.dt-column-order:before,
+    > td.dt-orderable-asc span.dt-column-order:before,
+    > td.dt-orderable-desc span.dt-column-order:before,
+    > td.dt-ordering-asc span.dt-column-order:before,
+    > td.dt-ordering-desc span.dt-column-order:before {
       display: none;
     }
     
-    > th.sorting:after,
-    > th.sorting_asc:after,
-    > th.sorting_desc:after,
-    > th.sorting_asc_disabled:after,
-    > th.sorting_desc_disabled:after,
-    > td.sorting:after, 
-    > td.sorting_asc:after,
-    > td.sorting_desc:after,
-    > td.sorting_asc_disabled:after,
-    > td.sorting_desc_disabled:after {
+    > th.dt-orderable-asc span.dt-column-order:after, 
+    > th.dt-orderable-desc span.dt-column-order:after, 
+    > th.dt-ordering-asc span.dt-column-order:after, 
+    > th.dt-ordering-desc span.dt-column-order:after,
+    > td.dt-orderable-asc span.dt-column-order:after,
+    > td.dt-orderable-desc span.dt-column-order:after,
+    > td.dt-ordering-asc span.dt-column-order:after,
+    > td.dt-ordering-desc span.dt-column-order:after {
       right: .375rem;
       margin-top: -0.25rem;
       font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro";
@@ -54,26 +43,27 @@ table.dataTable {
       opacity: .4;
     }
 
-    > th.sorting:after {
+    > th.dt-orderable-asc span.dt-column-order:after,
+    > th.dt-orderable-dec span.dt-column-order:after {
       content: "\f0dc";
     }
 
-    > th.sorting_asc:after {
+    > th.dt-ordering-asc span.dt-column-order:after {
       content: "\f106";
     }
 
-    > th.sorting_desc:after {
+    > th.dt-ordering-desc span.dt-column-order:after {
       content: "\f107";
     }
   }
 }
 
-div.dataTables_wrapper div.dataTables_paginate ul.pagination {
-  margin-top: .75rem;
-  justify-content: center;
+.dt-container.dt-bootstrap5 > div.row.mt-2:first-child {
+  margin-top: 0 !important;
+}
 
-  @include media-breakpoint-up(md) {
-    margin-top: .125rem;
-    justify-content: flex-end;
+@include media-breakpoint-down(md) {
+  div.dt-container div.dt-search input {
+    margin-left: 0 !important;
   }
 }

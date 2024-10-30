@@ -311,8 +311,10 @@
 .nav-main-dark,
 .sidebar-dark #sidebar,
 .page-header-dark #page-header,
-.dark-mode #side-overlay,
-.dark-mode #main-container {
+html.dark #sidebar,
+html.dark #page-header,
+html.dark #side-overlay,
+html.dark #main-container {
   // Headings
   .nav-main-heading {
     color: darken($body-bg-dark, 35%);
@@ -382,7 +384,9 @@
   .nav-main-dark.nav-main-horizontal,
   .sidebar-dark #sidebar .nav-main-horizontal,
   .page-header-dark #page-header .nav-main-horizontal,
-  .dark-mode #main-container .nav-main-horizontal {
+  html.dark #sidebar .nav-main-horizontal,
+  html.dark #page-header .nav-main-horizontal,
+  html.dark #main-container .nav-main-horizontal {
     .nav-main-submenu {
       background-color: darken($primary-darker, 3%) !important;
       box-shadow: none;

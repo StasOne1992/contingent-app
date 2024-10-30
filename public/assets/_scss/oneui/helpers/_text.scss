@@ -48,7 +48,9 @@
 @include text-emphasis-variant(".text-dual", $primary-dark);
 
 .page-header-dark #page-header,
-.sidebar-dark #sidebar {
+.sidebar-dark #sidebar,
+html.dark #page-header,
+html.dark #sidebar {
   @include text-emphasis-variant(".text-dual", $body-color-light);
 }
 
