@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class AccessSystemControl
 {
     #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;

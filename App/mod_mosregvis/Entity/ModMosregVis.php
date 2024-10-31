@@ -11,6 +11,7 @@ use FontLib\Table\Type\name;
 class ModMosregVis
 {
     #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;

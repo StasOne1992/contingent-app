@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class EducationForm
 {
     #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
