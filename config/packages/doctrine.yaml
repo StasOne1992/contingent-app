@@ -37,6 +37,11 @@ doctrine:
                 dir: '%kernel.project_dir%/App/mod_admission/Entity'
                 prefix: 'App\mod_admission\Entity'
                 alias: mod_admission
+            mod_events:
+                is_bundle: false
+                dir: '%kernel.project_dir%/App/mod_events/Entity'
+                prefix: 'App\mod_events\Entity'  
+                alias: mod_events
             global:
                 is_bundle: false
                 dir: '%kernel.project_dir%/App/Global/Entity'

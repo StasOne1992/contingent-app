@@ -12,6 +12,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class PetitionToSiteService
 {
+    private ?\App\mod_admission\Entity\Admission $currentAdmission;
+
     public function __construct(
         private HttpClientInterface                $client,
         private AbiturientPetitionRepository       $abiturientPetitionRepository,
@@ -84,9 +86,6 @@ class PetitionToSiteService
         if ($statusCode !== 200) {
             throw new Exception('Ошибка отправки запроса. Код ошибки:  ' . $response->getStatusCode() . ' ' . $response->getContent());
         }
-
     }
-
-
 }
 

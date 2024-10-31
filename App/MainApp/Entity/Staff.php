@@ -44,7 +44,7 @@ class Staff
 
     #[ORM\ManyToMany(targetEntity: EventsList::class, mappedBy: 'EventResponsible')]
     private Collection $eventsLists;
-
+    
     #[ORM\ManyToMany(targetEntity: College::class, inversedBy: 'staff')]
     private Collection $College;
 
