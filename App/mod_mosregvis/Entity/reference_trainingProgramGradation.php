@@ -14,7 +14,6 @@ class reference_trainingProgramGradation
 
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
-    #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
     #[ORM\Column(length: 255)]
