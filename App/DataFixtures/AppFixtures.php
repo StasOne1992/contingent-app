@@ -24,9 +24,8 @@ class AppFixtures extends Fixture
 
 
     public function __construct(
-        UserPasswordHasherInterface $passwordHasher,
         UserPasswordHasherInterface $userPasswordHasher,
-        private HttpClientInterface $client,
+        private readonly HttpClientInterface $client,
     )
     {
         $this->userPasswordHasher = $userPasswordHasher;
@@ -35,9 +34,11 @@ class AppFixtures extends Fixture
     /**
      * @inheritDoc
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager):void
     {
+
         $college = new College();
+
         $college->setname("demo college");
         $college->setEmail("college@example.com");
         $college->setShortName("college");
@@ -183,7 +184,9 @@ class AppFixtures extends Fixture
 
 
         $manager->flush();
+
     }
 
+    
 
 }

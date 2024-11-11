@@ -91,7 +91,6 @@ class College
     public function setname(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
