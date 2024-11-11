@@ -32,10 +32,9 @@ class DashboardController extends AbstractController
             $this->groups = [];
         }
         //$backgroudMessage->push('toast-notify', 'success', ' fa fa-check me-1 ', 'БЛОКИРОВКА. Заявление не доступно для изменения', "2123124124");
-        return $this->render('dashboard/index.html.twig',
-            [
-                'groups'=>$this->groups
-            ]);
+        return $this->render('dashboard/index.html.twig', [
+            'groups'=>$this->groups
+        ]);
     }
 
 }

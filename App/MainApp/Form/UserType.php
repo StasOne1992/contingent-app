@@ -7,6 +7,7 @@ use App\MainApp\Entity\User;
 use App\MainApp\Repository\RolesRepository;
 use App\MainApp\Repository\UserRepository;
 use App\mod_education\Entity\Student;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
@@ -22,8 +23,11 @@ class UserType extends AbstractType
 {
     public function __construct(RolesRepository $rolesRepository, UserRepository $userRepository)
     {
-        foreach ($rolesRepository->findAllActiveAsArray() as $role) {
-            $this->sysroles[$role['Name']] = $role['RoleName'];
+        try {
+            foreach ($rolesRepository->findAllActiveAsArray() as $role) {
+                $this->sysroles[$role['Name']] = $role['RoleName'];
+            }
+        } catch (NonUniqueResultException $e) {
         }
         $this->UserRepo = $userRepository;
     }

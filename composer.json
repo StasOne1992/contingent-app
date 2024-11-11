@@ -29,7 +29,6 @@
         "symfony/framework-bundle": "7.*",
         "symfony/http-client": "7.*",
         "symfony/intl": "7.*",
-        "symfony/uid": "7.*",
         "symfony/mailer": "7.*",
         "symfony/mercure-bundle": "^0.3.7",
         "symfony/messenger": "7.*",
@@ -46,6 +45,7 @@
         "symfony/string": "7.*",
         "symfony/translation": "7.*",
         "symfony/twig-bundle": "7.*",
+        "symfony/uid": "7.*",
         "symfony/validator": "7.*",
         "symfony/web-link": "7.*",
         "symfony/webpack-encore-bundle": "2.*",
@@ -96,12 +96,12 @@
         ]
     },
     "conflict": {
-        "symfony/symfony": "7.0.*"
+        "symfony/symfony": "7.1.*"
     },
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "7.0.*"
+            "require": "7.1.*"
         }
     },
     "require-dev": {

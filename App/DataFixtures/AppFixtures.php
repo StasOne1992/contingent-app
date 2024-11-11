@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\MainApp\Entity\College;
 use App\MainApp\Entity\Gender;
+use App\MainApp\Entity\Roles;
 use App\MainApp\Entity\Staff;
 use App\MainApp\Entity\User;
 use App\mod_admission\Entity\AbiturientPetitionStatus;
@@ -165,11 +166,21 @@ class AppFixtures extends Fixture
         $manager->persist($faculty);*/
 
 
-        $studentGroup = new StudentGroups();
-        $studentGroup->setGroupLeader($staff_admin);
-        $studentGroup->setCourseNumber(1);
-        $studentGroup->setParallelNumber(1);
-        $manager->persist($studentGroup);
+        $studentGroup1 = new studentGroups();
+        $studentGroup1->setGroupLeader($staff_admin);
+        $studentGroup1->setCourseNumber(1);
+        $studentGroup1->setParallelNumber(1);
+        $studentGroup1->setName("demoGroup 1");
+        $studentGroup1->setCode("gr-d-1");
+        $manager->persist($studentGroup1);
+
+        $studentGroup2 = new studentGroups();
+        $studentGroup2->setGroupLeader($staff_admin);
+        $studentGroup2->setCourseNumber(1);
+        $studentGroup2->setParallelNumber(2);
+        $studentGroup2->setName("demoGroup 2");
+        $studentGroup2->setCode("gr-d-2");
+        $manager->persist($studentGroup2);
 
 
         $user = new User();
@@ -180,7 +191,42 @@ class AppFixtures extends Fixture
         $user->setPassword($hashedPassword);
         $user->setIsStudent(false);
         $user->setRoles(array("ROLE_ROOT"));
+        $user->setStaff($staff_admin);
         $manager->persist($user);
+
+
+        /***
+         * SystemRoles
+         */
+
+
+        $SystemRoles = [["Модератор системы", "ROLE_ADMIN"],
+            ["Классный руководитель", "ROLE_CL"],
+            ["Студент", "ROLE_STUDENT"],
+            ["ROOT", "ROLE_ROOT"],
+            ["Зам по УР", "ROLE_ZAM_UR"],
+            ["Студент: Чтение", "ROLE_STAFF_STUDENT_R"],
+            ["Студент: Удаление", "ROLE_STAFF_STUDENT_D"],
+            ["Студент: Создание", "ROLE_STAFF_STUDENT_C"],
+            ["Студент: Импорт", "ROLE_STAFF_STUDENT_IMP"],
+            ["Абитуриенту. Заявление: Создание", "ROLE_STAFF_AB_PETITIONS_C"],
+            ["Абитуриенту. Заявление: Чтение", "ROLE_STAFF_AB_PETITIONS_R"],
+            ["Абитуриенту. Заявление: Обновлени", "ROLE_STAFF_AB_PETITIONS_U"],
+            ["Абитуриенту. Заявление: Удаление", "ROLE_STAFF_AB_PETITIONS_D"],
+            ["Абитуриенту. Взаимодействие с ВИС Прием в ПОО МО", "ROLE_STAFF_AB_PETITIONS_VIS"],
+            ["Абитуриенту. Ответственный секретарь", "ROLE_STAFF_AB_PETITIONS_FULL"],
+            ["Студент: Редактирование", "ROLE_STAFF_STUDENT_U"]];
+        foreach ($SystemRoles as $item)
+        {
+            $role = new Roles();
+            $role->setName($item[0]);
+            $role->setRoleName($item[1]);
+            $role->setStatus(true);
+            $manager->persist($role);
+        }
+
+
+
 
 
         $manager->flush();

@@ -6,6 +6,8 @@
 parameters:
   studentphotodir: "%kernel.project_dir/public/uploads/student_photos"
   student_import_directory: '%kernel.project_dir%/public/tmp/import/students'
+  router.request_context.scheme: 'https'
+  asset.request_context.secure: true
 
 
 services:
