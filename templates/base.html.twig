@@ -118,7 +118,6 @@
                 <div class="block-header bg-secondary">
                     <h1> </h1>
                     <div class="block-options">
-
                         {% block topmenu_items %}
                         {% endblock %}
                     </div>
@@ -150,7 +149,6 @@
 </div>
 
 
-</div>
 <!-- END Page Container -->
 
 <!--
@@ -159,18 +157,12 @@
     Core libraries and functionality
     webpack is putting everything together at assets/_js/main/app.js
 -->
+<script src="/assets/js/oneui.app.min.js"></script>
+
+<!-- jQuery (required for BS Datepicker + BS Maxlength + Select2 + Masked Inputs + Ion Range Slider plugins) -->
+<script src="/assets/js/lib/jquery.min.js"></script>
 
 <!-- Page JS Plugins -->
-
-<!-- Charts  -->
-<script src="/assets/js/plugins/chart.js/chart.umd.js"></script>
-<!-- End Charts -->
-
-<!-- Bootstrap Notify -->
-<script src="/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
-<!-- End Bootstrap Notify -->
-
-<!--Form Plugins-->
 <script src="/assets/js/plugins/flatpickr/flatpickr.min.js"></script>
 <script src="/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <script src="/assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
@@ -178,42 +170,13 @@
 <script src="/assets/js/plugins/jquery.maskedinput/jquery.maskedinput.min.js"></script>
 <script src="/assets/js/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
 <script src="/assets/js/plugins/dropzone/min/dropzone.min.js"></script>
-<script src="/assets/js/plugins/ckeditor5-classic/build/ckeditor.js"></script>
-<!--End Form Plugins -->
 
-<!--slick-carousel-->
-<script src="/assets/js/plugins/slick-carousel/slick.min.js"></script>
-<!--END slick-carousel-->
-
-<!-- DataTable -->
-<script src="/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/assets/js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js"></script>
-<script src="/assets/js/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="/assets/js/plugins/datatables-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
-<script src="/assets/js/plugins/datatables-buttons/dataTables.buttons.min.js"></script>
-<script src="/assets/js/plugins/datatables-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
-<script src="/assets/js/plugins/datatables-buttons-jszip/jszip.min.js"></script>
-<script src="/assets/js/plugins/datatables-buttons-pdfmake/pdfmake.min.js"></script>
-<script src="/assets/js/plugins/datatables-buttons-pdfmake/vfs_fonts.js"></script>
-<script src="/assets/js/plugins/datatables-buttons/buttons.print.min.js"></script>
-<script src="/assets/js/plugins/datatables-buttons/buttons.html5.min.js"></script>
-
-<!-- End DataTable -->
-
-
-<script src="/assets/js/plugins/easy-pie-chart/jquery.easypiechart.min.js"></script>
-<script src="/assets/js/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
-
-<script src="/assets/js/oneui.app.min.js"></script>
-
-<script>
-    One.helpersOnLoad(['js-flatpickr', 'jq-datepicker', 'jq-notify', 'jq-maxlength', 'jq-select2', 'jq-masked-inputs', 'jq-rangeslider', 'jq-slick', 'js-ckeditor5']);
-
-</script>
+<!-- Page JS Helpers (Flatpickr + BS Datepicker + BS Maxlength + Select2 + Masked Inputs + Ion Range Slider plugins) -->
+<script>One.helpersOnLoad(['js-flatpickr', 'jq-datepicker', 'jq-maxlength', 'jq-select2', 'jq-masked-inputs', 'jq-rangeslider']);</script>
 
 <script>
 
-    var timer;
+    let timer;
 
     function hideProgressBar() {
         document.getElementById('pbmain').setAttribute("style", 'width:0%');
@@ -225,7 +188,7 @@
     eventSource.onmessage = event => {
         clearTimeout(timer);
         // Will be called every time an update is published by the server
-        var message = JSON.parse(event.data);
+        let message = JSON.parse(event.data);
         /* One.helpers('jq-notify', {
              type: message.type,
              from: 'bottom',
@@ -240,7 +203,7 @@
         // console.log(JSON.parse(event.data));
         document.getElementById('pbmain_div').classList.remove('d-none');
         document.getElementById('pbmain_div').classList.add('d-block');
-        var progressbar = document.getElementById('pbmain');
+        let progressbar = document.getElementById('pbmain');
         progressbar.setAttribute("style", 'width: 100%');
         progressbar.innerHTML = '<b> Фоновая задача: ' + message.header + ' ' + message.message + '</b>';
         timer = setTimeout(hideProgressBar, 5000);
@@ -250,10 +213,10 @@
 
 
 <script>
-    //    One.helpers('jq-notify', {from: 'bottom', message: 'Your message!'});
+    //One.helpers('jq-notify', {from: 'bottom', message: 'Your message!'});
     const ToastNotify = new EventSource("{{ mercure('toast-notify')|escape('js') }}");
     ToastNotify.onmessage = event => {
-        var message = JSON.parse(event.data);
+        let message = JSON.parse(event.data);
         One.helpers('jq-notify', {
             type: message.type,
             from: 'bottom',
@@ -266,7 +229,7 @@
 </script>
 <script>
 
-    !(function () {
+ /*   !(function () {
         class e {
             static initDataTables() {
                 jQuery.extend(jQuery.fn.DataTable.ext.classes,
@@ -342,7 +305,7 @@
         }
 
         One.onLoad(() => e.init());
-    })();
+    })();*/
 </script>
 
 

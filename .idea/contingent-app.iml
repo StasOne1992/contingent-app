@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests/MainApp" isTestSource="true" packagePrefix="MainApp\Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/tests/StudentApp" isTestSource="true" packagePrefix="StudentApp\Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/behat/transliterator" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />

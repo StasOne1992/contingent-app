@@ -81,7 +81,7 @@ class EducationType
     }
     public function __toString(): string
     {
-     return $this->Name;
+     return $this->title;
     }
 
     public function getTitle(): ?string
