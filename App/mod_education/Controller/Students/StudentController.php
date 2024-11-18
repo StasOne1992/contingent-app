@@ -80,11 +80,16 @@ class StudentController extends AbstractController
     public function new(Request $request, StudentRepository $studentRepository): Response
     {
         $student = new Student();
+        $person= new Person();
+        $person->setBirthDate(date_create('1900-01-01'));
+        $student->setPerson($person);
         $form = $this->createForm(StudentType::class, $student);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $student->setUUID(uniqid());
+            $this->em->persist($person);
+            $this->em->flush();
             $studentRepository->save($student, true);
             return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
         }

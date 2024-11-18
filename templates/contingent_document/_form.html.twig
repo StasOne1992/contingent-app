@@ -49,7 +49,7 @@
                     </div>
                 </div>
             </div>
-            <div class="block-content">
+            < class="block-content">
                 <table class="table table-bordered table-striped table-vcenter js-dataTable-responsive">
                     <thead>
                     <tr>
@@ -96,11 +96,10 @@
                                                     </button>
                                                 </div>
                                             </form>
-                                            <div id="succsess-{{ element.id }}" class="d-none">
-
-                                            </div>
+                                            <div id="succsess-{{ element.id }}" class="d-none"></div>
                                         </div>
                                     </div>
+                                </div>
                                     <script type="text/javascript">
 
                                         $("#btn-{{ element.id }}").on("click", function () {
@@ -108,8 +107,8 @@
                                             console.log($("#frm-{{ element.id }}"));
                                             $("#frm-{{ element.id }}").submit(function(e) {
                                                 e.preventDefault(); // avoid to execute the actual submit of the form.
-                                                var form = $(this);
-                                                var actionUrl = form.attr('action');
+                                                let form = $(this);
+                                                let actionUrl = form.attr('action');
                                                 console.log(form);
                                                 console.log(actionUrl);
                                                 $.ajax({
@@ -118,9 +117,9 @@
                                                     data: form.serialize(), // serializes the form's elements.
                                                     success: function(data)
                                                     {
-                                                        var frm=document.getElementById("frm-{{ element.id }}");
-                                                        var div=document.getElementById("succsess-{{ element.id }}");
-                                                        var labelstd=document.getElementById("labelstd-{{ element.id }}");
+                                                        let frm = document.getElementById("frm-{{ element.id }}");
+                                                        let div = document.getElementById("succsess-{{ element.id }}");
+                                                        let labelstd = document.getElementById("labelstd-{{ element.id }}");
                                                         frm.classList.add('d-none');
                                                         div.classList.remove('d-none');
                                                         labelstd.classList.add('d-none');
@@ -146,11 +145,9 @@
                     {% endfor %}
                     </tbody>
                 </table>
-
             </div>
         </div>
     </div>
-</div>
 
 
 <!-- Extra Large Block Modal -->
@@ -198,7 +195,7 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                        <button class="btn btn-outline-primary" type="submit ">Добавить в список</button>
+                        <button class="btn btn-outline-primary" type="submit">Добавить в список</button>
                     </form>
                 </div>
             </div>

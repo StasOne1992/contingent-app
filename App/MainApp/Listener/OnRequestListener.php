@@ -33,18 +33,19 @@ class OnRequestListener
                 foreach ($user->getStaff()->getStudentGroups()->getValues() as $group) {
                     $groups[] = (int)$group->getId();
                 }
-                $filter = $this->em->getFilters()->enable('studentFilter');
-                $filter->setParameter('userRole', implode(',', $user->getRoles()));
-                $filter->setParameter('userGroup', implode(",",$groups));
+                $studentFilter = $this->em->getFilters()->enable('studentFilter');
+                $studentFilter->setParameter('userRole', implode(',', $user->getRoles()));
+                $studentFilter->setParameter('userGroup', implode(",",$groups));
 
-                $filter1 = $this->em->getFilters()->enable('studentGroupFilter');
-                $filter1->setParameter('userRole', implode(',', $user->getRoles()));
-                $filter1->setParameter('userGroup', implode(",",$groups));
+                $studentGroupFilter = $this->em->getFilters()->enable('studentGroupFilter');
+                $studentGroupFilter->setParameter('userRole', implode(',', $user->getRoles()));
+                $studentGroupFilter->setParameter('userGroup', implode(",",$groups));
+
 
                 /***
                  * @var StudentGroups $group
                  */
-                $studentID=array();
+                $studentID=[];
                 foreach ($user->getStaff()->getStudentGroups() as $group)
                 {
                     foreach ($group->getStudents() as $student)
@@ -52,9 +53,11 @@ class OnRequestListener
                         $studentID[]=$student->getId();
                     }
                 }
-                $filter2= $this->em->getFilters()->enable('EventsResultFilter');
-                $filter2->setParameter('userRole', implode(',', $user->getRoles()));
-                $filter2->setParameter('studentId',implode(",",$studentID));
+                if(count($studentID)> 0) {
+                    $EventsResultFilter = $this->em->getFilters()->enable('EventsResultFilter');
+                    $EventsResultFilter->setParameter('userRole', implode(',', $user->getRoles()));
+                    $EventsResultFilter->setParameter('studentId', implode(",", $studentID));
+                }
             }
         }
     }

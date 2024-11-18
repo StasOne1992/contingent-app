@@ -15,8 +15,10 @@ export default class Helpers {
    * Run helpers
    *
    */
+
   static run(helpers, options = {}) {
     let helperList = {
+
       // Bootstrap
       "bs-tooltip": () => this.bsTooltip(),
       "bs-popover": () => this.bsPopover(),
@@ -755,23 +757,23 @@ export default class Helpers {
     jQuery(".js-masked-date:not(.js-masked-enabled)").mask("99/99/9999");
     jQuery(".js-masked-date-dash:not(.js-masked-enabled)").mask("99-99-9999");
     jQuery(".js-masked-phone:not(.js-masked-enabled)").mask("(999) 999-9999");
-    jQuery(".js-masked-phone-ext:not(.js-masked-enabled)").mask(
-      "(999) 999-9999? x99999"
-    );
+    jQuery(".js-masked-phone-ext:not(.js-masked-enabled)").mask("(999) 999-9999? x99999");
     jQuery(".js-masked-taxid:not(.js-masked-enabled)").mask("99-9999999");
-    jQuery(".js-masked-ssn:not(.js-masked-enabled)").mask("999-99-9999");
+    jQuery(".js-masked-snils:not(.js-masked-enabled)").mask("999-999-999 99");
+    jQuery(".js-masked-ssn:not(.js-masked-enabled)").mask("999-99-99999");
     jQuery(".js-masked-pkey:not(.js-masked-enabled)").mask("a*-999-a999");
     jQuery(".js-masked-time:not(.js-masked-enabled)").mask("99:99");
 
     jQuery(".js-masked-date")
-      .add(".js-masked-date-dash")
-      .add(".js-masked-phone")
-      .add(".js-masked-phone-ext")
-      .add(".js-masked-taxid")
-      .add(".js-masked-ssn")
-      .add(".js-masked-pkey")
-      .add(".js-masked-time")
-      .addClass("js-masked-enabled");
+        .add(".js-masked-snils")
+        .add(".js-masked-date-dash")
+        .add(".js-masked-phone")
+        .add(".js-masked-phone-ext")
+        .add(".js-masked-taxid")
+        .add(".js-masked-ssn")
+        .add(".js-masked-pkey")
+        .add(".js-masked-time")
+        .addClass("js-masked-enabled");
   }
 
   /*

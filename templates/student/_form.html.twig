@@ -133,7 +133,7 @@
                                     <div class="col-12 col-md-6 mb-2">
                                         <div class="input-group">
                                             <span class="input-group-text">{{ form_label(form.PhoneNumber,'Телефон') }}</span>
-                                            {{ form_widget(form.PhoneNumber,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+                                            {{ form_widget(form.PhoneNumber,{ 'attr': {'class': 'js-masked-phone-rus js-maxlength form-control ','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
                                             {{ form_errors(form.PhoneNumber,{ 'attr': {'class': 'invalid-feedback'} }) }}
                                             <small>{{ form_help(form.PhoneNumber) }}</small>
                                         </div>
@@ -233,9 +233,9 @@
                             <div class="row">
                                 <div class="col-12 col-md-6">
                                     <div class="input-group">
-                                        <span class="input-group-text">{{ form_label(form.DocumentSnils,'СНИЛС') }}</span>
-                                        {{ form_widget(form.DocumentSnils,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
-                                        {{ form_errors(form.DocumentSnils,{ 'attr': {'class': 'invalid-feedback'} }) }}
+                                        <span class="input-group-text">{{ form_label(form.DocumentSnils) }}</span>
+                                        {{ form_widget(form.DocumentSnils) }}
+                                        {{ form_errors(form.DocumentSnils) }}
                                         <small>{{ form_help(form.DocumentSnils) }}</small>
                                     </div>
                                 </div>
@@ -306,7 +306,6 @@
                                             <th class="d-none d-xl-table-cell">Кто выдал</th>
                                             <th class="d-none d-xl-table-cell">Комментарий</th>
                                             <th class="">Действия</th>
-
                                             </thead>
                                             <tbody>
                                             {% for presonaldoc in student.personalDocuments %}
@@ -329,7 +328,6 @@
                                                     </td>
                                                 </tr>
                                             {% endfor %}
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -341,29 +339,7 @@
             </div>
         </div>
     </div>
-
-
     {{ form_row(form._token) }}
-
-    <div class="row">
-        <div class="col-12">
-            <div class="block block-rounded block-themed block-bordered">
-                <div class="block-header bg-secondary">
-                    <h3 class="block-title"></h3>
-                    <div class="block-options ">
-                        <button class="btn btn-outline-light">{% if buttonicon is defined %}<i
-                                class="fa-fw {{ buttonicon }}"></i> {% endif %}{{ button_label|default('Сохранить') }}
-                        </button>
-
-                        {% if canreset==1 %}
-                            <button type="reset" class="btn btn-alt-danger"><i
-                                        class="fa-regular fa-fw fa-eraser"></i> Очистить
-                            </button>{% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </form>
 {{ form_end(form) }}
+

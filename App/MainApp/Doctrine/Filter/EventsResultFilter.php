@@ -17,6 +17,7 @@ class EventsResultFilter extends SQLFilter
             $studentId = str_replace("'", "", $this->getParameter('studentId'));
             if ($targetEntity->getReflectionClass()->name == EventsResult::class) {
                 $filterString = $targetTableAlias . '.student_id in ('.$studentId.')';
+                dump($this,$targetTableAlias,$filterString);
             }
         }
 

@@ -92,7 +92,7 @@
                 {% if (groups|length)>2 %}
                 {% for group in groups %}
                     <div class="col">
-                        <a class="block block-bordered block-rounded block-link-shadow" href="javascript:void(0)">
+                        <a class="block block-bordered block-rounded block-link-shadow" href="{{ path('app_student_groups_show',{'id':group.getid()}) }}">
                             <div class="block-content block-content-full d-flex align-items-center justify-content-between">
                                 <div>
                                     <i class="fa fa-2x fa-people-group text-muted"></i>

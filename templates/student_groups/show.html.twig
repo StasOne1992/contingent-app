@@ -6,7 +6,7 @@
 {% block title %}
     {% if page_title is defined %} {{ page_title }} {% endif %}
 {% endblock %}
-
+{% set actions_menu=true %}
 {% block topmenu_items %}
     {{ parent() }}
     <a href="{{ path('app_student_groups_edit', {'id': student_group.id}) }}" type="button" class="btn btn-sm btn-primary">Редактировать</a>

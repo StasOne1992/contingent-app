@@ -147,10 +147,6 @@ class Student
         $this->eventsLists = new ArrayCollection();
         $this->eventsResults = new ArrayCollection();
         $this->studentPunishments = new ArrayCollection();
-        if (!$this->getPerson()) {
-            $this->person = new Person();
-            $this->person->setBirthDate(date_create('1900-01-01'));
-        }
     }
 
 

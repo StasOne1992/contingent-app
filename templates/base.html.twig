@@ -1,6 +1,9 @@
 {% if not topmenu is defined %}
     {% set topmenu = false %}
 {% endif %}
+{% if not actions_menu is defined %}
+    {% set actions_menu = false %}
+{% endif %}
 <!doctype html>
 <html lang="ru" class="remember-theme">
 <head>
@@ -111,23 +114,25 @@
 
             </div>
         </div>
-        <!-- END Hero -->
 
-        <div class=" ">
-            <div class="block  block-themed ">
+        <!-- END Hero -->
+        {% if actions_menu %}
+            <div class="fixed-bottom">
+                <div class="block mb-0 block-themed ">
                 <div class="block-header bg-secondary">
                     <h1> </h1>
                     <div class="block-options">
-
+                        <a class="btn btn-primary">SomeButtonTest</a>
                         {% block topmenu_items %}
                         {% endblock %}
                     </div>
                 </div>
             </div>
         </div>
+        {% endif %}
 
         <!-- Page Content -->
-        <div class="content pt-0">
+        <div class="content pt-3">
             <div class="progress d-none" id="pbmain_div" style="height: 50px">
                 <div id="pbmain"
                      class="progress-bar  progress-bar-striped progress-bar-animated bg-secondary text-light"
@@ -150,7 +155,6 @@
 </div>
 
 
-</div>
 <!-- END Page Container -->
 
 <!--
@@ -159,61 +163,27 @@
     Core libraries and functionality
     webpack is putting everything together at assets/_js/main/app.js
 -->
+<script src="/assets/js/oneui.app.min.js"></script>
+
+<!-- jQuery (required for BS Datepicker + BS Maxlength + Select2 + Masked Inputs + Ion Range Slider plugins) -->
+<script src="/assets/js/lib/jquery.min.js"></script>
 
 <!-- Page JS Plugins -->
-
-<!-- Charts  -->
-<script src="/assets/js/plugins/chart.js/chart.umd.js"></script>
-<!-- End Charts -->
-
-<!-- Bootstrap Notify -->
-<script src="/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
-<!-- End Bootstrap Notify -->
-
-<!--Form Plugins-->
 <script src="/assets/js/plugins/flatpickr/flatpickr.min.js"></script>
+
 <script src="/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <script src="/assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
 <script src="/assets/js/plugins/select2/js/select2.full.min.js"></script>
 <script src="/assets/js/plugins/jquery.maskedinput/jquery.maskedinput.min.js"></script>
 <script src="/assets/js/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
 <script src="/assets/js/plugins/dropzone/min/dropzone.min.js"></script>
-<script src="/assets/js/plugins/ckeditor5-classic/build/ckeditor.js"></script>
-<!--End Form Plugins -->
 
-<!--slick-carousel-->
-<script src="/assets/js/plugins/slick-carousel/slick.min.js"></script>
-<!--END slick-carousel-->
-
-<!-- DataTable -->
-<script src="/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/assets/js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js"></script>
-<script src="/assets/js/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="/assets/js/plugins/datatables-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
-<script src="/assets/js/plugins/datatables-buttons/dataTables.buttons.min.js"></script>
-<script src="/assets/js/plugins/datatables-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
-<script src="/assets/js/plugins/datatables-buttons-jszip/jszip.min.js"></script>
-<script src="/assets/js/plugins/datatables-buttons-pdfmake/pdfmake.min.js"></script>
-<script src="/assets/js/plugins/datatables-buttons-pdfmake/vfs_fonts.js"></script>
-<script src="/assets/js/plugins/datatables-buttons/buttons.print.min.js"></script>
-<script src="/assets/js/plugins/datatables-buttons/buttons.html5.min.js"></script>
-
-<!-- End DataTable -->
-
-
-<script src="/assets/js/plugins/easy-pie-chart/jquery.easypiechart.min.js"></script>
-<script src="/assets/js/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
-
-<script src="/assets/js/oneui.app.min.js"></script>
-
-<script>
-    One.helpersOnLoad(['js-flatpickr', 'jq-datepicker', 'jq-notify', 'jq-maxlength', 'jq-select2', 'jq-masked-inputs', 'jq-rangeslider', 'jq-slick', 'js-ckeditor5']);
-
-</script>
+<!-- Page JS Helpers (Flatpickr + BS Datepicker + BS Maxlength + Select2 + Masked Inputs + Ion Range Slider plugins) -->
+<script>One.helpersOnLoad(['js-flatpickr', 'jq-datepicker', 'jq-maxlength', 'jq-select2', 'jq-masked-inputs', 'jq-rangeslider']);</script>
 
 <script>
 
-    var timer;
+    let timer;
 
     function hideProgressBar() {
         document.getElementById('pbmain').setAttribute("style", 'width:0%');
@@ -225,7 +195,7 @@
     eventSource.onmessage = event => {
         clearTimeout(timer);
         // Will be called every time an update is published by the server
-        var message = JSON.parse(event.data);
+        let message = JSON.parse(event.data);
         /* One.helpers('jq-notify', {
              type: message.type,
              from: 'bottom',
@@ -240,7 +210,7 @@
         // console.log(JSON.parse(event.data));
         document.getElementById('pbmain_div').classList.remove('d-none');
         document.getElementById('pbmain_div').classList.add('d-block');
-        var progressbar = document.getElementById('pbmain');
+        let progressbar = document.getElementById('pbmain');
         progressbar.setAttribute("style", 'width: 100%');
         progressbar.innerHTML = '<b> Фоновая задача: ' + message.header + ' ' + message.message + '</b>';
         timer = setTimeout(hideProgressBar, 5000);
@@ -248,12 +218,39 @@
     }
 </script>
 
-
 <script>
-    //    One.helpers('jq-notify', {from: 'bottom', message: 'Your message!'});
+    var StickyElement = function (node) {
+        var doc = $(document),
+            fixed = false,
+            anchor = node.find('.sticky-anchor'),
+            content = node.find('.sticky-content');
+        var onScroll = function (e) {
+            var docTop = doc.scrollTop(),
+                anchorTop = anchor.offset().top;
+            if (docTop > anchorTop) {
+                if (!fixed) {
+                    anchor.height(content.outerHeight());
+                    content.addClass('fixed');
+                    fixed = true;
+                }
+            } else {
+                if (fixed) {
+                    anchor.height(0);
+                    content.removeClass('fixed');
+                    fixed = false;
+                }
+            }
+        };
+        $(window).on('scroll', onScroll);
+    };
+    var sticky = new StickyElement($('.sticky-element'));
+
+</script>
+<script>
+    //One.helpers('jq-notify', {from: 'bottom', message: 'Your message!'});
     const ToastNotify = new EventSource("{{ mercure('toast-notify')|escape('js') }}");
     ToastNotify.onmessage = event => {
-        var message = JSON.parse(event.data);
+        let message = JSON.parse(event.data);
         One.helpers('jq-notify', {
             type: message.type,
             from: 'bottom',
@@ -266,83 +263,83 @@
 </script>
 <script>
 
-    !(function () {
-        class e {
-            static initDataTables() {
-                jQuery.extend(jQuery.fn.DataTable.ext.classes,
-                    {
-                        sWrapper: "dataTables_wrapper dt-bootstrap5",
-                        sFilterInput: "form-control form-control-sm",
-                        sLengthSelect: "form-select form-select-sm"
-                    }),
-                    jQuery.extend(!0, jQuery.fn.DataTable.defaults, {
-                        language: {
-                            lengthMenu: "_MENU_",
-                            search: "_INPUT_",
-                            searchPlaceholder: "Поиск..",
-                            info: "Страница <strong>_PAGE_</strong> из <strong>_PAGES_</strong>",
-                            paginate: {
-                                first: '<i class="fa fa-angle-double-left"></i>',
-                                previous: '<i class="fa fa-angle-left"></i>',
-                                next: '<i class="fa fa-angle-right"></i>',
-                                last: '<i class="fa fa-angle-double-right"></i>'
-                            },
-                        },
-                    }),
-                    jQuery.extend(!0, jQuery.fn.DataTable.Buttons.defaults, {dom: {button: {className: "btn btn-sm btn-primary"}}}),
-                    jQuery(".js-dataTable-full").DataTable({
-                        pageLength: 25,
-                        lengthMenu: [
-                            [25, 35, 45, 55],
-                            [25, 35, 45, 55],
-                        ],
-                        autoWidth: !1,
-                    }),
-                    jQuery(".js-dataTable-full-pagination").DataTable({
-                        pagingType: "full_numbers",
-                        pageLength: 25,
-                        lengthMenu: [
-                            [25, 35, 45, 55],
-                            [25, 35, 45, 55],
-                        ],
-                        autoWidth: !1,
-                    }),
-                    jQuery(".js-dataTable-simple").DataTable({
-                        pageLength: 10,
-                        lengthMenu: !1,
-                        searching: !1,
-                        autoWidth: !1,
-                        dom: "<'row'<'col-sm-12'tr>><'row'<'col-sm-6'i><'col-sm-6'p>>"
-                    }),
-                    jQuery(".js-dataTable-buttons").DataTable({
-                        pageLength: 25,
-                        lengthMenu: [
-                            [25, 35, 45, 55],
-                            [25, 35, 45, 55],
-                        ],
-                        autoWidth: !1,
-                        buttons: ["copy", "csv", "excel", "pdf", "print"],
-                        dom: "<'row'<'col-sm-12'<'text-center bg-body-light py-2 mb-2'B>>><'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                    }),
-                    jQuery(".js-dataTable-responsive").DataTable({
-                        pagingType: "full_numbers",
-                        pageLength: 25,
-                        lengthMenu: [
-                            [25, 35, 45, 55],
-                            [25, 35, 45, 55],
-                        ],
-                        autoWidth: !1,
-                        responsive: !0,
-                    });
-            }
+    /*   !(function () {
+           class e {
+               static initDataTables() {
+                   jQuery.extend(jQuery.fn.DataTable.ext.classes,
+                       {
+                           sWrapper: "dataTables_wrapper dt-bootstrap5",
+                           sFilterInput: "form-control form-control-sm",
+                           sLengthSelect: "form-select form-select-sm"
+                       }),
+                       jQuery.extend(!0, jQuery.fn.DataTable.defaults, {
+                           language: {
+                               lengthMenu: "_MENU_",
+                               search: "_INPUT_",
+                               searchPlaceholder: "Поиск..",
+                               info: "Страница <strong>_PAGE_</strong> из <strong>_PAGES_</strong>",
+                               paginate: {
+                                   first: '<i class="fa fa-angle-double-left"></i>',
+                                   previous: '<i class="fa fa-angle-left"></i>',
+                                   next: '<i class="fa fa-angle-right"></i>',
+                                   last: '<i class="fa fa-angle-double-right"></i>'
+                               },
+                           },
+                       }),
+                       jQuery.extend(!0, jQuery.fn.DataTable.Buttons.defaults, {dom: {button: {className: "btn btn-sm btn-primary"}}}),
+                       jQuery(".js-dataTable-full").DataTable({
+                           pageLength: 25,
+                           lengthMenu: [
+                               [25, 35, 45, 55],
+                               [25, 35, 45, 55],
+                           ],
+                           autoWidth: !1,
+                       }),
+                       jQuery(".js-dataTable-full-pagination").DataTable({
+                           pagingType: "full_numbers",
+                           pageLength: 25,
+                           lengthMenu: [
+                               [25, 35, 45, 55],
+                               [25, 35, 45, 55],
+                           ],
+                           autoWidth: !1,
+                       }),
+                       jQuery(".js-dataTable-simple").DataTable({
+                           pageLength: 10,
+                           lengthMenu: !1,
+                           searching: !1,
+                           autoWidth: !1,
+                           dom: "<'row'<'col-sm-12'tr>><'row'<'col-sm-6'i><'col-sm-6'p>>"
+                       }),
+                       jQuery(".js-dataTable-buttons").DataTable({
+                           pageLength: 25,
+                           lengthMenu: [
+                               [25, 35, 45, 55],
+                               [25, 35, 45, 55],
+                           ],
+                           autoWidth: !1,
+                           buttons: ["copy", "csv", "excel", "pdf", "print"],
+                           dom: "<'row'<'col-sm-12'<'text-center bg-body-light py-2 mb-2'B>>><'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                       }),
+                       jQuery(".js-dataTable-responsive").DataTable({
+                           pagingType: "full_numbers",
+                           pageLength: 25,
+                           lengthMenu: [
+                               [25, 35, 45, 55],
+                               [25, 35, 45, 55],
+                           ],
+                           autoWidth: !1,
+                           responsive: !0,
+                       });
+               }
 
-            static init() {
-                this.initDataTables();
-            }
-        }
+               static init() {
+                   this.initDataTables();
+               }
+           }
 
-        One.onLoad(() => e.init());
-    })();
+           One.onLoad(() => e.init());
+       })();*/
 </script>
 
 

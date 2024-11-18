@@ -1,4 +1,12 @@
 {{ form_start(form) }}
+<div class="input-group">
+    <span class="input-group-text">{{ form_label(form.DateStart) }}</span>
+    {{ form_widget(form.DateStart,{ 'attr': {'class': 'js-maxlength form-select js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+    {{ form_errors(form.DateStart,{ 'attr': {'class': 'invalid-feedback'} }) }}
+    <small>{{ form_help(form.DateStart) }}</small>
+</div>
+
     {{ form_widget(form) }}
+
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
