@@ -36,7 +36,7 @@
                                     <!-- Sign In Form -->
                                     <!-- jQuery Validation (.js-validation-signin class is initialized in js/pages/op_auth_signin.min.js which was auto compiled from _js/pages/op_auth_signin.js) -->
                                     <!-- For more info and examples you can check out https://github.com/jzaefferer/jquery-validation -->
-                                    <form id="auth-form" class="js-validation-signin" action="{{ path('app_sign_in') }}"
+                                    <form class="js-validation-signin" action="{{ path('app_sign_in') }}"
                                           method="POST" >
                                         <div class="py-3">
                                             <div class="mb-4">
@@ -96,50 +96,8 @@
     <!-- END Page Container -->
 
 
-
-
 {% endblock %}
 
 
-        {% block js %}
-            <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                    $("#auth-form").on
-                    ("submit", function (event) {
-                        event.preventDefault();
 
-                        var onSubmit = async () => {
-                            let result = await api_auth();
-                            if (result) {
-                                this.submit()
-                            } else alert('Ошибка авторизации в API')
-                        }
-                        onSubmit();
-                        return false;
-                    })
-                })
-
-                async function api_auth() {
-                    let username = $("#username").val()
-                    let password = $("#password").val()
-                    let result = false;
-                    try {
-                        const response = await fetch("/api/login/check",
-                            {
-                                method: "POST",
-                                headers: {'Content-Type': 'application/json'},
-                                body: `{"username":"${username}","password":"${password}"}`
-                            }).then(function (resp) {
-                            if (resp.status === 204) {
-                                result = true;
-                            }
-                        });
-                    } catch (e) {
-                        console.log(e)
-                        result = false;
-                    }
-                    return result;
-                }
-            </script>
-        {% endblock %}
 

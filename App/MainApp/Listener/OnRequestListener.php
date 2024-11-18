@@ -3,8 +3,7 @@
 namespace App\MainApp\Listener;
 
 use App\MainApp\Entity\User;
-use App\mod_education\Entity\StudentGroup;
-use App\mod_education\Repository\StudentGroupsRepository;
+use App\mod_education\Entity\StudentGroups;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
@@ -24,30 +23,19 @@ class OnRequestListener
 
     public function onKernelRequest(RequestEvent $event): void
     {
-
         if ($this->tokenStorage->getToken()) {
             /***
              * @var User $user
              */
             $user = $this->tokenStorage->getToken()->getUser();
-            $groups = array();
-            if (in_array('ROLE_ROOT', $user->getRoles()) || in_array('ROLE_ADMIN', $user->getRoles())) {
-                dump('RootGroupList');
-                foreach ($this->em->getRepository(StudentGroup::class)->findAll() as $group) {
-                    $groups[] = $group->getId();
+            if ($user->getStaff()) {
+                $groups = array();
+                foreach ($user->getStaff()->getStudentGroups()->getValues() as $group) {
+                    $groups[] = (int)$group->getId();
                 }
-            } else if (in_array('ROLE_USER', $user->getRoles()))  {
-                dump('UserGroupList');
-                if ($user->getStaff()) {
-                    foreach ($user->getStaff()->getStudentGroups()->getValues() as $group) {
-                        $groups[] = (int)$group->getId();
-                    }
-                }
-
                 $studentFilter = $this->em->getFilters()->enable('studentFilter');
-                $studentFilter->setParameter('userRole', $user->getRoles(), 'json');
-                $studentFilter->setParameter('userGroup', $groups, 'json');
-                dd($studentFilter);
+                $studentFilter->setParameter('userRole', implode(',', $user->getRoles()));
+                $studentFilter->setParameter('userGroup', implode(",",$groups));
 
                 $studentGroupFilter = $this->em->getFilters()->enable('studentGroupFilter');
                 $studentGroupFilter->setParameter('userRole', implode(',', $user->getRoles()));
@@ -55,7 +43,7 @@ class OnRequestListener
 
 
                 /***
-                 * @var StudentGroup $group
+                 * @var StudentGroups $group
                  */
                 $studentID=[];
                 foreach ($user->getStaff()->getStudentGroups() as $group)

@@ -18,18 +18,22 @@ class StudentFilter extends SQLFilter
             $userRoles = explode(',', $userRoles);
             $userGroup = str_replace("'", "", $this->getParameter('userGroup'));
             $filterString = "";
+
             if ($targetEntity->getReflectionClass()->name == Student::class) {
                 if (!(in_array('ROLE_ROOT', $userRoles) || in_array('ROLE_ADMIN', $userRoles)) && !($userGroup == "" || $userGroup == null)) {
                     $filterString = $targetTableAlias . '.student_group_id in (' . $userGroup . ')';
                 } elseif ($userGroup == "" || $userGroup == null) {
                     $filterString = $targetTableAlias . '.student_group_id in (0)';
                 } else {
-                    $filterString = '';
+                    return $filterString;
                 }
             }
+
             return $filterString;
         }
+
         return '';
+
     }
 
 }

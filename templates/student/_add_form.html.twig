@@ -29,7 +29,7 @@
                                 <div class="col-12  mb-2">
                                     <div class="">
                                         <span class="form-label">{{ form_label(form.MiddleName) }}</span>
-                                        {{ form_widget(form.MiddleName) }}
+                                        {{ form_widget(form.MiddleName,{ 'attr': {'class': 'js-maxlength form-control js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
                                         {{ form_errors(form.MiddleName,{ 'attr': {'class': 'invalid-feedback'} }) }}
                                         <small>{{ form_help(form.MiddleName) }}</small>
                                     </div>
