@@ -6,7 +6,7 @@ use App\MainApp\Entity\Gender;
 use App\mod_education\Entity\FamilyTypeList;
 use App\mod_education\Entity\HealthGroup;
 use App\mod_education\Entity\Student;
-use App\mod_education\Entity\StudentGroups;
+use App\mod_education\Entity\StudentGroup;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -46,6 +46,7 @@ class StudentType extends AbstractType
             ->add('MiddleName', TextType::class,
                 [
                     'label' => "Отчество",
+                    'required' => false,
                     'attr' => [
                         'class' => 'form-control ',
                         'required' => false]
@@ -114,7 +115,7 @@ class StudentType extends AbstractType
                 'placeholder' => 'Укажите учебную группу',
                 'empty_data' => null,
                 'required' => false,
-                'class' => StudentGroups::class))
+                'class' => StudentGroup::class))
             ->add('IsOrphan', CheckboxType::class, [
                 'label' => 'Сирота',
                 'required' => false,

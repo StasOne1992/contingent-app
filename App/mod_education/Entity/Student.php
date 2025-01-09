@@ -17,6 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Npub\Gos\Snils;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
 class Student
@@ -42,7 +43,7 @@ class Student
 
     private ?string $MiddleName = null;
 
-    private ?string $DocumentSnils = null;
+    private ?Snils $DocumentSnils = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $DocumentMedicalID = null;
@@ -53,10 +54,10 @@ class Student
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $AddressMain = null;
 
-    #[ORM\ManyToOne(inversedBy: 'students')]
+    #[ORM\ManyToOne(inversedBy: 'student')]
     private ?FamilyTypeList $FamilyTypeID = null;
 
-    #[ORM\ManyToOne(inversedBy: 'students')]
+    #[ORM\ManyToOne(inversedBy: 'student')]
     private ?HealthGroup $HealtgGroupID = null;
 
     #[ORM\OneToMany(mappedBy: 'StudentID', targetEntity: LegalRepresentative::class)]
@@ -68,7 +69,7 @@ class Student
     #[ORM\OneToMany(mappedBy: 'Student', targetEntity: PersonalDocuments::class)]
     private Collection $personalDocuments;
 
-    #[ORM\ManyToOne(inversedBy: 'students')]
+    #[ORM\ManyToOne(inversedBy: 'student')]
     private ?Gender $Gender = null;
 
     #[ORM\Column(nullable: true)]
@@ -80,8 +81,8 @@ class Student
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $Photo = null;
 
-    #[ORM\ManyToOne(inversedBy: 'students')]
-    private ?StudentGroups $StudentGroup = null;
+    #[ORM\ManyToOne(inversedBy: 'student')]
+    private ?StudentGroup $StudentGroup = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $IsOrphan = null;
@@ -116,7 +117,7 @@ class Student
     #[ORM\ManyToMany(targetEntity: ContingentDocument::class, mappedBy: 'student')]
     private Collection $contingentDocuments;
 
-    #[ORM\ManyToOne(inversedBy: 'students')]
+    #[ORM\ManyToOne(inversedBy: 'student')]
     private ?AbiturientPetition $AbiturientPetition = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -132,6 +133,25 @@ class Student
     private ?bool $isLiveStudentAccommondation = null;
 
     private ?bool $punishmentStatus;
+
+
+    private StudentService $studentService;
+
+    #[ORM\OneToMany(mappedBy: 'Student', targetEntity: LoginValues::class)]
+    private Collection $loginValues;
+
+    #[ORM\ManyToMany(targetEntity: \App\mod_events\Entity\EventsList::class, mappedBy: 'EventParticipant')]
+    private Collection $eventsLists;
+
+    #[ORM\OneToMany(mappedBy: 'Student', targetEntity: EventsResult::class)]
+    private Collection $eventsResults;
+
+    #[ORM\OneToMany(mappedBy: 'Student', targetEntity: StudentPunishment::class)]
+    private Collection $studentPunishments;
+
+    #[ORM\ManyToOne(inversedBy: 'student')]
+    private ?Person $person = null;
+
 
     public function __construct()
     {
@@ -154,22 +174,6 @@ class Student
     {
         return get_object_vars($this);
     }
-    private StudentService $studentService;
-
-    #[ORM\OneToMany(mappedBy: 'Student', targetEntity: LoginValues::class)]
-    private Collection $loginValues;
-
-    #[ORM\ManyToMany(targetEntity: \App\mod_events\Entity\EventsList::class, mappedBy: 'EventParticipant')]
-    private Collection $eventsLists;
-
-    #[ORM\OneToMany(mappedBy: 'Student', targetEntity: EventsResult::class)]
-    private Collection $eventsResults;
-
-    #[ORM\OneToMany(mappedBy: 'Student', targetEntity: StudentPunishment::class)]
-    private Collection $studentPunishments;
-
-    #[ORM\ManyToOne(inversedBy: 'student')]
-    private ?Person $person = null;
 
     public function getId(): ?int
     {
@@ -275,12 +279,12 @@ class Student
         return $this;
     }
 
-    public function getDocumentSnils(): ?string
+    public function getDocumentSnils(): ?Snils
     {
         return $this->person->getSNILS();
     }
 
-    public function setDocumentSnils(?string $DocumentSnils): self
+    public function setDocumentSnils(?Snils $DocumentSnils): self
     {
         $this->DocumentSnils = $DocumentSnils;
         $this->person->setSNILS($DocumentSnils);
@@ -509,12 +513,12 @@ class Student
         return $this;
     }
 
-    public function getStudentGroup(): ?StudentGroups
+    public function getStudentGroup(): ?StudentGroup
     {
         return $this->StudentGroup;
     }
 
-    public function setStudentGroup(?StudentGroups $StudentGroup): self
+    public function setStudentGroup(?StudentGroup $StudentGroup): self
     {
 
         $this->StudentGroup = $StudentGroup;
@@ -529,7 +533,6 @@ class Student
     public function setIsOrphan(?bool $IsOrphan): self
     {
         $this->IsOrphan = $IsOrphan;
-
         return $this;
     }
 
@@ -541,7 +544,6 @@ class Student
     public function setIsPaid(?bool $IsPaid): self
     {
         $this->IsPaid = $IsPaid;
-
         return $this;
     }
 
@@ -553,7 +555,6 @@ class Student
     public function setIsInvalid(?bool $IsInvalid): self
     {
         $this->IsInvalid = $IsInvalid;
-
         return $this;
     }
 
@@ -565,7 +566,6 @@ class Student
     public function setIsPoor(?bool $IsPoor): self
     {
         $this->IsPoor = $IsPoor;
-
         return $this;
     }
 
@@ -589,7 +589,6 @@ class Student
     public function setPasportSeries(string $PasportSeries): self
     {
         $this->PasportSeries = $PasportSeries;
-
         return $this;
     }
 
@@ -601,7 +600,6 @@ class Student
     public function setPasportDate(DateTimeInterface $PasportDate): self
     {
         $this->PasportDate = $PasportDate;
-
         return $this;
     }
 
@@ -613,7 +611,6 @@ class Student
     public function setPasportIssueOrgan(?string $PasportIssueOrgan): self
     {
         $this->PasportIssueOrgan = $PasportIssueOrgan;
-
         return $this;
     }
 
@@ -655,7 +652,6 @@ class Student
     public function setIsWithoutParents(?bool $isWithoutParents): self
     {
         $this->isWithoutParents = $isWithoutParents;
-
         return $this;
     }
 
@@ -694,7 +690,6 @@ class Student
     public function setAbiturientPetition(?AbiturientPetition $AbiturientPetition): static
     {
         $this->AbiturientPetition = $AbiturientPetition;
-
         return $this;
     }
 
@@ -706,7 +701,6 @@ class Student
     public function setFirstPassword(?string $FirstPassword): static
     {
         $this->FirstPassword = $FirstPassword;
-
         return $this;
     }
 
@@ -724,7 +718,6 @@ class Student
             $this->accessSystemControls->add($accessSystemControl);
             $accessSystemControl->setStudent($this);
         }
-
         return $this;
     }
 
@@ -736,7 +729,6 @@ class Student
                 $accessSystemControl->setStudent(null);
             }
         }
-
         return $this;
     }
 
@@ -748,7 +740,6 @@ class Student
     public function setUUID(?string $UUID): static
     {
         $this->UUID = $UUID;
-
         return $this;
     }
 
@@ -760,7 +751,6 @@ class Student
     public function setIsLiveStudentAccommondation(?bool $isLiveStudentAccommondation): static
     {
         $this->isLiveStudentAccommondation = $isLiveStudentAccommondation;
-
         return $this;
     }
 
@@ -778,7 +768,6 @@ class Student
             $this->loginValues->add($loginValue);
             $loginValue->setStudent($this);
         }
-
         return $this;
     }
 
@@ -790,7 +779,6 @@ class Student
                 $loginValue->setStudent(null);
             }
         }
-
         return $this;
     }
 
@@ -835,7 +823,6 @@ class Student
             $this->eventsResults->add($eventsResult);
             $eventsResult->setStudent($this);
         }
-
         return $this;
     }
 
@@ -847,7 +834,6 @@ class Student
                 $eventsResult->setStudent(null);
             }
         }
-
         return $this;
     }
 
@@ -877,9 +863,7 @@ class Student
             /***
              * @var StudentPunishment $item
              */
-
             foreach ($this->studentPunishments->getValues() as $item) {
-
                 if (((int)date_create('now')->diff($item->getDate())->y) == 0) {
                     return true;
                 }
@@ -893,7 +877,6 @@ class Student
         if (((int)date_create('now')->diff($this->getBirthDate())->y) >= 18) {
             return true;
         }
-
         return false;
 
     }
@@ -913,7 +896,6 @@ class Student
             $this->studentPunishments->add($studentPunishment);
             $studentPunishment->setStudent($this);
         }
-
         return $this;
     }
 
@@ -925,7 +907,6 @@ class Student
                 $studentPunishment->setStudent(null);
             }
         }
-
         return $this;
     }
 
@@ -937,7 +918,6 @@ class Student
     public function setPerson(?Person $person): static
     {
         $this->person = $person;
-
         return $this;
     }
 }
