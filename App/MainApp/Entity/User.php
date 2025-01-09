@@ -157,7 +157,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         /*if (isNull($this->Student->getStudentGroup()))
         {
-            $group = new StudentGroups();
+            $group = new StudentGroup();
             $group->setName("Группа не указана");
             $group->setCode("EMPTY");
             $group->setLetter("EMP");

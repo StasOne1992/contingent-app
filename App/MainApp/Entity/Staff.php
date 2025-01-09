@@ -3,7 +3,7 @@
 namespace App\MainApp\Entity;
 
 use App\MainApp\Repository\StaffRepository;
-use App\mod_education\Entity\StudentGroups;
+use App\mod_education\Entity\StudentGroup;
 use App\mod_events\Entity\EventsList;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -33,8 +33,8 @@ class Staff
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $Photo = null;
 
-    #[ORM\OneToMany(mappedBy: 'GroupLeader', targetEntity: StudentGroups::class)]
-    private Collection $studentGroups;
+    #[ORM\OneToMany(mappedBy: 'GroupLeader', targetEntity: StudentGroup::class)]
+    private Collection $studentGroup;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $UUID = null;
@@ -55,7 +55,7 @@ class Staff
     public function __construct()
     {
         $this->users = new ArrayCollection();
-        $this->studentGroups = new ArrayCollection();
+        $this->studentGroup = new ArrayCollection();
         $this->eventsLists = new ArrayCollection();
         $this->College = new ArrayCollection();
     }
@@ -149,26 +149,26 @@ class Staff
     }
 
     /**
-     * @return Collection<int, StudentGroups>
+     * @return Collection<int, StudentGroup>
      */
     public function getStudentGroups(): Collection
     {
-        return $this->studentGroups;
+        return $this->studentGroup;
     }
 
-    public function addStudentGroup(StudentGroups $studentGroup): self
+    public function addStudentGroup(StudentGroup $studentGroup): self
     {
-        if (!$this->studentGroups->contains($studentGroup)) {
-            $this->studentGroups->add($studentGroup);
+        if (!$this->studentGroup->contains($studentGroup)) {
+            $this->studentGroup->add($studentGroup);
             $studentGroup->setGroupLeader($this);
         }
 
         return $this;
     }
 
-    public function removeStudentGroup(StudentGroups $studentGroup): self
+    public function removeStudentGroup(StudentGroup $studentGroup): self
     {
-        if ($this->studentGroups->removeElement($studentGroup)) {
+        if ($this->studentGroup->removeElement($studentGroup)) {
             // set the owning side to null (unless already changed)
             if ($studentGroup->getGroupLeader() === $this) {
                 $studentGroup->setGroupLeader(null);
@@ -258,10 +258,10 @@ class Staff
     {
         $result= array();
         /***
-         * @var StudentGroups $studentGroup
+         * @var StudentGroup $studentGroup
          */
-        $studentGroups=$this->getStudentGroups()->getValues();
-        foreach ($studentGroups as $group)
+        $studentGroup=$this->getStudentGroups()->getValues();
+        foreach ($studentGroup as $group)
         {
             $result=array_merge($result,$group->getStudents()->getValues());
         }

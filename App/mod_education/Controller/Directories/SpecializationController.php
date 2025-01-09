@@ -34,7 +34,6 @@ class SpecializationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $specializationRepository->save($specialization, true);
-
             return $this->redirectToRoute('app_specialization_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -60,7 +59,6 @@ class SpecializationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $specializationRepository->save($specialization, true);
-
             return $this->redirectToRoute('app_specialization_index', [], Response::HTTP_SEE_OTHER);
         }
 

@@ -4,7 +4,7 @@ namespace App\MainApp\Entity;
 
 use App\MainApp\Repository\CollegeRepository;
 use App\mod_admission\Entity\Admission;
-use App\mod_education\Entity\StudentGroups;
+use App\mod_education\Entity\StudentGroup;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Schema\Sequence;
@@ -60,8 +60,8 @@ class College
     #[ORM\ManyToMany(targetEntity: Staff::class, mappedBy: 'College')]
     private Collection $staff;
 
-    #[ORM\OneToMany(mappedBy: 'College', targetEntity: StudentGroups::class)]
-    private Collection $studentGroups;
+    #[ORM\OneToMany(mappedBy: 'College', targetEntity: StudentGroup::class)]
+    private Collection $studentGroup;
 
 
     public function __construct()
@@ -69,7 +69,7 @@ class College
         $this->users = new ArrayCollection();
         $this->admissions = new ArrayCollection();
         $this->staff = new ArrayCollection();
-        $this->studentGroups = new ArrayCollection();
+        $this->studentGroup = new ArrayCollection();
 
     }
 
@@ -306,26 +306,26 @@ class College
     }
 
     /**
-     * @return Collection<int, StudentGroups>
+     * @return Collection<int, StudentGroup>
      */
     public function getStudentGroups(): Collection
     {
-        return $this->studentGroups;
+        return $this->studentGroup;
     }
 
-    public function addStudentGroup(StudentGroups $studentGroup): static
+    public function addStudentGroup(StudentGroup $studentGroup): static
     {
-        if (!$this->studentGroups->contains($studentGroup)) {
-            $this->studentGroups->add($studentGroup);
+        if (!$this->studentGroup->contains($studentGroup)) {
+            $this->studentGroup->add($studentGroup);
             $studentGroup->setCollege($this);
         }
 
         return $this;
     }
 
-    public function removeStudentGroup(StudentGroups $studentGroup): static
+    public function removeStudentGroup(StudentGroup $studentGroup): static
     {
-        if ($this->studentGroups->removeElement($studentGroup)) {
+        if ($this->studentGroup->removeElement($studentGroup)) {
             // set the owning side to null (unless already changed)
             if ($studentGroup->getCollege() === $this) {
                 $studentGroup->setCollege(null);

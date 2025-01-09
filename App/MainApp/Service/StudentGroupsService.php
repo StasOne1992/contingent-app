@@ -18,7 +18,7 @@ class StudentGroupsService extends AbstractController
     private $serializer;
 
     public function __construct(
-        private StudentGroupsRepository $studentGroupsRepository,
+        private StudentGroupsRepository $studentGroupRepository,
         private XlsxService             $xlsxService,
         private GlobalHelpersService    $globalHelpersService,
         private RFIDService             $RFIDService,
@@ -32,7 +32,7 @@ class StudentGroupsService extends AbstractController
 
     public function generateElearningListToImport($groupId)
     {
-        $group = $this->studentGroupsRepository->find($groupId);
+        $group = $this->studentGroupRepository->find($groupId);
         $studentslist = $group->getActiveStudents()->toArray();
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
@@ -59,7 +59,7 @@ class StudentGroupsService extends AbstractController
 
     public function generateSchoolPortalList($groupId)
     {
-        $group = $this->studentGroupsRepository->find($groupId);
+        $group = $this->studentGroupRepository->find($groupId);
         $studentslist = $group->getActiveStudents()->toArray();
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
@@ -97,7 +97,7 @@ class StudentGroupsService extends AbstractController
 
     public function generatePerCo($groupId)
     {
-        $group = $this->studentGroupsRepository->find($groupId);
+        $group = $this->studentGroupRepository->find($groupId);
         $studentslist = $group->getActiveStudents()->toArray();
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
@@ -145,7 +145,7 @@ class StudentGroupsService extends AbstractController
 
     public function generateEnt($groupId)
     {
-        $group = $this->studentGroupsRepository->find($groupId);
+        $group = $this->studentGroupRepository->find($groupId);
         $studentslist = $group->getActiveStudents()->toArray();
         $itter = 0;
         $data[$itter]['UUID'] = 'Таб. №';

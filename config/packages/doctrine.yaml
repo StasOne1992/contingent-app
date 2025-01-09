@@ -1,5 +1,8 @@
 doctrine:
     dbal:
+        types:
+            snils: Npub\Gos\Doctrine\Type\SnilsType
+            snils_canonical: Npub\Gos\Doctrine\Type\SnilsCanonicalType
         url: '%env(resolve:DATABASE_URL)%'
 
         # IMPORTANT: You MUST configure your server version,
@@ -31,7 +34,7 @@ doctrine:
                 is_bundle: false
                 dir: '%kernel.project_dir%/App/mod_education/Entity'
                 prefix: 'App\mod_education\Entity'
-                alias: mod_education
+                alias: mod_ed    ucation
             mod_admission:
                 is_bundle: false
                 dir: '%kernel.project_dir%/App/mod_admission/Entity'
@@ -42,6 +45,11 @@ doctrine:
                 dir: '%kernel.project_dir%/App/mod_events/Entity'
                 prefix: 'App\mod_events\Entity'
                 alias: mod_events
+            mod_prof_education:
+                is_bundle: false
+                dir: '%kernel.project_dir%/App/mod_prof_education/Entity'
+                prefix: 'App\mod_events\Entity'
+                alias: mod_prof_education
             global:
                 is_bundle: false
                 dir: '%kernel.project_dir%/App/Global/Entity'
@@ -49,7 +57,7 @@ doctrine:
                 alias: global
         filters:
             studentFilter:
-                class: App\MainApp\Doctrine\Filter\StudentFilter
+                class: App\mod_education\Doctrine\Filter\StudentFilter
                 enabled: false
                 parameters:
                     discontinued: false

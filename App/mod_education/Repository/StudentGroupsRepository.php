@@ -2,26 +2,26 @@
 
 namespace App\mod_education\Repository;
 
-use App\mod_education\Entity\StudentGroups;
+use App\mod_education\Entity\StudentGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<\App\mod_education\Entity\StudentGroups>
+ * @extends ServiceEntityRepository<\App\mod_education\Entity\StudentGroup>
  *
- * @method StudentGroups|null find($id, $lockMode = null, $lockVersion = null)
- * @method StudentGroups|null findOneBy(array $criteria, array $orderBy = null)
- * @method StudentGroups[]    findAll()
- * @method StudentGroups[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method StudentGroup|null find($id, $lockMode = null, $lockVersion = null)
+ * @method StudentGroup|null findOneBy(array $criteria, array $orderBy = null)
+ * @method StudentGroup[]    findAll()
+ * @method StudentGroup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class StudentGroupsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, StudentGroups::class);
+        parent::__construct($registry, StudentGroup::class);
     }
 
-    public function save(StudentGroups $entity, bool $flush = false): void
+    public function save(StudentGroup $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class StudentGroupsRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(StudentGroups $entity, bool $flush = false): void
+    public function remove(StudentGroup $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -41,7 +41,7 @@ class StudentGroupsRepository extends ServiceEntityRepository
 
 
 //    /**
-//     * @return StudentGroups[] Returns an array of StudentGroups objects
+//     * @return StudentGroup[] Returns an array of StudentGroup objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -55,7 +55,7 @@ class StudentGroupsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?StudentGroups
+//    public function findOneBySomeField($value): ?StudentGroup
 //    {
 //        return $this->createQueryBuilder('s')
 //            ->andWhere('s.exampleField = :val')

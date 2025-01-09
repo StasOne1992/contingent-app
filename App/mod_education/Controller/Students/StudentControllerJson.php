@@ -25,7 +25,7 @@ class StudentControllerJson extends AbstractController
 
     #[Route('/index', name: 'app_student_json_index', methods: ['GET'])]
     #[IsGranted("ROLE_STAFF_STUDENT_R")]
-    public function json_index(Request $request, StudentRepository $studentRepository, StudentGroupsRepository $studentGroupsRepository, EventsListRepository $eventsListRepository): Response
+    public function json_index(Request $request, StudentRepository $studentRepository, StudentGroupsRepository $studentGroupRepository, EventsListRepository $eventsListRepository): Response
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
@@ -87,7 +87,7 @@ class StudentControllerJson extends AbstractController
 
     #[Route('/{id}', name: 'app_student_json', methods: ['GET'])]
     #[IsGranted("ROLE_STAFF_STUDENT_R")]
-    public function json_student(Student $student, Request $request, StudentRepository $studentRepository, StudentGroupsRepository $studentGroupsRepository, EventsListRepository $eventsListRepository): Response
+    public function json_student(Student $student, Request $request, StudentRepository $studentRepository, StudentGroupsRepository $studentGroupRepository, EventsListRepository $eventsListRepository): Response
     {
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $defaultContext = [

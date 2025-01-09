@@ -22,11 +22,11 @@ class StudentImportType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
+                        'maxSize' => '10240k',
+                        /*'mimeTypes' => [
                             'text/csv',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid CSV document',
+                        'mimeTypesMessage' => 'Please upload a valid CSV document',*/
                     ])
                 ],
             ])

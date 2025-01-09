@@ -48,7 +48,7 @@ class StaffType extends AbstractType
                         ]),
                 ])
             ->add('Photo')
-            ->add('studentGroups')
+            ->add('studentGroup')
             ->add('email', EmailType::class,  [
                 'label' => 'E-mail',
                 'empty_data' => null,

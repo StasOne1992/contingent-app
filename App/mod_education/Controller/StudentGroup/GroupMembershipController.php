@@ -1,6 +1,6 @@
 <?php
 
-namespace App\mod_education\Controller\StudentGroups;
+namespace App\mod_education\Controller\StudentGroup;
 
 use App\mod_education\Entity\GroupMembership;
 use App\mod_education\Form\GroupMembershipType;

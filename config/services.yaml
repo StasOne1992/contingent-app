@@ -4,8 +4,11 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-  studentphotodir: "%kernel.project_dir/public/uploads/student_photos"
-  student_import_directory: '%kernel.project_dir%/public/tmp/import/students'
+  student_photo_directory: "%kernel.project_dir/public/uploads/student_photos"
+  student_import_directory: '%kernel.project_dir%/public/upload/tmp/import/student'
+
+
+
   router.request_context.scheme: 'https'
   asset.request_context.secure: true
 

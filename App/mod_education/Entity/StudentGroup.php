@@ -10,7 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StudentGroupsRepository::class)]
-class StudentGroups
+class StudentGroup
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
@@ -20,10 +20,10 @@ class StudentGroups
     #[ORM\Column(length: 12)]
     private ?string $Name = " ";
 
-    #[ORM\ManyToOne(inversedBy: 'studentGroups')]
+    #[ORM\ManyToOne(inversedBy: 'studentGroup')]
     private ?Faculty $Faculty = null;
 
-    #[ORM\ManyToOne(inversedBy: 'studentGroups')]
+    #[ORM\ManyToOne(inversedBy: 'studentGroup')]
     private ?Staff $GroupLeader = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -41,7 +41,7 @@ class StudentGroups
     #[ORM\Column( nullable: true)]
     private ?int $CourseNumber = 1;
 
-    #[ORM\ManyToOne(inversedBy: 'studentGroups')]
+    #[ORM\ManyToOne(inversedBy: 'studentGroup')]
     private ?EducationPlan $EducationPlan = null;
 
     #[ORM\Column(nullable: true)]

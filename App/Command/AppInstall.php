@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
     name: 'service:app-install',
-    description: 'Install applicaton',
+    description: 'Install application',
     hidden: false,
 )]
 class AppInstall extends Command

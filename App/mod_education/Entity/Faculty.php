@@ -21,8 +21,8 @@ class Faculty
     #[ORM\Column(length: 255)]
     private ?string $Name = null;
 
-    #[ORM\OneToMany(mappedBy: 'Faculty', targetEntity: StudentGroups::class)]
-    private Collection $studentGroups;
+    #[ORM\OneToMany(mappedBy: 'Faculty', targetEntity: StudentGroup::class)]
+    private Collection $studentGroup;
 
     #[ORM\ManyToOne(inversedBy: 'faculties')]
     private ?Specialization $Specialization = null;
@@ -51,7 +51,7 @@ class Faculty
 
     public function __construct()
     {
-        $this->studentGroups = new ArrayCollection();
+        $this->studentGroup = new ArrayCollection();
         $this->admissionPlans = new ArrayCollection();
         $this->abiturientPetitions = new ArrayCollection();
         $this->educationPlans = new ArrayCollection();
@@ -76,26 +76,26 @@ class Faculty
     }
 
     /**
-     * @return Collection<int, StudentGroups>
+     * @return Collection<int, StudentGroup>
      */
     public function getStudentGroups(): Collection
     {
-        return $this->studentGroups;
+        return $this->studentGroup;
     }
 
-    public function addStudentGroup(StudentGroups $studentGroup): self
+    public function addStudentGroup(StudentGroup $studentGroup): self
     {
-        if (!$this->studentGroups->contains($studentGroup)) {
-            $this->studentGroups->add($studentGroup);
+        if (!$this->studentGroup->contains($studentGroup)) {
+            $this->studentGroup->add($studentGroup);
             $studentGroup->setFaculty($this);
         }
 
         return $this;
     }
 
-    public function removeStudentGroup(StudentGroups $studentGroup): self
+    public function removeStudentGroup(StudentGroup $studentGroup): self
     {
-        if ($this->studentGroups->removeElement($studentGroup)) {
+        if ($this->studentGroup->removeElement($studentGroup)) {
             // set the owning side to null (unless already changed)
             if ($studentGroup->getFaculty() === $this) {
                 $studentGroup->setFaculty(null);
