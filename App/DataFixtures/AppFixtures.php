@@ -2,8 +2,10 @@
 
 namespace App\DataFixtures;
 
+use App\Extension\Npub\Gos\Snils\SnilsExtension;
 use App\MainApp\Entity\College;
 use App\MainApp\Entity\Gender;
+use App\MainApp\Entity\Person;
 use App\MainApp\Entity\Roles;
 use App\MainApp\Entity\Staff;
 use App\MainApp\Entity\User;
@@ -13,9 +15,10 @@ use App\mod_education\Entity\EducationForm;
 use App\mod_education\Entity\EducationType;
 use App\mod_education\Entity\FamilyTypeList;
 use App\mod_education\Entity\FinancialType;
-use App\mod_education\Entity\StudentGroups;
+use App\mod_education\Entity\StudentGroup;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Npub\Gos\Snils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -154,32 +157,86 @@ class AppFixtures extends Fixture
          * Создание сотрудника
          */
         $staff_admin=new Staff();
+
         $staff_admin->setFirstName("Administrator");
         $staff_admin->setLastName("LastName");
         $staff_admin->setMiddleName('');
         $staff_admin->setEmail("administrator@example.com");
         $staff_admin->addCollege($college);
+        $staff_admin_persona= new Person();
+        $staff_admin_persona->setFirstName($staff_admin->getFirstName());
+        $staff_admin_persona->setLastName($staff_admin->getLastName());
+        $staff_admin_persona->setMiddleName($staff_admin->getMiddleName());
+        $staff_admin_persona->setSNILS(SnilsExtension::getRandomSnils());
+        $manager->persist($staff_admin_persona);
+        $staff_admin->setPerson($staff_admin_persona);
         $manager->persist($staff_admin);
 
+        $staff_edu=new Staff();
+        $staff_edu->setFirstName("EduPart");
+        $staff_edu->setLastName("LastName");
+        $staff_edu->setMiddleName('');
+        $staff_edu->setEmail("edupart@example.com");
+        $staff_edu->addCollege($college);
+        $staff_edu_persona= new Person();
+        $staff_edu_persona->setFirstName($staff_edu->getFirstName());
+        $staff_edu_persona->setLastName($staff_edu->getLastName());
+        $staff_edu_persona->setMiddleName($staff_edu->getMiddleName());
+        $staff_edu_persona->setSNILS(SnilsExtension::getRandomSnils());
+        $manager->persist($staff_edu_persona);
+        $staff_edu->setPerson($staff_edu_persona);
+        $manager->persist($staff_edu);
 
+        /**
+         * create Teachers
+         */
+        
+        for ($i = 1; $i <=10;$i++)
+        {
+            $staff_teacher=new Staff();
+            $staff_teacher->setFirstName("Teacher". $i);
+            $staff_teacher->setLastName("LastName");
+            $staff_teacher->setMiddleName('');
+            $staff_teacher->setEmail("teacher".$i."@example.com");
+            $staff_teacher->addCollege($college);
+            $staff_teacher_persona= new Person();
+            $staff_teacher_persona->setFirstName($staff_teacher->getFirstName());
+            $staff_teacher_persona->setLastName($staff_teacher->getLastName());
+            $staff_teacher_persona->setMiddleName($staff_teacher->getMiddleName());
+            $staff_teacher_persona->setSNILS(SnilsExtension::getRandomSnils());
+            $manager->persist($staff_teacher_persona);
+            $staff_teacher->setPerson($staff_teacher_persona);
+            $manager->persist($staff_teacher);
+
+            $studentGroup = new studentGroup();
+            $studentGroup->setGroupLeader($staff_admin);
+            $studentGroup->setCourseNumber(random_int(1, 4));
+            $studentGroup->setParallelNumber(random_int(1, 2));
+            $studentGroup->setName("demoGroup ".$i);
+            $studentGroup->setCode("gr-d-".$i);
+            $studentGroup->setGroupLeader($staff_teacher);
+            $manager->persist($studentGroup);
+        }
+
+        $manager->getRepository(StudentGroup::class);
         /*$faculty = new Faculty();
         $manager->persist($faculty);*/
 
 
-        $studentGroup1 = new studentGroups();
+        $studentGroup1 = new studentGroup();
         $studentGroup1->setGroupLeader($staff_admin);
         $studentGroup1->setCourseNumber(1);
         $studentGroup1->setParallelNumber(1);
-        $studentGroup1->setName("demoGroup 1");
-        $studentGroup1->setCode("gr-d-1");
+        $studentGroup1->setName("demo g adm 1");
+        $studentGroup1->setCode("gr-a-1");
         $manager->persist($studentGroup1);
 
-        $studentGroup2 = new studentGroups();
+        $studentGroup2 = new studentGroup();
         $studentGroup2->setGroupLeader($staff_admin);
         $studentGroup2->setCourseNumber(1);
         $studentGroup2->setParallelNumber(2);
-        $studentGroup2->setName("demoGroup 2");
-        $studentGroup2->setCode("gr-d-2");
+        $studentGroup2->setName("demo g adm 2");
+        $studentGroup2->setCode("gr-a-2");
         $manager->persist($studentGroup2);
 
 
@@ -226,6 +283,10 @@ class AppFixtures extends Fixture
         }
 
 
+        $personDocumentCategory=
+            [
+
+            ];
 
 
 

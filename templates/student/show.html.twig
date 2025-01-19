@@ -219,7 +219,7 @@
                                                             </div>
                                                         </div>
                                                         <a class="h6"
-                                                           href="/documents/personal/">  {{ presonaldoc.getDocumentType() }}</a>
+                                                           href="#">  {{ presonaldoc.getDocumentType() }}</a>
                                                     </div>
                                                     <div class="fs-sm text-muted">
                                                         Серия:<small>{{ presonaldoc.getDocumentSeries() }}</small>
@@ -381,20 +381,20 @@
                                     <tr>
                                         <th>Мероприятие</th>
                                         <th>Результат</th>
-                                        <th>Действия</th>
+                                        <th>Действия</th>{% for event in student.eventsResults %}
+
+                                    <tr>
+                                        <td>{{ event.Event }}</td>
+                                        <td>{{ event.ResultType }}</td>
+                                        <td></td>
+                                    </tr>
+                                    {% endfor %}
+
+
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for event in student.eventsResults %}
-
-                                        <tr>
-                                            <td>{{ event.Event }}</td>
-                                            <td>{{ event.ResultType }}</td>
-                                            <td></td>
-                                        </tr>
-                                    {% endfor %}
-
-                                    </tbody>
+                                                                        </tbody>
                                 </table>
                             </div>
                         </div>

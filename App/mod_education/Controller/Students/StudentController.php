@@ -3,8 +3,9 @@
 namespace App\mod_education\Controller\Students;
 
 use App\Controller\App\EduPart\Student\IsGranted;
+use App\MainApp\Entity\Gender;
 use App\MainApp\Entity\Person;
-use App\MainApp\Entity\Staff;
+use App\MainApp\Entity\PersonDocument;
 use App\MainApp\Entity\User;
 use App\MainApp\Repository\CollegeRepository;
 use App\MainApp\Repository\PersonRepository;
@@ -12,15 +13,15 @@ use App\MainApp\Repository\UserRepository;
 use App\MainApp\Service\FileUploader;
 use App\MainApp\Service\GlobalHelpersService;
 use App\MainApp\Service\StudentService;
-use App\mod_education\Entity\PersonalDocuments;
 use App\mod_education\Entity\Student;
-use App\mod_education\Entity\StudentGroups;
+use App\mod_education\Entity\StudentGroup;
 use App\mod_education\Form\StudentImportType;
 use App\mod_education\Form\StudentType;
 use App\mod_education\Repository\PersonalDocTypeListRepository;
 use App\mod_education\Repository\StudentGroupsRepository;
 use App\mod_education\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Npub\Gos\Snils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -50,10 +51,11 @@ class StudentController extends AbstractController
 
     #[Route('/index', name: 'app_student_index', methods: ['GET'])]
     #[IsGranted("ROLE_STAFF_STUDENT_R")]
-    public function index(Request $request, StudentRepository $studentRepository, StudentGroupsRepository $studentGroupsRepository): Response
+    public function index(Request $request, StudentRepository $studentRepository, StudentGroupsRepository $studentGroupRepository): Response
     {
-        $studentGroupArray = $studentGroupsRepository->findAll();
-        $students = $studentRepository->findBy(['StudentGroup' => $studentGroupArray, 'isActive' => true]);
+        //$studentGroupArray = $studentGroupRepository->findAll();
+        //$students = $studentRepository->findBy(['StudentGroup' => $studentGroupArray, 'isActive' => true]);
+        $students = $studentRepository->findAll();
         usort($students, function ($a, $b) {
             /***
              * @var Student $a
@@ -80,11 +82,16 @@ class StudentController extends AbstractController
     public function new(Request $request, StudentRepository $studentRepository): Response
     {
         $student = new Student();
+        $person= new Person();
+        $person->setBirthDate(date_create('1900-01-01'));
+        $student->setPerson($person);
         $form = $this->createForm(StudentType::class, $student);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $student->setUUID(uniqid());
+            $this->em->persist($person);
+            $this->em->flush();
             $studentRepository->save($student, true);
             return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -95,14 +102,20 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('/import', name: 'app_student_import', methods: ['GET', 'POST'])]
+    #[Route('/import/{updateRecords}', name: 'app_student_import', requirements: ['updateRecords' => '\d+'], methods: ['GET', 'POST'])]
     #[IsGranted("ROLE_STAFF_STUDENT_IMP")]
-    public function import(Request $request, StudentRepository $studentRepository, FileUploader $fileUploader, PersonalDocTypeListRepository $personalDocTypeListRepository, StudentGroupsRepository $studentGroupsRepository): Response
+    public function import(Request                       $request,
+                           StudentRepository             $studentRepository,
+                           FileUploader                  $fileUploader,
+                           PersonalDocTypeListRepository $personalDocTypeListRepository,
+                           StudentGroupsRepository       $studentGroupRepository,
+                           bool                          $updateRecords = false): Response
     {
         $student = new Student();
         $form = $this->createForm(StudentImportType::class, $student);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            ini_set('max_execution_time', '300');
             /** @var UploadedFile $brochureFile */
             $brochureFile = $form->get('brochure')->getData();
             if ($brochureFile) {
@@ -113,88 +126,130 @@ class StudentController extends AbstractController
                 $students = array();
                 $personaDocument = array();
                 unset($lines[0]);
+                $gender['MALE'] = $this->em->getRepository(Gender::class)->findOneBy(['genderName' => "MALE"]);
+                $gender['FEMALE'] = $this->em->getRepository(Gender::class)->findOneBy(['genderName' => "FEMALE"]);
+                $studentGroups = [];
+                foreach ($this->em->getRepository(StudentGroup::class)->findAll() as $studentGroup) {
+                    $studentGroups[$studentGroup->getCode()] = $studentGroup;
+                }
                 foreach ($lines as $line) {
                     $temparray = str_getcsv($line);
-                    $personalDocuments=array();
+                    $personalDocuments = array();
                     if (array_key_exists(1, $temparray)) {
-                        $row['id'] = $temparray[0];
-                        $row['first_name'] = $temparray[1];
-                        $row['last_name'] = $temparray[2];
-                        $row['middle_name'] = $temparray[3];
-                        $row['family_type_id_id'] = $temparray[4];
-                        $row['healtg_group_id_id'] = $temparray[5];
-                        $row['gender_id'] = $temparray[6];
+                        $row['first_name'] = $temparray[0];
+                        $row['last_name'] = $temparray[1];
+                        $row['middle_name'] = $temparray[2];
+                        if ($temparray[3] == "Женщина") {
+                            $row['gender_id'] = $gender['FEMALE']->getId();
+                        } elseif ($temparray[] = "Мужчина") {
+                            $row['gender_id'] = $gender['MALE']->getId();
+                        }
+                        $row['birth_date'] = date_create($temparray[4]);
+                        $row['phone_number'] = $temparray[6];
+                        $row['email'] = $temparray[7];
+                        $row['address_fact'] = $temparray[8];
+                        $row['address_main'] = $temparray[9];
+                        $row['is_active'] = true;
+                        $row['document_snils'] = Snils::createFromFormat($temparray[15]);
+                        $row['document_medical_id'] = $temparray[16];
+                        $row['document_passport_number'] = $temparray[10];
+                        $row['document_passport_series'] = $temparray[11];
+                        $row['document_passport_date'] = $temparray[14];
+                        $row['document_passport_issue_organ'] = $temparray[13] . " (" . $temparray[12] . ")";
+                        $row['student_group_id'] = $studentGroups[$temparray['5']];
+                        $row['is_orphan'] = rand(0, 1);
+                        $row['is_paid'] = rand(0, 1);
+                        $row['is_invalid'] = rand(0, 1);
+                        $row['is_poor'] = rand(0, 1);
+                        $row['is_without_parents'] = rand(0, 1);
+                        $row['is_live_student_accommodation'] = rand(0, 1);
+                        $row['uuid'] = uniqid();
                         $row['number_zachetka'] = $temparray[7];
                         $row['number_stud_bilet'] = $temparray[8];
-                        $row['birth_data'] = $temparray[9];
-                        $row['phone_number'] = $temparray[10];
-                        $row['email'] = $temparray[11];
-                        $row['document_snils'] = $temparray[12];
-                        $row['document_medical_id'] = $temparray[13];
-                        $row['address_fact'] = $temparray[14];
-                        $row['address_main'] = $temparray[15];
-                        $row['is_active'] = $temparray[16];
-                        $row['photo'] = $temparray[17];
-                        $row['student_group_id'] = $temparray[18];
-                        $row['is_orphan'] = $temparray[19];
-                        $row['is_paid'] = $temparray[20];
-                        $row['is_invalid'] = $temparray[21];
-                        $row['is_poor'] = $temparray[22];
-                        $row['pasport_number'] = $temparray[23];
-                        $row['pasport_series'] = $temparray[24];
-                        $row['pasport_date'] = $temparray[25];
-                        $row['pasport_issue_organ'] = $temparray[26];
-                        $row['education_document_type'] = $temparray[27];
+                        $row['family_type_id_id'] = $temparray[4];
+                        $row['healtg_group_id_id'] = $temparray[5];
+                        //$row['photo'] = $temparray[17];
+
+
+                        /*$row['education_document_type'] = $temparray[27];
                         $row['edu_doc_series'] = $temparray[28];
                         $row['edu_doc_number'] = $temparray[29];
                         $row['edu_doc_issue_organ'] = $temparray[30];
                         $row['edu_doc_date'] = $temparray[31];
                         $row['edu_doc_reg_number'] = $temparray[32];
                         $row['avg_mark'] = $temparray[33];
-                        $row['is_without_parents'] = $temparray[34];
-                        $row['abiturient_petition_id'] = $temparray[35];
-                        $row['first_password'] = $temparray[36];
-                        $row['uuid'] = $temparray[37];
-                        $row['is_live_student_accommondation'] = $temparray[38];
 
-                        $thisStudent = $studentRepository->findBy(['DocumentSnils' => $row['document_snils']]);
-                        if (!is_null($thisStudent)) {
-                            dump($thisStudent);
+                        $row['abiturient_petition_id'] = $temparray[35];
+                        $row['first_password'] = $temparray[36];*/
+                        $person;
+                        if (count($CurrentPerson = $this->em->getRepository(Person::class)->findBySnils($row['document_snils'])) != 0) {
+                            $person = $CurrentPerson[0];
                         } else {
+                            $person = new Person();
+                            $person->setFirstName($row['first_name']);
+                            $person->setMiddleName($row['middle_name']);
+                            $person->setLastName($row['last_name']);
+                            $person->setSNILS($row['document_snils']);
+                            $person->setBirthDate($row['birth_date']);
+                            $person->setMedicalNumber($row['document_medical_id']);
+                            $this->em->persist($person);
+                            $this->em->flush();
+
+                        }
+                        dump($updateRecords);
+                        $student;
+                        if (!$person->getStudent()->isEmpty()) {
+                            dump("NotEmpty");
+                        } else if (!$person->getStudent()->isEmpty() && $updateRecords) {
+                            dump("Not Empty. Need Update");
+                        } else {
+                            dump($row);
                             $student = new Student();
-                            $student->setFirstName($row['first_name']);
-                            $student->setLastName($row['last_name']);
-                            $student->setMiddleName($row['middle_name']);
+                            $student->setPerson($person);
                             $student->setAddressMain($row['address_main']);
                             $student->setAddressFact($row['address_fact']);
-                            $student->setBirthDate(new \DateTime(date("d M Y", date(strtotime($row['birth_data'])))));
-                            $student->setDocumentSnils($row['document_snils']);
-                            $student->setPasportSeries($row['pasport_series']);
-                            $student->setPasportNumber($row['pasport_number']);
-                            $student->setPasportIssueOrgan($row['pasport_issue_organ']);
-                            $student->setIsActive(true);
-                            $student->setPasportDate(new \DateTime(date("d M Y", date(strtotime($row['pasport_date'])))));
-                            $studentGroup = $studentGroupsRepository->findBy(['Code' => $row['student_group_id']]);
-                            dump($row['student_group_id'], $studentGroup);
+                            $student->setIsInvalid($row['is_invalid']);
+                            $student->setIsLiveStudentAccommondation($row['is_live_student_accommodation']);
+                            $student->setIsOrphan($row['is_orphan']);
+                            $student->setIsPaid($row['is_paid']);
+                            $student->setIsPoor($row['is_poor']);
+                            $student->setIsWithoutParents($row['is_without_parents']);
+                            $student->setUUID(uniqid());
 
+                            if ($row['document_passport_series'] &&
+                                $row['document_passport_number'] &&
+                                $row['document_passport_date'] &&
+                                $row['document_passport_issue_organ']) {
+                                if (count($this->em->getRepository(PersonDocument::class)->findBy(['series' => $row['document_passport_series'], 'number' => $row['document_passport_number']])) == 0) {
+                                    $passport = new PersonDocument();
+                                    $passport->setPerson($person);
+                                    $passport->setIssueDate(date_create($row['document_passport_date']));
+                                    $passport->setSeries($row['document_passport_series']);
+                                    $passport->setNumber($row['document_passport_number']);
+                                    $passport->setIssueOrgan($row['document_passport_issue_organ']);
+                                    $passport->setNote('AutomaticImport');
+                                    $passport->setActived(true);
+                                    dump('newPassport', $passport);
+                                    $this->em->persist($passport);
+                                    $this->em->flush();
+                                } else {
+                                    dump('InTheDatabase');
+                                }
+                            }
+                            $student->setPhoneNumber($row['phone_number']);
+                            $student->setIsActive(true);
+                            $this->em->persist($student);
+                            $this->em->flush();
                             $students[] = $student;
-                            $attestat = new PersonalDocuments();
-                            $attestat->setStudent($student);
-                            $docType = $personalDocTypeListRepository->findOneby(['Title' => $row['education_document_type']]);
-                            $attestat->setDocumentType($docType);
-                            $attestat->setDocumentNumber($row['edu_doc_number']);
-                            $attestat->setDocumentSeries($row['edu_doc_series']);
-                            $attestat->setDocumentOfficialSeal($row['edu_doc_issue_organ']);
-                            $attestat->setDocumentIssueDate(new \DateTime(date("d M Y", date(strtotime($row['edu_doc_date'])))));
-                            $personalDocuments[] = $attestat;
+                            dump($student, "Empty");
                         }
+                        /*$studentGroup = $studentGroupRepository->findBy(['Code' => $row['student_group_id']]);
+                             dump($row['student_group_id'], $studentGroup)*/
                     }
                 }
+                return $this->render('student/_import_form.html.twig', ['student' => $students,
+                ]);
             }
-            dd($students, $personalDocuments);
-            return $this->render('student/_import_form.html.twig', [
-                'students' => $students,
-            ]);
         }
         return $this->render('student/import.html.twig', ['student' => $student,
             'form' => $form,]);
@@ -211,9 +266,9 @@ class StudentController extends AbstractController
         $student->getContingentDocuments()->getValues();
         $student->getEventsResults();
         $student->getStudentPunishments()->getValues();
-            return $this->render('student/show.html.twig', [
-                'student' => $student,
-            ]);
+        return $this->render('student/show.html.twig', [
+            'student' => $student,
+        ]);
 
         return $this->redirectToRoute('app_access_denied', [], Response::HTTP_SEE_OTHER);
     }
@@ -239,7 +294,7 @@ class StudentController extends AbstractController
                 $form = $this->createForm(StudentType::class, $student);
                 $form->handleRequest($request);
                 if (!$student->getStudentGroup()) {
-                    $group = new StudentGroups();
+                    $group = new StudentGroup();
                     $group->setName("Группа не указана");
                     $student->setStudentGroup($group);
                 }
@@ -258,7 +313,7 @@ class StudentController extends AbstractController
             $form = $this->createForm(StudentType::class, $student);
             $form->handleRequest($request);
             if (!$student->getStudentGroup()) {
-                $group = new StudentGroups();
+                $group = new StudentGroup();
                 $group->setName("Группа не указана");
                 $student->setStudentGroup($group);
             }
@@ -278,9 +333,9 @@ class StudentController extends AbstractController
 
     #[Route('/{id}/setGroup', name: 'app_student_setGroup', methods: ['POST'])]
     #[IsGranted("ROLE_STAFF_STUDENT_U")]
-    public function setGroup(Request $request, Student $student, StudentRepository $studentRepository, StudentGroupsRepository $studentGroupsRepository): Response
+    public function setGroup(Request $request, Student $student, StudentRepository $studentRepository, StudentGroupsRepository $studentGroupRepository): Response
     {
-        $student->setStudentGroup($studentGroupsRepository->find($request->get('group-select')));
+        $student->setStudentGroup($studentGroupRepository->find($request->get('group-select')));
         $studentRepository->save($student, true);
         return new Response(
             $student->getStudentGroup(),

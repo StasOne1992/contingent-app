@@ -1,17 +1,11 @@
 {% extends 'base.html.twig' %}
-{% set refer = 1 %}
-{% set canreset = 0 %}
-{% set page_title =  'Создать учебный план'%}
-{% set sub_page_title = 'Создать учебный план' %}
-{% set refer_link=path('app_education_plan_index') %}
-{% block title %}
-    {% if page_title is defined %} {{ page_title }} {% endif %}
-{% endblock %}
-{% block topmenu_items %}
-    <button class="btn btn-primary btn-sm " form="education_plan">{{ button_label|default('Save') }}</button>
-{% endblock %}
+
+{% block title %}New EducationPlan{% endblock %}
 
 {% block body %}
+    <h1>Create new EducationPlan</h1>
 
     {{ include('education_plan/_form.html.twig') }}
+
+    <a href="{{ path('app_education_plan_index') }}">back to list</a>
 {% endblock %}

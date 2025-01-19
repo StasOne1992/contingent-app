@@ -82,7 +82,7 @@ class EducationForm
 
     public function __toString(): string
     {
-        return $this->getTitle();
+        return $this->getName();
     }
 
     public function getTitle(): ?string
@@ -126,5 +126,4 @@ class EducationForm
 
         return $this;
     }
-
 }

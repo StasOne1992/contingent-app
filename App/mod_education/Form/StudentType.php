@@ -6,11 +6,13 @@ use App\MainApp\Entity\Gender;
 use App\mod_education\Entity\FamilyTypeList;
 use App\mod_education\Entity\HealthGroup;
 use App\mod_education\Entity\Student;
-use App\mod_education\Entity\StudentGroups;
+use App\mod_education\Entity\StudentGroup;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,17 +27,63 @@ class StudentType extends AbstractType
             ->add('BirthDate', DateType::class, ['widget' => 'single_text', 'format' => 'yyyy-MM-dd'])
             ->add('PhoneNumber')
             ->add('email')
-            ->add('FirstName')
-            ->add('LastName')
-            ->add('MiddleName')
-            ->add('DocumentSnils')
+            ->add('FirstName', TextType::class,
+                [
+                    'label' => "Имя",
+                    'attr' => [
+                        'class' => 'form-control ',
+                        'required' => true]
+                ]
+            )
+            ->add('LastName', TextType::class,
+                [
+                    'label' => "Фамилия",
+                    'attr' => [
+                        'class' => 'form-control ',
+                        'required' => false]
+                ]
+            )
+            ->add('MiddleName', TextType::class,
+                [
+                    'label' => "Отчество",
+                    'required' => false,
+                    'attr' => [
+                        'class' => 'form-control ',
+                        'required' => false]
+                ]
+            )
+            ->add('DocumentSnils', TextType::class,
+                [
+                    'label' => "СНИЛС",
+                    'attr' => [
+                        'class' => 'js-masked-snils form-control ',
+                        'id' => "document-snils",
+                        'name' => "document-snils",
+                        'required' => true]
+                ]
+            )
             ->add('DocumentMedicalID')
             ->add('AddressFact')
             ->add('AddressMain')
-            ->add('PasportSeries')
-            ->add('PasportNumber')
-            ->add('PasportDate', DateType::class, ['widget' => 'single_text', 'format' => 'yyyy-MM-dd'])
-            ->add('PasportIssueOrgan')
+            ->add('PasportSeries', NumberType::class,
+                [
+                    'label' => "Серия ",
+                    'attr' => [
+                        'class' => 'js-masked-passport-series form-control',
+                        'required' => true]
+                ])
+            ->add('PasportNumber', NumberType::class,
+                [
+                    'label' => "№",
+                    'attr' => [
+                        'class' => 'js-masked-passport-number form-control',
+                        'required' => true]
+                ])
+            ->add('PasportDate', DateType::class, [
+                'label'=>'Выдан',
+                'widget' => 'single_text', 'format' => 'yyyy-MM-dd'])
+            ->add('PasportIssueOrgan' ,TextType::class,
+            ['label'=>"Орган выдавший"])
             ->add('FamilyTypeID', EntityType::class, array(
                 'label' => 'Тип семьи',
                 'placeholder' => 'Укажите тип семьи',
@@ -67,7 +115,7 @@ class StudentType extends AbstractType
                 'placeholder' => 'Укажите учебную группу',
                 'empty_data' => null,
                 'required' => false,
-                'class' => StudentGroups::class))
+                'class' => StudentGroup::class))
             ->add('IsOrphan', CheckboxType::class, [
                 'label' => 'Сирота',
                 'required' => false,

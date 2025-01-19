@@ -18,7 +18,7 @@ class GroupMembership
     private ?Student $Student = null;
 
     #[ORM\ManyToOne(inversedBy: 'groupMemberships')]
-    private ?StudentGroups $StudentGroup = null;
+    private ?StudentGroup $StudentGroup = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $DateStart = null;
@@ -26,11 +26,17 @@ class GroupMembership
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $DateEnd = null;
 
-    #[ORM\ManyToOne(inversedBy: 'groupMemberships')]
+    #[ORM\ManyToOne(targetEntity: ContingentDocument::class, inversedBy: 'groupMemberships')]
     private ?ContingentDocument $ContingentDocument = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $Active = null;
+
+
+    public function __construct()
+    {
+
+    }
 
     public function getId(): ?int
     {
@@ -45,16 +51,15 @@ class GroupMembership
     public function setStudent(?Student $Student): static
     {
         $this->Student = $Student;
-
         return $this;
     }
 
-    public function getStudentGroup(): ?StudentGroups
+    public function getStudentGroup(): ?StudentGroup
     {
         return $this->StudentGroup;
     }
 
-    public function setStudentGroup(?StudentGroups $StudentGroup): static
+    public function setStudentGroup(?StudentGroup $StudentGroup): static
     {
         $this->StudentGroup = $StudentGroup;
 
@@ -69,7 +74,6 @@ class GroupMembership
     public function setDateStart(?\DateTimeInterface $DateStart): static
     {
         $this->DateStart = $DateStart;
-
         return $this;
     }
 
@@ -81,7 +85,6 @@ class GroupMembership
     public function setDateEnd(\DateTimeInterface $DateEnd): static
     {
         $this->DateEnd = $DateEnd;
-
         return $this;
     }
 
@@ -93,7 +96,6 @@ class GroupMembership
     public function setContingentDocument(?ContingentDocument $ContingentDocument): static
     {
         $this->ContingentDocument = $ContingentDocument;
-
         return $this;
     }
 
@@ -105,7 +107,6 @@ class GroupMembership
     public function setActive(bool $Active): static
     {
         $this->Active = $Active;
-
         return $this;
     }
 }

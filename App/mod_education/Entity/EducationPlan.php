@@ -37,15 +37,15 @@ class EducationPlan
     #[ORM\ManyToOne(inversedBy: 'educationPlans')]
     private ?EducationType $BaseEducationType = null;
 
-    #[ORM\OneToMany(mappedBy: 'EducationPlan', targetEntity: StudentGroups::class)]
-    private Collection $studentGroups;
+    #[ORM\OneToMany(mappedBy: 'EducationPlan', targetEntity: StudentGroup::class)]
+    private Collection $studentGroup;
 
     #[ORM\OneToMany(mappedBy: 'EducationPlan', targetEntity: EducationSemester::class)]
     private Collection $educationSemesters;
 
     public function __construct()
     {
-        $this->studentGroups = new ArrayCollection();
+        $this->studentGroup = new ArrayCollection();
         $this->educationSemesters = new ArrayCollection();
     }
 
@@ -139,26 +139,26 @@ class EducationPlan
     }
 
     /**
-     * @return Collection<int, StudentGroups>
+     * @return Collection<int, StudentGroup>
      */
     public function getStudentGroups(): Collection
     {
-        return $this->studentGroups;
+        return $this->studentGroup;
     }
 
-    public function addStudentGroup(StudentGroups $studentGroup): static
+    public function addStudentGroup(StudentGroup $studentGroup): static
     {
-        if (!$this->studentGroups->contains($studentGroup)) {
-            $this->studentGroups->add($studentGroup);
+        if (!$this->studentGroup->contains($studentGroup)) {
+            $this->studentGroup->add($studentGroup);
             $studentGroup->setEducationPlan($this);
         }
 
         return $this;
     }
 
-    public function removeStudentGroup(StudentGroups $studentGroup): static
+    public function removeStudentGroup(StudentGroup $studentGroup): static
     {
-        if ($this->studentGroups->removeElement($studentGroup)) {
+        if ($this->studentGroup->removeElement($studentGroup)) {
             // set the owning side to null (unless already changed)
             if ($studentGroup->getEducationPlan() === $this) {
                 $studentGroup->setEducationPlan(null);

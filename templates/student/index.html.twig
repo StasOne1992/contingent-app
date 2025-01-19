@@ -82,18 +82,19 @@
                             </div>
                         </td>
                         <td class="d-none d-xl-table-cell">
-
-                            {% if not ( student.studentGroup is null) %}
-                                <small>    {{ student.studentGroup.faculty.specialization.code~" "~student.studentGroup.faculty.specialization.name }}</small>
+                            {% if (student.studentGroup is null ) %}
+                            <div class="alert alert-danger"><small>Группа не назначена</small></div>
+                                {% elseif (student.studentGroup.faculty is null)  %}
+                                    <div class="alert alert-danger"><small>Специальность не назначена</small></div>
                             {% else %}
-                                <small>Группа не назначена</small>
+                                <small>{{  student.studentGroup.faculty.specialization.code~" "~student.studentGroup.faculty.specialization.name }}</small>
                             {% endif %}
                         </td>
                         <td class="d-none d-xl-table-cell">
                             {% if not ( student.studentGroup is null) %}
                                 {{ student.studentGroup.name }}
                             {% else %}
-                                <small>Группа не назначена</small>
+                                <div class="alert alert-danger"><small>Группа не назначена</small></div>
                             {% endif %}</td>
                         <td class="d-none d-xl-table-cell">{{ student.NumberZachetka }}
                             / {{ student.NumberStudBilet }}</td>

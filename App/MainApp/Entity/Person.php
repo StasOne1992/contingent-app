@@ -10,10 +10,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Npub\Gos\Snils;
 
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
 class Person
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
@@ -31,8 +33,13 @@ class Person
     #[ORM\Column(length: 12, nullable: true)]
     private ?string $INN = null;
 
-    #[ORM\Column(length: 14)]
-    private ?string $SNILS = null;
+    /**
+     * @ORM\Column(type="snils", nullable=true, options={"unsigned": true, "comment": "СНИЛС"})
+     *
+     * @var Snils СНИЛС
+     */
+    #[ORM\Column(type: 'snils', nullable: true, options: ['unsigned' => true, 'comment' => 'СНИЛС'])]
+    protected Snils|null $snils = null;
 
     #[ORM\Column(length: 6, nullable: true)]
     private ?string $MedicalSeries = null;
@@ -58,11 +65,16 @@ class Person
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?DateTimeInterface $birthDate = null;
 
+    #[ORM\OneToMany(mappedBy:'PersonDocument', targetEntity: PersonDocument::class)]
+    private Collection $personDocument;
+
+
     public function __construct()
     {
         $this->student = new ArrayCollection();
         $this->staff = new ArrayCollection();
         $this->AbiturientPetition = new ArrayCollection();
+        $this->personDocument = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -118,17 +130,53 @@ class Person
         return $this;
     }
 
-    public function getSNILS(): ?string
+
+    /**
+     * СНИЛС
+     */
+    public function getSnils(): Snils|null
     {
-        return $this->SNILS;
+        return $this->snils;
     }
 
-    public function setSNILS(string $SNILS): static
+    /**
+     * СНИЛС задан?
+     */
+    public function hasSnils(): bool
     {
-        $this->SNILS = $SNILS;
+        return (bool)$this->snils;
+    }
+
+    /**
+     * Задать СНИЛС
+     *
+     * @param Snils|string|int|null $snils СНИЛС
+     *
+     * @throws ValueError
+     */
+    public function setSnils(Snils|string|int|null $snils): static
+    {
+        if (is_string($snils) || is_int($snils)) {
+            if ($snils === '') {
+                $this->snils = null;
+
+                return $this;
+            }
+
+            $snils = Snils::createFromFormat($snils);
+            if (!$snils) {
+                throw new ValueError('Некорректный СНИЛС');
+            }
+        }
+
+        if (!($this->snils instanceof Snils && $this->snils->isEqual($snils))) {
+            // Заменяем значение только если оно изменилось
+            $this->snils = $snils;
+        }
 
         return $this;
     }
+
 
     public function getMedicalSeries(): ?string
     {
@@ -279,4 +327,37 @@ class Person
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, PersonDocument>
+     */
+    public function getPersonDocument(): Collection
+    {
+        return $this->personDocument;
+    }
+
+    public function addPersonDocument(PersonDocument $personDocument): static
+    {
+        if (!$this->$personDocument->contains($personDocument)) {
+            $this->$personDocument->add($personDocument);
+            $personDocument->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removePersonDocument(PersonDocument $personDocument): static
+    {
+        if ($this->PersonDocument->removeElement($personDocument)) {
+            // set the owning side to null (unless already changed)
+            if ($personDocument->getPerson() === $this) {
+                $personDocument->setPerson(null);
+            }
+        }
+        return $this;
+    }
+
+
+
+
 }

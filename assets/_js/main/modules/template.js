@@ -885,7 +885,8 @@ export default class Template {
    * Run Helpers on DOM content loaded
    *
    */
-  helpersOnLoad(helpers, options = {}) {
+  helpersOnLoad(helpers, options = {})
+  {
     this.onLoad(() => Helpers.run(helpers, options));
   }
 }

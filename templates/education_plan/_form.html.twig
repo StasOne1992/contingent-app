@@ -1,67 +1,12 @@
 {{ form_start(form) }}
-<div class="row">
-    <div class=" col-12 col-xl-6">
-        <div class="block block-rounded pb-2">
-            <div class="block-header block-header-default">
-                <h3 class="block-title">
-                    Основные сведения <small></small>
-                </h3>
-            </div>
-            <div class="block-content">
-                <div class="input-group pb-2">
-                    <span class="input-group-text">{{ form_label(form.Title) }}</span>
-                    {{ form_widget(form.Title,) }}
-                    {{ form_errors(form.Title,{ 'attr': {'class': 'invalid-feedback'} }) }}
-                    <small>{{ form_help(form.Title) }}</small>
-                </div>
-                <div class="row">
-                    <div class="col-12 col-xl-6">
-                        <div class="input-group pb-2">
-                            <span class="input-group-text">{{ form_label(form.DateStart) }}</span>
-                            {{ form_widget(form.DateStart,{ 'attr': {'class': 'js-maxlength form-select js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
-                            {{ form_errors(form.DateStart,{ 'attr': {'class': 'invalid-feedback'} }) }}
-                            <small>{{ form_help(form.DateStart) }}</small>
-                        </div>
-                    </div>
-                    <div class="col-12 col-xl-6">
-                        <div class="input-group pb-2">
-                            <span class="input-group-text">{{ form_label(form.DateEnd) }}</span>
-                            {{ form_widget(form.DateEnd,{ 'attr': {'class': 'js-maxlength form-select js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
-                            {{ form_errors(form.DateEnd,{ 'attr': {'class': 'invalid-feedback'} }) }}
-                            <small>{{ form_help(form.DateEnd) }}</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group pb-2">
-                    <span class="input-group-text">{{ form_label(form.Faculty) }}</span>
-                    {{ form_widget(form.Faculty) }}
-                    {{ form_errors(form.Faculty) }}
-                    <small>{{ form_help(form.Faculty) }}</small>
-                </div>
-                <div class="input-group pb-2">
-                    <span class="input-group-text">{{ form_label(form.Qualification) }}</span>
-                    {{ form_widget(form.Qualification) }}
-                    {{ form_errors(form.Qualification) }}
-                    <small>{{ form_help(form.Qualification) }}</small>
-                </div>
-                <div class="input-group pb-2">
-                    <span class="input-group-text">{{ form_label(form.EducationForm) }}</span>
-                    {{ form_widget(form.EducationForm) }}
-                    {{ form_errors(form.EducationForm) }}
-                    <small>{{ form_help(form.EducationForm) }}</small>
-                </div>
-                <div class="input-group pb-2">
-                    <span class="input-group-text">{{ form_label(form.BaseEducationType) }}</span>
-                    {{ form_widget(form.BaseEducationType) }}
-                    {{ form_errors(form.BaseEducationType) }}
-                    <small>{{ form_help(form.BaseEducationType) }}</small>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    {{ form_widget(form) }}
+<div class="input-group">
+    <span class="input-group-text">{{ form_label(form.DateStart) }}</span>
+    {{ form_widget(form.DateStart,{ 'attr': {'class': 'js-maxlength form-select js-maxlength-enabled','maxlength':'50','data-always-show':'true', 'data-placement':'top'} }) }}
+    {{ form_errors(form.DateStart,{ 'attr': {'class': 'invalid-feedback'} }) }}
+    <small>{{ form_help(form.DateStart) }}</small>
 </div>
 
+    {{ form_widget(form) }}
+
+    <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

@@ -18,6 +18,21 @@ security:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: true
+    login:
+      pattern: ^/api/login
+      stateless: true
+      json_login:
+        check_path: api_login_check
+        success_handler: lexik_jwt_authentication.handler.authentication_success
+        failure_handler: lexik_jwt_authentication.handler.authentication_failure
+      jwt: ~
+      entry_point: jwt
+      refresh_jwt:
+        check_path: api_login_refresh
+    api:
+      pattern: ^/api
+      stateless: true
+      jwt: ~
     main:
       lazy: true
       provider: app_user_provider
@@ -214,6 +229,8 @@ security:
     # Простой способ контролировать доступ к большим разделам вашего сайта
   # Примечание: будет использоваться только *первый* соответствующий элемент управления доступом.
   access_control:
+    - { path: ^/api/login, roles: PUBLIC_ACCESS }
+    - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
     - { path: ^/sign_in, role: PUBLIC_ACCESS }
     - { path: ^/accessDenied, role: PUBLIC_ACCESS }
     - { path: ^/student-app, roles: [ ROLE_STUDENT ] }

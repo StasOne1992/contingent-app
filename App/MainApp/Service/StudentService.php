@@ -4,7 +4,7 @@ namespace App\MainApp\Service;
 
 use App\MainApp\Repository\UserRepository;
 use App\mod_education\Entity\Student;
-use App\mod_education\Entity\StudentGroups;
+use App\mod_education\Entity\StudentGroup;
 use App\mod_education\Repository\StudentRepository;
 
 
@@ -62,9 +62,9 @@ class StudentService
         }
     }
 
-    public function getEmptyGroup(): StudentGroups
+    public function getEmptyGroup(): StudentGroup
     {
-        $group = new StudentGroups();
+        $group = new StudentGroup();
         $group->setName("Группа не указана");
         $group->setCode("EMPTY");
         //$group->setLetter("EMP");

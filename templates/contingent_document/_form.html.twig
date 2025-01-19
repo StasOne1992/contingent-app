@@ -1,204 +1,90 @@
 {{ form_start(form) }}
-<div class="d-none">{{ form_widget(form.student) }}</div>
 <div class="row">
-    <div class="col-12 col-md-4">
-        <div class="block block-rounded block-bordered block-themed">
-            <div class="block-header block-header-default bg-secondary">
-                <h3 class="block-title text-center text-md-start">Информация о приказе</h3>
+
+    <div class="col-4">
+        <div class="block ">
+            <div class="block-header">
+                <h4>Сведения о приказе</h4>
             </div>
             <div class="block-content pb-4">
-                <div class="row">{{ form_row(form.college) }}</div>
-                <div class="row row-cols-2">
-                    <div class="col">{{ form_row(form.number) }}</div>
-                    <div class="col">{{ form_row(form.createDate) }}</div>
-                </div>
-                <div class="row">{{ form_row(form.type) }}</div>
-                <div class="row">{{ form_row(form.name) }}</div>
-                <div class="row">{{ form_row(form.reason) }}</div>
-
-                <div class="form-check mt-2">
-                    <label class="form-check-label">{{ form_label(form.isActive) }}</label>{{ form_widget(form.isActive) }}
-                </div>
+                {{ form_widget(form.college) }}
+                {{ form_widget(form.createDate) }}
+                {{ form_widget(form.isActive) }}
+                {{ form_widget(form.name) }}
+                {{ form_widget(form.reason) }}
+                {{ form_widget(form.type) }}
             </div>
-        </div>
-
-        {{ form_widget(form) }}
-        <div class="block block-rounded block-bordered block-themed">
-            <div class="block-header block-header-default bg-secondary">
-                <span> </span>
-                <div class="block-options">
-                    <button class="btn btn-primary btn-lg">{{ button_label|default('Save') }}</button>
-                </div>
-            </div>
-
         </div>
     </div>
-    {{ form_end(form) }}
-    <div class="col-12 col-md-8">
-        <div class="block block-rounded block-bordered block-themed">
-            <div class="block-header block-header-default bg-secondary">
-                <h3 class="block-title text-center text-md-start">Студенты в приказе</h3>
+    <div class="col">
+        <div class="block">
+            <div class="block-header block-header-default">
+                <div class="block-title "> Список студентов</div>
                 <div class="block-options">
-                    <div class="block-options-item">
-                        <div class="btn-group" role="group" aria-label="Icons File group">
-                            <button type="button" class="btn btn-alt-primary" data-bs-toggle="modal"
-                                    data-bs-target="#modal-block-extra-large"><i class="fa fa-plus-hexagon"></i>
-                                Добавить студентов в приказ
-                            </button>
-                        </div>
-                    </div>
+                    <button type="button" onclick="getStudentList()" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Добавить студента</button>
                 </div>
             </div>
-            < class="block-content">
-                <table class="table table-bordered table-striped table-vcenter js-dataTable-responsive">
-                    <thead>
-                    <tr>
-                        <th class="w-auto">№п/п</th>
-                        <th class="w-auto">ФИО</th>
-                        <th class="w-auto">Группа</th>
-                        <th class="w-auto">Действия</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for element in form.vars.data.student %}
-                        <tr>
-                            <td>
-                                {{ loop.index }}
-                            </td>
-                            <td>{{ element.LastName~" "~element.FirstName~" "~element.MiddleName }}
-                                <br>
-                                {% if not (element.AbiturientPetition is null) %}
-                                    <small class="text-muted">{{ element.AbiturientPetition.getFaculty }}</small>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if not (element.StudentGroup is null) %}
-                                {{ element.StudentGroup }}
-                                {% else %}
-                                <div class="mb-4">
-                                    <div class="row">
-                                        <label id="labelstd-{{ element.id }}" class="form-label" for="example-select">Укажите
-                                            группу</label>
-                                        <div class="col">
-                                            <form id="frm-{{ element.id }}" action="{{ path('app_student_setGroup',{'id':element.id}) }}" method="POST">
-                                                <input class="d-none" name="contingentDocumentID"
-                                                       value="{{ contingent_document.id }}">
-                                                <div class="input-group">
-                                                    <select class="form-select" id="group-select"
-                                                            name="group-select">
-                                                        <option selected disabled>--Группа не выбрана--</option>
-                                                        {% for group in studentGroups %}
-                                                            <option value="{{ group.id }}">{{ group.name }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                    <button id="btn-{{ element.id }}" type="button"
-                                                            class="btn btn-alt-primary">Установить
-                                                    </button>
-                                                </div>
-                                            </form>
-                                            <div id="succsess-{{ element.id }}" class="d-none"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                    <script type="text/javascript">
 
-                                        $("#btn-{{ element.id }}").on("click", function () {
-                                            console.log('btn-{{ element.id }}.click');
-                                            console.log($("#frm-{{ element.id }}"));
-                                            $("#frm-{{ element.id }}").submit(function(e) {
-                                                e.preventDefault(); // avoid to execute the actual submit of the form.
-                                                let form = $(this);
-                                                let actionUrl = form.attr('action');
-                                                console.log(form);
-                                                console.log(actionUrl);
-                                                $.ajax({
-                                                    type: "POST",
-                                                    url: actionUrl,
-                                                    data: form.serialize(), // serializes the form's elements.
-                                                    success: function(data)
-                                                    {
-                                                        let frm = document.getElementById("frm-{{ element.id }}");
-                                                        let div = document.getElementById("succsess-{{ element.id }}");
-                                                        let labelstd = document.getElementById("labelstd-{{ element.id }}");
-                                                        frm.classList.add('d-none');
-                                                        div.classList.remove('d-none');
-                                                        labelstd.classList.add('d-none');
-                                                        div.innerHTML=data;
-                                                        alert(data); // show response from the php script.
-                                                    }
-                                                });
-                                            });
-                                            $("#frm-{{ element.id }}").submit();
-                                        });
-                                    </script>
-                                    {% endif %}
-                            </td>
-                            <td class="text-center">
-                                <div class="btn-group" role="group" aria-label="Icons File group">
-                                    <a type="button" href="{{ path('app_student_edit',{'id':element.id}) }}"
-                                       class="btn btn-primary">
-                                        <i class="fa fa-fw fa-pencil"></i> Изменить
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
+            <div class="block-content">
+                {% if not form.vars.data.groupMemberships|length == 0 %}
+                    {% for membership in form.vars.data.groupMemberships %}
+                        {{ dump(membership) }}
                     {% endfor %}
-                    </tbody>
-                </table>
+                {% endif %}
+
             </div>
         </div>
     </div>
+</div>
+<script>
+
+    function  getStudentList()
+    {
+        console.log('getStudentList')
+        let modalWind = $("#modal-student-list");
+        let block = $('#block-student-list');
+        modalWind.modal('show');
 
 
-<!-- Extra Large Block Modal -->
-<div class="modal" id="modal-block-extra-large" tabindex="-1" role="dialog"
-     aria-labelledby="modal-block-extra-large" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
+    }
+
+
+    function apiRequest() {
+        $.ajax({
+            url: 'api/students',         /* Куда пойдет запрос */
+            method: 'get',             /* Метод передачи (post или get) */
+            dataType: 'html',          /* Тип данных в ответе (xml, json, script, html). */
+            data: {text: 'Текст'},     /* Параметры передаваемые в запросе. */
+            done: function(data){   /* функция которая будет выполнена после успешного запроса.  */
+                alert(data);            /* В переменной data содержится ответ от index.php. */
+            }
+        });
+    }
+
+</script>
+
+
+<!-- Large Block Modal -->
+<div class="modal" id="modal-student-list" role="dialog" aria-labelledby="modal-block-large" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="block block-rounded block-transparent mb-0">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">Modal Title</h3>
+                    <h3 class="block-title">Список студентов</h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
                             <i class="fa fa-fw fa-times"></i>
                         </button>
                     </div>
                 </div>
-                <div class="block-content fs-sm pb-4">
-                    <form action="{{ path('app_contingent_document_set',{'id':form.vars.data.id}) }}" method="POST">
-                        <input class="d-none" name="contingent_document_id" id="contingent_document_id"
-                               value="{{ form.vars.data.id }}">
-                        <table class="table table-bordered table-striped table-vcenter js-dataTable-responsive">
-                            <thead>
-                            <tr>
-                                <th class="text-center" style="width: 70px;">
-                                    <div class="form-check d-inline-block"></div>
-                                <th>Name</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for elem in form.children.student.vars.choices %}
-                                <tr>
-                                    <td class="text-center">
-                                        <div class="form-check d-inline-block">
-                                            <input class="form-check-input"
-                                                   onchange="changestudent(''+{{ elem.value }})" type="checkbox"
-                                                   value="{{ elem.value }}" id="row_{{ elem.value }}"
-                                                   name="row_{{ elem.value }}">
-                                            <label class="form-check-label" for="row_{{ elem.value }}"></label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        {{ elem.label }}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                        <button class="btn btn-outline-primary" type="submit">Добавить в список</button>
-                    </form>
+                <div id="block-student-list" class="block-content fs-sm">
+                </div>
+                <div class="block-content block-content-full text-end bg-body">
+                    <button type="button" class="btn btn-sm btn-alt-secondary me-1" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Perfect</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!-- END Large Block Modal -->

@@ -26,8 +26,6 @@ class ContingentDocument
     #[ORM\ManyToOne(inversedBy: 'contingentDocuments')]
     private ?ContingentDocumentType $type = null;
 
-    #[ORM\ManyToMany(targetEntity: Student::class, inversedBy: 'contingentDocuments')]
-    private Collection $student;
 
     #[ORM\Column]
     private ?bool $isActive = null;
@@ -42,12 +40,12 @@ class ContingentDocument
     private ?string $Reason = null;
 
     #[ORM\OneToMany(mappedBy: 'ContingentDocument', targetEntity: GroupMembership::class)]
-    private Collection $groupMemberships;
+    private Collection $GroupMemberships;
 
     public function __construct()
     {
         $this->student = new ArrayCollection();
-        $this->groupMemberships = new ArrayCollection();
+        $this->GroupMemberships = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -91,107 +89,83 @@ class ContingentDocument
         return $this;
     }
 
-    /**
-     * @return Collection<int, Student>
-     */
-    public function getStudent(): Collection
-    {
-        return $this->student;
-    }
+     public function isIsActive(): ?bool
+     {
+         return $this->isActive;
+     }
 
-    public function addStudent(Student $student): self
-    {
-        if (!$this->student->contains($student)) {
-            $this->student->add($student);
-        }
+     public function setIsActive(bool $isActive): self
+     {
+         $this->isActive = $isActive;
 
-        return $this;
-    }
+         return $this;
+     }
 
-    public function removeStudent(Student $student): self
-    {
-        $this->student->removeElement($student);
+     public function getName(): ?string
+     {
+         return $this->name;
+     }
 
-        return $this;
-    }
+     public function setName(?string $name): self
+     {
+         $this->name = $name;
 
-    public function isIsActive(): ?bool
-    {
-        return $this->isActive;
-    }
+         return $this;
+     }
 
-    public function setIsActive(bool $isActive): self
-    {
-        $this->isActive = $isActive;
+     public function getCollege(): ?College
+     {
+         return $this->College;
+     }
 
-        return $this;
-    }
+     public function setCollege(?College $College): self
+     {
+         $this->College = $College;
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
+         return $this;
+     }
 
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
+     public function getReason(): ?string
+     {
+         return $this->Reason;
+     }
 
-        return $this;
-    }
+     public function setReason(string $Reason): self
+     {
+         $this->Reason = $Reason;
 
-    public function getCollege(): ?College
-    {
-        return $this->College;
-    }
+         return $this;
+     }
 
-    public function setCollege(?College $College): self
-    {
-        $this->College = $College;
+     public function __toString(): string
+     {
+         return $this->getType().' № '.$this->getNumber().' от '.$this->getCreateDate()->format('d.m.Y');
+     }
 
-        return $this;
-    }
-
-    public function getReason(): ?string
-    {
-        return $this->Reason;
-    }
-
-    public function setReason(string $Reason): self
-    {
-        $this->Reason = $Reason;
-
-        return $this;
-    }
-
-    public function __toString(): string
-    {
-        return $this->getType().' № '.$this->getNumber().' от '.$this->getCreateDate()->format('d.m.Y');
-    }
-
-    /**
-     * @return Collection<int, GroupMembership>
-     */
+     /**
+      * @return Collection<int, GroupMembership>
+      */
     public function getGroupMemberships(): Collection
     {
-        return $this->groupMemberships;
+        return $this->GroupMemberships;
     }
 
-    public function addGroupMembership(GroupMembership $groupMembership): static
+    public function addGroupMembership(GroupMembership $GroupMembership): static
     {
-        if (!$this->groupMemberships->contains($groupMembership)) {
-            $this->groupMemberships->add($groupMembership);
-            $groupMembership->setContingentDocument($this);
+        if (!$this->GroupMemberships->contains($GroupMembership)) {
+            $this->GroupMemberships->add($GroupMembership);
+            $GroupMembership->setContingentDocument($this);
         }
 
         return $this;
     }
 
-    public function removeGroupMembership(GroupMembership $groupMembership): static
+    public function removeGroupMembership(GroupMembership $GroupMembership): static
     {
-        if ($this->groupMemberships->removeElement($groupMembership)) {
+        if ($this->GroupMemberships->removeElement($GroupMembership)) {
             // set the owning side to null (unless already changed)
-            if ($groupMembership->getContingentDocument() === $this) {
-                $groupMembership->setContingentDocument(null);
+            if ($GroupMembership->getContingentDocument() === $this) {
+                $GroupMembership->setContingentDocument(null);
             }
         }
 

@@ -3,18 +3,22 @@
 {% set canreset = 0 %}
 {% set page_title =  student.LastName~" "~student.FirstName~" "~student.MiddleName  %}
 {% set sub_page_title = 'Редактировать данные студента' %}
-
+{% set actions_menu=true %}
 {% block title %}
     {% if page_title is defined %} {{ page_title }} {% endif %}
 {% endblock %}
 
+{% block topmenu_items %}
+    <button class="btn btn-outline-light">{% if buttonicon is defined %}<i
+            class="fa-fw {{ buttonicon }}"></i> {% endif %}{{ button_label|default('Сохранить') }}</button>
+    {% if canreset==1 %}
+        <button type="reset" class="btn btn-alt-danger"><i
+                    class="fa-regular fa-fw fa-eraser"></i> Очистить
+        </button>
+    {% endif %}
+{% endblock %}
 
 {% block body %}
     {% set buttonicon= ''%}
-    {{ include('student/_form.html.twig', {'button_label': 'Сохранить'}) }}
-
-
-    {# include('student/_delete_form.html.twig') }#}
-
-
+    {{ include('student/_form.html.twig') }}
 {% endblock %}

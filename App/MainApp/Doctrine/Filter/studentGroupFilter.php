@@ -2,7 +2,7 @@
 
 namespace App\MainApp\Doctrine\Filter;
 
-use App\mod_education\Entity\StudentGroups;
+use App\mod_education\Entity\StudentGroup;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;
 
@@ -15,7 +15,7 @@ class studentGroupFilter extends SQLFilter
             $userRoles = explode(',', $userRole);
             $userGroup = str_replace("'", "", $this->getParameter('userGroup'));
             $filterString = "";
-            if ($targetEntity->getReflectionClass()->name == StudentGroups::class) {
+            if ($targetEntity->getReflectionClass()->name == StudentGroup::class) {
                 if (!(in_array('ROLE_ROOT', $userRoles) || in_array('ROLE_ADMIN', $userRoles)) && !($userGroup == "" || $userGroup == null)) {
                     $filterString = $targetTableAlias . '. id in (' . $userGroup . ')';
                 } elseif ($userGroup == "" || $userGroup == null) {

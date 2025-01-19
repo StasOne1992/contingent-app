@@ -7,3 +7,8 @@ controllers:
 kernel:
     resource: ../App/Kernel.php
     type: attribute
+
+api_login_check:
+    path: /api/login/check
+api_login_refresh:
+    path: /api/login/refresh

@@ -72,7 +72,7 @@ class ContingentDocumentController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_contingent_document_edit', methods: ['GET', 'POST'])]
     #[IsGranted("ROLE_STAFF_CONT_DOC_U")]
-    public function edit(Request $request, ContingentDocument $contingentDocument, ContingentDocumentRepository $contingentDocumentRepository,StudentGroupsRepository $studentGroupsRepository): Response
+    public function edit(Request $request, ContingentDocument $contingentDocument, ContingentDocumentRepository $contingentDocumentRepository,StudentGroupsRepository $studentGroupRepository): Response
     {
         $form = $this->createForm(ContingentDocumentForm::class, $contingentDocument);
         $form->handleRequest($request);
@@ -87,7 +87,7 @@ class ContingentDocumentController extends AbstractController
         return $this->render('contingent_document/edit.html.twig', [
             'contingent_document' => $contingentDocument,
             'form' => $form,
-            'studentGroups'=>$studentGroupsRepository->findAll(),
+            'studentGroup'=>$studentGroupRepository->findAll(),
         ]);
     }
 

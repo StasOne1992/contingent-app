@@ -24,17 +24,13 @@ class Specialization
     #[ORM\Column(length: 255)]
     private ?string $Code = null;
 
-    #[ORM\Column(length: 255,nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $groupSuffix = null;
-
-
 
     public function __construct()
     {
         $this->faculties = new ArrayCollection();
     }
-
-
 
     public function getId(): ?int
     {
@@ -67,7 +63,6 @@ class Specialization
                 $faculty->setSpecialization(null);
             }
         }
-
         return $this;
     }
 
@@ -79,7 +74,6 @@ class Specialization
     public function setName(string $Name): self
     {
         $this->Name = $Name;
-
         return $this;
     }
 
@@ -91,25 +85,24 @@ class Specialization
     public function setCode(string $Code): self
     {
         $this->Code = $Code;
-
         return $this;
     }
-public function __toString(): string
-{
- return $this->Code.' '.$this->Name;
-}
 
-public function getGroupSuffix(): ?string
-{
-    return $this->groupSuffix;
-}
+    public function __toString(): string
+    {
+        return $this->Code . ' ' . $this->Name;
+    }
 
-public function setGroupSuffix(string $groupSuffix): static
-{
-    $this->groupSuffix = $groupSuffix;
+    public function getGroupSuffix(): ?string
+    {
+        return $this->groupSuffix;
+    }
 
-    return $this;
-}
+    public function setGroupSuffix(string $groupSuffix): static
+    {
+        $this->groupSuffix = $groupSuffix;
+        return $this;
+    }
 
 
 }

@@ -5,6 +5,7 @@ namespace App\mod_education\Form;
 use App\MainApp\Entity\College;
 use App\mod_education\Entity\ContingentDocument;
 use App\mod_education\Entity\ContingentDocumentType;
+use App\mod_education\Entity\GroupMembership;
 use App\mod_education\Repository\StudentGroupsRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -17,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ContingentDocumentForm extends AbstractType
 {
     public function __construct(
-        private StudentGroupsRepository $studentGroupsRepository,
+        private StudentGroupsRepository $studentGroupRepository,
     )
     {
     }
@@ -38,7 +39,7 @@ class ContingentDocumentForm extends AbstractType
                 'widget' => 'single_text',
                 'html5' => false,
                 'attr' => [
-                    'class' => ' js-flatpickr form-control ',
+                    'class' => ' ',
                     'placeholder' => 'Дата приказа']
             ])
             ->add('type', EntityType::class, array(
@@ -50,7 +51,7 @@ class ContingentDocumentForm extends AbstractType
                 ],
                 'required' => false,
                 'class' => ContingentDocumentType::class))
-            ->add('student')
+            //->add('student')
             ->add('name', TextType::class, array(
                 'label' => 'Наименование',
                 'empty_data' => null,
@@ -85,9 +86,7 @@ class ContingentDocumentForm extends AbstractType
                     'type' => 'checkbox',
                     'required' => false,
                 ]]);
-
-
-    }
+ }
 
     public function configureOptions(OptionsResolver $resolver): void
     {

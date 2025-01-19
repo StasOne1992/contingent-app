@@ -7,7 +7,7 @@ use App\MainApp\Repository\CollegeRepository;
 use App\mod_admission\Entity\AdmissionPlan;
 use App\mod_admission\Repository\AbiturientPetitionRepository;
 use App\mod_education\Entity\Student;
-use App\mod_education\Entity\StudentGroups;
+use App\mod_education\Entity\StudentGroup;
 use App\mod_education\Repository\StudentGroupsRepository;
 
 
@@ -254,7 +254,7 @@ class TypicalDocuments
 
 
     /**
-     * @param StudentGroups $content
+     * @param StudentGroup $content
      * @return void
      */
     public function generateSKUDRulesAccept($content)
@@ -271,7 +271,7 @@ class TypicalDocuments
 <p style="margin-top: 0.5cm" align="center">Группа <b>' . $content . '</b></p>        
         ';
         /**
-         * @var StudentGroups $content
+         * @var StudentGroup $content
          */
         $studentslist = $content->getStudents()->toArray();
         $itter = 0;
@@ -346,7 +346,7 @@ class TypicalDocuments
 <p style="margin-top: 0.5cm" align="center">Группа <b>' . $content . '</b></p>        
         ';
         /**
-         * @var StudentGroups $content
+         * @var StudentGroup $content
          */
         $studentslist = $content->getStudents()->toArray();
         $itter = 0;
