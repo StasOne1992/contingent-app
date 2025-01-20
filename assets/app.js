@@ -6,11 +6,16 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import '/styles/app.css';
-import '/styles/css/oneui.min.css';
 //import './styles/app.css';
 //import './styles/app.css';
 //import './styles/app.css';
+
+
+
+
+
+import '../vendor/datatables.net/datatables.net-bs5/css/dataTables.bootstrap5.min.css'
+import '../vendor/datatables.net/datatables.net-bs5/js/dataTables.bootstrap5.min.js'
 // start the Stimulus application
-import './bootstrap';
+
 

@@ -18,7 +18,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Npub\Gos\Snils;
+use ApiPlatform\Metadata\ApiResource;
 
+
+#[ApiResource]
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
 class Student
 {
