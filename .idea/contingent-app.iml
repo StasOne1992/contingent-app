@@ -8,7 +8,6 @@
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests/MainApp" isTestSource="true" packagePrefix="MainApp\Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/tests/StudentApp" isTestSource="true" packagePrefix="StudentApp\Tests\" />
-      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/behat/transliterator" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
@@ -171,6 +170,59 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/dompdf/php-font-lib" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dompdf/php-svg-lib" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/type-info" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/api-platform/doctrine-common" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/api-platform/doctrine-orm" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/api-platform/documentation" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/api-platform/http-cache" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/api-platform/hydra" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/api-platform/json-schema" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/api-platform/jsonld" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/api-platform/metadata" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/api-platform/openapi" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/api-platform/serializer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/api-platform/state" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/api-platform/symfony" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/api-platform/validator" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/lcobucci/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/lexik/jwt-authentication-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nelmio/cors-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/willdurand/negotiation" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/api-platform/graphql" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/components/jquery" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-autofill" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-autofill-bs5" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-bs5" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-buttons" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-buttons-bs5" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-colreorder" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-datetime" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-fixedcolumns" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-fixedcolumns-bs5" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-fixedheader" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-fixedheader-bs5" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-keytable" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-keytable-bs5" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-responsive" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-responsive-bs5" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-rowgroup" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-rowgroup-bs5" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-rowreorder" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-rowreorder-bs5" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-scroller" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-scroller-bs5" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-searchbuilder" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-searchbuilder-bs5" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-searchpanes" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-searchpanes-bs5" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-select" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-select-bs5" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-staterestore" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datatables.net/datatables.net-staterestore-bs5" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/gesdinet/jwt-refresh-token-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/asset-mapper" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/twbs/bootstrap" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/webonyx/graphql-php" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

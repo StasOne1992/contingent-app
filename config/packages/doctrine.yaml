@@ -55,6 +55,11 @@ doctrine:
                 dir: '%kernel.project_dir%/App/Global/Entity'
                 prefix: 'App\Global\Entity'
                 alias: global
+            security:
+                is_bundle: false
+                dir: '%kernel.project_dir%/App/MainApp/Security/Entity'
+                prefix: 'App\MainApp\Security\Entity'
+                alias: security
         filters:
             studentFilter:
                 class: App\mod_education\Doctrine\Filter\StudentFilter

@@ -50,14 +50,14 @@
 
     <!-- Load and set color theme + dark mode preference (blocking script to prevent flashing) -->
     <script src="/assets/js/setTheme.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
     {% block stylesheets %}
         {# { encore_entry_link_tags('app') } #}
     {% endblock %}
-    <script src="/assets/js/lib/jquery.min.js"></script>
+
     {% block javascripts %}
-        {# { encore_entry_script_tags('app') } #}
+
     {% endblock %}
 </head>
 
@@ -163,11 +163,8 @@
     Core libraries and functionality
     webpack is putting everything together at assets/_js/main/app.js
 -->
-<script src="/assets/js/oneui.app.min.js"></script>
-
-<!-- jQuery (required for BS Datepicker + BS Maxlength + Select2 + Masked Inputs + Ion Range Slider plugins) -->
-<script src="/assets/js/lib/jquery.min.js"></script>
-
+<link rel="stylesheet" href="{{ asset('assets/css/oneui.min.css') }}">
+<script src="{{ asset('assets/js/oneui.app.min.js') }}"></script>
 <!-- Page JS Plugins -->
 <script src="/assets/js/plugins/flatpickr/flatpickr.min.js"></script>
 

@@ -41,15 +41,31 @@
     function  getStudentList()
     {
         console.log('getStudentList')
-        let modal =   new bootstrap.Modal(document.getElementById("modal-block-student"));
+        let modalWind = $("#modal-student-list");
+        let block = $('#block-student-list');
+        modalWind.modal('show');
 
-        modal.show();
+
     }
+
+
+    function apiRequest() {
+        $.ajax({
+            url: 'api/students',         /* Куда пойдет запрос */
+            method: 'get',             /* Метод передачи (post или get) */
+            dataType: 'html',          /* Тип данных в ответе (xml, json, script, html). */
+            data: {text: 'Текст'},     /* Параметры передаваемые в запросе. */
+            done: function(data){   /* функция которая будет выполнена после успешного запроса.  */
+                alert(data);            /* В переменной data содержится ответ от index.php. */
+            }
+        });
+    }
+
 </script>
 
 
 <!-- Large Block Modal -->
-<div class="modal" id="modal-block-student" role="dialog" aria-labelledby="modal-block-large" aria-hidden="true">
+<div class="modal" id="modal-student-list" role="dialog" aria-labelledby="modal-block-large" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="block block-rounded block-transparent mb-0">
@@ -61,7 +77,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="block-content fs-sm">
+                <div id="block-student-list" class="block-content fs-sm">
                 </div>
                 <div class="block-content block-content-full text-end bg-body">
                     <button type="button" class="btn btn-sm btn-alt-secondary me-1" data-bs-dismiss="modal">Close</button>
