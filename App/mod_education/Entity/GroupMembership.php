@@ -2,11 +2,13 @@
 
 namespace App\mod_education\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\mod_education\Repository\GroupMembershipRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GroupMembershipRepository::class)]
+#[ApiResource]
 class GroupMembership
 {
     #[ORM\Id]

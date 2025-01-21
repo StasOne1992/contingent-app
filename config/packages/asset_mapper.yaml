@@ -1,10 +1,13 @@
 framework:
     asset_mapper:
+        vendor_dir: '%kernel.project_dir%/assets/vendors'
         # The paths to make available to the asset mapper.
         paths:
             - assets/
-            - vendor/
+            - public/bundles
         missing_import_mode: strict
+        excluded_patterns:
+            - '*/public/bundles/apiplatform/'
 
 when@prod:
     framework:

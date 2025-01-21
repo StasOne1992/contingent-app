@@ -2,6 +2,7 @@
 
 namespace App\MainApp\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\MainApp\Repository\PersonRepository;
 use App\mod_admission\Entity\AbiturientPetition;
 use App\mod_education\Entity\Student;
@@ -13,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Npub\Gos\Snils;
 
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
+#[ApiResource]
 class Person
 {
 
