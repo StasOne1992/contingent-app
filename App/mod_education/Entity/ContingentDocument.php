@@ -2,25 +2,39 @@
 
 namespace App\mod_education\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\MainApp\Entity\College;
 use App\mod_education\Repository\ContingentDocumentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
+
 
 #[ORM\Entity(repositoryClass: ContingentDocumentRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get(normalizationContext: ['groups' => 'contingent_document:item']),
+        new GetCollection(normalizationContext: ['groups' => 'contingent_document:list'])
+    ],
+)]
 class ContingentDocument
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
+    #[Groups(['contingent_document:list', 'contingent_document:item'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['contingent_document:list', 'contingent_document:item'])]
     private ?string $number = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['contingent_document:list', 'contingent_document:item'])]
     private ?\DateTimeInterface $createDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'contingentDocuments')]

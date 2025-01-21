@@ -1,4 +1,6 @@
 {{ form_start(form) }}
+
+
 <div class="row">
 
     <div class="col-4">
@@ -21,14 +23,16 @@
             <div class="block-header block-header-default">
                 <div class="block-title "> Список студентов</div>
                 <div class="block-options">
-                    <button type="button" onclick="getStudentList()" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Добавить студента</button>
+                    <button type="button" onclick="getStudentList()" class="btn btn-primary btn-sm"><i
+                                class="fa fa-plus"></i> Добавить студента
+                    </button>
                 </div>
             </div>
 
             <div class="block-content">
                 {% if not form.vars.data.groupMemberships|length == 0 %}
                     {% for membership in form.vars.data.groupMemberships %}
-                        {{ dump(membership) }}
+                        <p>{{ membership.student }}</p>
                     {% endfor %}
                 {% endif %}
 
@@ -37,6 +41,32 @@
     </div>
 </div>
 
+
+<div class="toast-container position-absolute bottom-1 end-0" id="toastPlacement">
+    <div id="load-toast" class="toast show">
+        <div class="toast-header">
+
+            <strong class="me-auto">Добавление студентов в приказ</strong>
+            <small></small>
+        </div>
+        <div id="load-toast-body" class="toast-body">
+
+            <div class="row">
+                <div class="col">
+                    <div class="progress">
+                        <div id="load-progress" class="progress-bar progress-bar-striped progress-bar-animated"
+                             role="progressbar"
+                             aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <span id="load-progress-count">10 из 200</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <!-- Large Block Modal -->
@@ -53,14 +83,14 @@
                     </div>
                 </div>
                 <div class="block-content fs-sm">
-                    <table id="table-student-list" class=" table table-sm table-bordered" style="width:100%">
+                    <table id="table-student-list" class="table table-bordered" style="width:100%">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>
-                            <th>Age</th>
-                            <th>Start date</th>
+                            <th></th>
+                            <th>Фамилия</th>
+                            <th>Имя</th>
+                            <th>Отчество</th>
+                            <th>СНИЛС</th>
 
                         </tr>
                         </thead>
@@ -79,8 +109,11 @@
                     </table>
                 </div>
                 <div class="block-content block-content-full text-end bg-body">
-                    <button type="button" class="btn btn-sm btn-alt-secondary me-1" data-bs-dismiss="modal">Close</button>
-                    <button type="button" onclick="addToDocument()" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Perfect</button>
+                    <button type="button" class="btn btn-sm btn-alt-secondary me-1" data-bs-dismiss="modal">Close
+                    </button>
+                    <button type="button" onclick="addToDocument()" class="btn btn-sm btn-primary"
+                            data-bs-dismiss="modal">Perfect
+                    </button>
                 </div>
             </div>
         </div>
@@ -88,18 +121,21 @@
 </div>
 <!-- END Large Block Modal -->
 
+
 <script>
 
-    function getStudentList() {
-        console.log('getStudentList')
-        let modalWind = $("#modal-student-list");
 
-        table = $('#table-student-list').DataTable({
+    function getStudentList() {
+
+        $('#table-student-list').DataTable({
             ajax: {
                 url: '/api/students',
                 dataSrc: 'member'
             },
-            paging: false,
+            paging: true,
+            pageLength: 30,
+            lengthMenu: [30, 50, 75, 100],
+
             columns: [
                 {
                     data: 'id',
@@ -115,7 +151,7 @@
                 style: 'multi'
             }
         });
-        modalWind.modal('show');
+        $("#modal-student-list").modal('show');
     }
 
 
@@ -136,12 +172,47 @@
 
     function addToDocument() {
         let data = $('#table-student-list').DataTable().rows({selected: true}).data();
-        for (i = 0 ;i < data.count();i++)
-        {
-            console.log(data[i]);
+
+        $('#load-progress').css('width', 0 + '%');
+        document.getElementById('load-progress').setAttribute('aria-valuemax',data.count());
+
+        for (let i = 0; i < data.count(); i++) {
+            let response_data = {
+                "@context": "/api/context/GroupMemberShip",
+                "@type": "GroupMemberShip",
+                "Student": data[i]['@id'],
+                "ContingentDocument": "/api/contingent_documents/{{ contingent_document.id|raw }}",
+                "Active": true
+            }
+
+
+            fetch('/api/group_memberships', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/ld+json'},
+                body: JSON.stringify(response_data)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Сетевая ошибка');
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                        $('#load-progress').css('width', i + '%');
+                        $('#load-progress-count').innerHTML = `${i} из ${data.count()}`
+                    }
+                )
+                .catch(error => console.error('Ошибка:', error));
         }
-        $('table-student-list').DataTable().destoy();
+        $('#table-student-list').DataTable().destroy()
         $("#modal-student-list").hide();
     }
 
+    document.addEventListener("DOMContentLoaded", () => {
+        let myToastEl = document.getElementById('toast-1')
+        let myToast = bootstrap.Toast.getOrCreateInstance(myToastEl)
+    })
 </script>
+
+
+
