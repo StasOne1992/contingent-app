@@ -3,32 +3,45 @@
 namespace App\mod_education\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\MainApp\Entity\Staff;
 use App\mod_education\Repository\StudentGroupsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(normalizationContext: ['groups' => 'student_group:item']),
+        new GetCollection(normalizationContext: ['groups' => 'student_group:list'])
+    ]
+)]
 #[ORM\Entity(repositoryClass: StudentGroupsRepository::class)]
 class StudentGroup
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
+    #[Groups(['student_group:list', 'student_group:item'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 12)]
+    #[Groups(['student_group:list', 'student_group:item'])]
     private ?string $Name = " ";
 
     #[ORM\ManyToOne(inversedBy: 'studentGroup')]
+    #[Groups(['student_group:list', 'student_group:item'])]
     private ?Faculty $Faculty = null;
 
     #[ORM\ManyToOne(inversedBy: 'studentGroup')]
+    #[Groups(['student_group:list', 'student_group:item'])]
     private ?Staff $GroupLeader = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['student_group:list', 'student_group:item'])]
     private ?string $Code = " ";
 
     #[ORM\OneToMany(mappedBy: 'StudentGroup', targetEntity: Student::class)]
@@ -40,7 +53,7 @@ class StudentGroup
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $DataEnd = null;
 
-    #[ORM\Column( nullable: true)]
+    #[ORM\Column(nullable: true)]
     private ?int $CourseNumber = 1;
 
     #[ORM\ManyToOne(inversedBy: 'studentGroup')]
@@ -50,6 +63,7 @@ class StudentGroup
     private ?int $ParallelNumber = 1;
 
     private ?array $socialPassport = array();
+
     public function __construct()
     {
         $this->students = new ArrayCollection();
@@ -149,6 +163,7 @@ class StudentGroup
             }
         );
     }
+
     public function addStudent(Student $student): self
     {
         if (!$this->students->contains($student)) {
@@ -170,9 +185,10 @@ class StudentGroup
 
         return $this;
     }
+
     public function __toString(): string
     {
-     return $this->getName().' ('.$this->getCode().')';
+        return $this->getName() . ' (' . $this->getCode() . ')';
     }
 
     public function getDateStart(): ?\DateTimeInterface
