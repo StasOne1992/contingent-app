@@ -36,32 +36,7 @@
         </div>
     </div>
 </div>
-<script>
 
-    function  getStudentList()
-    {
-        console.log('getStudentList')
-        let modalWind = $("#modal-student-list");
-        let block = $('#block-student-list');
-        modalWind.modal('show');
-
-
-    }
-
-
-    function apiRequest() {
-        $.ajax({
-            url: 'api/students',         /* Куда пойдет запрос */
-            method: 'get',             /* Метод передачи (post или get) */
-            dataType: 'html',          /* Тип данных в ответе (xml, json, script, html). */
-            data: {text: 'Текст'},     /* Параметры передаваемые в запросе. */
-            done: function(data){   /* функция которая будет выполнена после успешного запроса.  */
-                alert(data);            /* В переменной data содержится ответ от index.php. */
-            }
-        });
-    }
-
-</script>
 
 
 <!-- Large Block Modal -->
@@ -77,14 +52,96 @@
                         </button>
                     </div>
                 </div>
-                <div id="block-student-list" class="block-content fs-sm">
+                <div class="block-content fs-sm">
+                    <table id="table-student-list" class=" table table-sm table-bordered" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Office</th>
+                            <th>Age</th>
+                            <th>Start date</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Office</th>
+                            <th>Age</th>
+                            <th>Start date</th>
+
+                        </tr>
+                        </tfoot>
+                    </table>
                 </div>
                 <div class="block-content block-content-full text-end bg-body">
                     <button type="button" class="btn btn-sm btn-alt-secondary me-1" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Perfect</button>
+                    <button type="button" onclick="addToDocument()" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Perfect</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- END Large Block Modal -->
+
+<script>
+
+    function getStudentList() {
+        console.log('getStudentList')
+        let modalWind = $("#modal-student-list");
+
+        table = $('#table-student-list').DataTable({
+            ajax: {
+                url: '/api/students',
+                dataSrc: 'member'
+            },
+            paging: false,
+            columns: [
+                {
+                    data: 'id',
+                    render: DataTable.render.select(),
+                },
+
+                {data: 'FirstName'},
+                {data: 'LastName'},
+                {data: 'MiddleName'},
+                {data: 'DocumentSnils'},
+            ],
+            select: {
+                style: 'multi'
+            }
+        });
+        modalWind.modal('show');
+    }
+
+
+    function apiRequest() {
+        $.ajax({
+            url: 'api/students',         /* Куда пойдет запрос */
+            method: 'get',             /* Метод передачи (post или get) */
+            dataType: 'html',          /* Тип данных в ответе (xml, json, script, html). */
+            data: {text: 'Текст'},     /* Параметры передаваемые в запросе. */
+            done: function (data) {   /* функция которая будет выполнена после успешного запроса.  */
+                alert(data);            /* В переменной data содержится ответ от index.php. */
+            }
+        });
+    }
+
+
+    //$('#table-student-list').DataTable().rows({ selected: true }).data();
+
+    function addToDocument() {
+        let data = $('#table-student-list').DataTable().rows({selected: true}).data();
+        for (i = 0 ;i < data.count();i++)
+        {
+            console.log(data[i]);
+        }
+        $('table-student-list').DataTable().destoy();
+        $("#modal-student-list").hide();
+    }
+
+</script>

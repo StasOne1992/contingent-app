@@ -19,15 +19,27 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Npub\Gos\Snils;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(normalizationContext: ['groups' => 'student:item']),
+        new GetCollection(normalizationContext: ['groups' => 'student:list'])
+    ],
+    order: ['person.FirstName'],
+
+    paginationEnabled: false,
+)]
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
 class Student
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
+    #[Groups(['student:list', 'student:item'])]
     private ?int $id = null;
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $NumberZachetka = null;
@@ -39,13 +51,13 @@ class Student
     private ?string $PhoneNumber = null;
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
-
+    #[Groups(['student:list', 'student:item'])]
     private ?string $FirstName = null;
-
+    #[Groups(['student:list', 'student:item'])]
     private ?string $LastName = null;
-
+    #[Groups(['student:list', 'student:item'])]
     private ?string $MiddleName = null;
-
+    #[Groups(['student:list', 'student:item'])]
     private ?Snils $DocumentSnils = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -153,6 +165,7 @@ class Student
     private Collection $studentPunishments;
 
     #[ORM\ManyToOne(inversedBy: 'student')]
+    #[Groups(['student:list', 'student:item'])]
     private ?Person $person = null;
 
 
