@@ -170,42 +170,55 @@
 
     //$('#table-student-list').DataTable().rows({ selected: true }).data();
 
-    function addToDocument() {
+    async function addToDocument() {
         let data = $('#table-student-list').DataTable().rows({selected: true}).data();
+        fetch("/mod_education/messenger/add_task", {
+            method: "POST",
+            body: JSON.stringify(Array.from(data)),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        });
+        /*
+                console.log(JSON.stringify(Array.from(data)))
 
-        $('#load-progress').css('width', 0 + '%');
-        document.getElementById('load-progress').setAttribute('aria-valuemax',data.count());
-
-        for (let i = 0; i < data.count(); i++) {
-            let response_data = {
-                "@context": "/api/context/GroupMemberShip",
-                "@type": "GroupMemberShip",
-                "Student": data[i]['@id'],
-                "ContingentDocument": "/api/contingent_documents/{{ contingent_document.id|raw }}",
+                $('#load-progress').css('width', 0 + '%');
+                document.getElementById('load-progress').setAttribute('aria-valuemax', data.count());
+                let data_count = data.count();
+                for (let i = 0; i < data_count; i++) {
+                    let response_data = {
+                        "@context": "/api/context/GroupMemberShip",
+                        "@type": "GroupMemberShip",
+                        "Student": data[i]['@id'],
+                        "ContingentDocument": "/api/contingent_documents/{{ contingent_document.id|raw }}",
                 "Active": true
             }
 
 
-            fetch('/api/group_memberships', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/ld+json'},
-                body: JSON.stringify(response_data)
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Сетевая ошибка');
-                    }
-                    return response.json();
-                })
-                .then(() => {
-                        $('#load-progress').css('width', i + '%');
-                        $('#load-progress-count').innerHTML = `${i} из ${data.count()}`
-                    }
-                )
-                .catch(error => console.error('Ошибка:', error));
+            let result;
+            result = await sendData(response_data, i, data_count);
+            console.log(result);
         }
         $('#table-student-list').DataTable().destroy()
-        $("#modal-student-list").hide();
+        $("#modal-student-list").hide();*/
+    }
+
+
+    async function sendData(response_data, current_item, data_count) {
+        fetch('/mod_education/messenger/add_task', {
+            method: 'POST',
+            //headers: {'Content-Type': 'application/ld+json'},
+            body: JSON.stringify(response_data)
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Сетевая ошибка');
+                }
+                $('#load-progress').css('width', current_item + '%');
+                $('#load-progress-count').innerHTML = `${current_item} из ${data_count}`
+                return response;
+            })
+            .catch(error => console.error('Ошибка:', error));
     }
 
     document.addEventListener("DOMContentLoaded", () => {
