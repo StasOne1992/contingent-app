@@ -1,0 +1,35 @@
+{% extends '../../../../templates/base.html.twig' %}
+
+{% block title %}AdmissionExaminationResult index{% endblock %}
+
+{% block body %}
+    <h1>AdmissionExaminationResult index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Mark</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for admission_examination_result in admission_examination_results %}
+            <tr>
+                <td>{{ admission_examination_result.id }}</td>
+                <td>{{ admission_examination_result.Mark }}</td>
+                <td>
+                    <a href="{{ path('app_admission_examination_result_show', {'id': admission_examination_result.id}) }}">show</a>
+                    <a href="{{ path('app_admission_examination_result_edit', {'id': admission_examination_result.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admission_examination_result_new') }}">Create new</a>
+{% endblock %}

@@ -8,6 +8,6 @@ class AddTaskHandler
 {
     public function __invoke(AddTask $command): void
     {
-        dd($command);
+
     }
 }

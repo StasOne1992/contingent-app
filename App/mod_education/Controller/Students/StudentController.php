@@ -263,8 +263,8 @@ class StudentController extends AbstractController
         $student->getPersonalDocuments()->getValues();
         $student->getCharacteristics()->getValues();
         $student->getLegalRepresentatives()->getValues();
-        $student->getContingentDocuments()->getValues();
-        $student->getEventsResults();
+       // $student->getContingentDocuments()->getValues();
+      //  $student->getEventsResults();
         $student->getStudentPunishments()->getValues();
         return $this->render('student/show.html.twig', [
             'student' => $student,

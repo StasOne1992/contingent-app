@@ -150,7 +150,7 @@ class AbiturientPetitionController extends AbstractController
             $this->em->flush();
         }
 
-        return $this->render('abiturient_petition/index.html.twig', [
+        return $this->render('@mod_admission/abiturient_petition/index.html.twig', [
             'abiturient_petitions' => $abiturientPetitionRepository->findAll(),
         ]);
     }
@@ -181,7 +181,7 @@ class AbiturientPetitionController extends AbstractController
         }
         dd("");
 
-        return $this->render('abiturient_petition/index.html.twig', [
+        return $this->render('@mod_admission/abiturient_petition/index.html.twig', [
             'abiturient_petitions' => $abiturientPetitionRepository->findAll(),
         ]);
     }
@@ -200,7 +200,7 @@ class AbiturientPetitionController extends AbstractController
             return $this->redirectToRoute('app_abiturient_petition_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('abiturient_petition/new.html.twig', [
+        return $this->render('@mod_admission/abiturient_petition/new.html.twig', [
             'abiturient_petition' => $abiturientPetition,
             'form' => $form,
         ]);
@@ -239,7 +239,7 @@ class AbiturientPetitionController extends AbstractController
             return $this->redirectToRoute('app_abiturient_petition_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('abiturient_petition/edit.html.twig', [
+        return $this->render('@mod_admission/abiturient_petition/edit.html.twig', [
             'abiturient_petition' => $abiturientPetition,
             'form' => $form,
         ]);
@@ -275,7 +275,7 @@ class AbiturientPetitionController extends AbstractController
             $petitionLoadService->submitPetitionList($loadPetitions);
             return $this->redirectToRoute('app_abiturient_petition_index', [], Response::HTTP_SEE_OTHER);
         }
-        return $this->render('abiturient_petition/loadpetitions.html.twig', [
+        return $this->render('@mod_admission/abiturient_petition/loadpetitions.html.twig', [
             'form' => $form,
             'fetched_petition' => $loadPetitions
         ]);
@@ -315,7 +315,7 @@ class AbiturientPetitionController extends AbstractController
             $petitionLoadService->updatePetitionList($loadPetitions);
             return $this->redirectToRoute('app_abiturient_petition_index', [], Response::HTTP_SEE_OTHER);
         }
-        return $this->render('abiturient_petition/updatePetitionsAll.html.twig', [
+        return $this->render('@mod_admission/abiturient_petition/updatePetitionsAll.html.twig', [
             'form' => $form,
             'fetched_petition' => $loadPetitions
         ]);
@@ -351,7 +351,7 @@ class AbiturientPetitionController extends AbstractController
         $admission = $this->admissionRepository->find($request->get('admissionID'));
         $facultyID = $this->facultyRepository->find($request->get('facultyID'));
         $abiturientPetitionList = $this->abiturientPetitionRepository->findBy(['admission' => $admission, 'Faculty' => $facultyID, 'documentObtained' => true, 'status' => $petitionStatus], ['educationDocumentGPA' => 'DESC']);
-        return $this->render('abiturient_petition/index.html.twig', [
+        return $this->render('@mod_admission/abiturient_petition/index.html.twig', [
             'abiturient_petitions' => $abiturientPetitionList,
             'facultyTitle' => $request->get('facultyTitle'),
             'enroll' => true
@@ -377,7 +377,7 @@ class AbiturientPetitionController extends AbstractController
 
         $abiturientPetitionList = $this->abiturientPetitionRepository->findBy(['AdmissionPlanPosition' => $admissionPlanId, 'documentObtained' => true, 'status' => $petitionStatus], ['educationDocumentGPA' => 'DESC']);
 
-        return $this->render('abiturient_petition/index.html.twig', [
+        return $this->render('@mod_admission/abiturient_petition/index.html.twig', [
             'abiturient_petitions' => $abiturientPetitionList,
             'facultyTitle' => $request->get('facultyTitle'),
             'showExamResul' => true,
@@ -395,7 +395,7 @@ class AbiturientPetitionController extends AbstractController
         $facultyID = $this->facultyRepository->find($request->get('facultyID'));
         $abiturientPetitionList = $this->abiturientPetitionRepository->findBy(['admission' => $admission, 'Faculty' => $facultyID, 'documentObtained' => true, 'status' => $petitionStatus], ['educationDocumentGPA' => 'DESC']);
         $contingentDocuments = $this->contingentDocumentRepository->findBy(['isActive' => false, 'College' => $admission->getCollege()->getId()]);
-        return $this->render('abiturient_petition/index.html.twig', [
+        return $this->render('@mod_admission/abiturient_petition/index.html.twig', [
             'abiturient_petitions' => $abiturientPetitionList,
             'facultyTitle' => $request->get('facultyTitle'),
             'inducted' => true,
@@ -577,7 +577,7 @@ class AbiturientPetitionController extends AbstractController
         $facultyID = $this->facultyRepository->find($request->get('facultyID'));
         $abiturientPetitionList = $this->abiturientPetitionRepository->findBy(['admission' => $admission, 'Faculty' => $facultyID, 'documentObtained' => true, 'status' => $petitionStatus], ['educationDocumentGPA' => 'DESC']);
         $contingentDocuments = $this->contingentDocumentRepository->findBy(['isActive' => false]);
-        return $this->render('abiturient_petition/index.html.twig', [
+        return $this->render('@mod_admission/abiturient_petition/index.html.twig', [
             'abiturient_petitions' => $abiturientPetitionList,
             'facultyTitle' => $request->get('facultyTitle'),
             'inducted' => true,

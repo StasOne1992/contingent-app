@@ -6,6 +6,7 @@ use App\mod_education\Messenger\Message\GroupMembership\AddGroupMembershipMessag
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -23,12 +24,16 @@ class ModEducationMessageController extends AbstractController
         "1":{"@id":"/api/students/734","@type":"Student","id":734,"FirstName":"Ящина","LastName":"Ярослава","MiddleName":"Леонтьевна","DocumentSnils":"665-383-857 46","person":"/api/people/749"}
         }';
         $task = json_decode($data);
+        dump($task);
         foreach ($task as $item) {
             $message = new AddGroupMembershipMessage(json_encode($item));
-            $dispatch = $bus->dispatch($message);
-            dump($message);
+            try {
+                $dispatch = $bus->dispatch($message);
+            } catch (ExceptionInterface $e) {
+            }
+            dd();
         }
-        dd();
+
 
         $response->setContent(json_encode($data));
         return $response;

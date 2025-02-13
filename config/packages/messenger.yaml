@@ -1,9 +1,18 @@
 framework:
   messenger:
+    default_bus: default.bus
     buses:
-      messenger.bus.default:
+      default.bus:
+      main_app.bus:
+        default_middleware: false
         middleware:
+          - 'add_bus_name_stamp_middleware': [ 'messenger.main_app.bus' ]
           - App\MainApp\Messenger\AuditMiddleware
+      mod_education.bus:
+        middleware:
+          - 'add_bus_name_stamp_middleware': [ 'messenger.mod_education.bus' ]
+          - App\mod_education\Messenger\Middleware\GroupMembership\AddTaskMiddleware
+          - App\mod_education\Messenger\Middleware\GroupMembership\AddGroupMembershipMessage
     failure_transport: failed
 
     transports:

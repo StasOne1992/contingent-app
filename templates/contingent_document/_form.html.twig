@@ -121,9 +121,11 @@
 </div>
 <!-- END Large Block Modal -->
 
-
+<script src="{{ asset('js/app/mod_education/contingent_document/editform.js') }}"></script>
 <script>
-
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Ready!");
+    }, false);
 
     function getStudentList() {
 
@@ -154,7 +156,6 @@
         $("#modal-student-list").modal('show');
     }
 
-
     function apiRequest() {
         $.ajax({
             url: 'api/students',         /* Куда пойдет запрос */
@@ -166,9 +167,6 @@
             }
         });
     }
-
-
-    //$('#table-student-list').DataTable().rows({ selected: true }).data();
 
     async function addToDocument() {
         let data = $('#table-student-list').DataTable().rows({selected: true}).data();
@@ -202,7 +200,6 @@
         $('#table-student-list').DataTable().destroy()
         $("#modal-student-list").hide();*/
     }
-
 
     async function sendData(response_data, current_item, data_count) {
         fetch('/mod_education/messenger/add_task', {
