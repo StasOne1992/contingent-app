@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '@MainApp/base/base.html.twig' %}
 {% set refer = 1 %}
 {% set page_title = 'Профиль студента' %}
 {% set sub_page_title =  student.LastName~" "~student.FirstName~" "~student.MiddleName %}
@@ -349,11 +349,11 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                {% for document in student.contingentDocuments %}
+                                                {#  for document in student.contingentDocuments %}
                                                 <tr>
                                                     <td> {{ document.type~' '~document.number~' от '~document.createDate|date('d.m.Y') }}</td>
                                                     {% if is_granted('ROLE_ROOT') %} <td></td>{% endif %}
-                                                    {% endfor %}
+                                                    {% endfor #}
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -381,14 +381,14 @@
                                     <tr>
                                         <th>Мероприятие</th>
                                         <th>Результат</th>
-                                        <th>Действия</th>{% for event in student.eventsResults %}
+                                        <th>Действия</th>{#  for event in student.eventsResults }
 
                                     <tr>
                                         <td>{{ event.Event }}</td>
                                         <td>{{ event.ResultType }}</td>
                                         <td></td>
                                     </tr>
-                                    {% endfor %}
+                                    { endfor #}
 
 
                                     </tr>

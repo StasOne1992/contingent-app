@@ -1,0 +1,37 @@
+{% extends '../../../../templates/base.html.twig' %}
+
+{% block title %}AbiturientPetitionStatus index{% endblock %}
+
+{% block body %}
+    <h1>AbiturientPetitionStatus index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for abiturient_petition_status in abiturient_petition_statuses %}
+            <tr>
+                <td>{{ abiturient_petition_status.id }}</td>
+                <td>{{ abiturient_petition_status.title }}</td>
+                <td>{{ abiturient_petition_status.name }}</td>
+                <td>
+                    <a href="{{ path('app_abiturient_petition_status_show', {'id': abiturient_petition_status.id}) }}">show</a>
+                    <a href="{{ path('app_abiturient_petition_status_edit', {'id': abiturient_petition_status.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_abiturient_petition_status_new') }}">Create new</a>
+{% endblock %}

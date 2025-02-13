@@ -14,14 +14,13 @@ class AddGroupMembershipMessageHandler
 {
     public function __invoke(AddGroupMembershipMessage $command,): void
     {
-
-        $request = Request::create(
-            '/mod_education/messenger/add_task',
-            'POST',
-            content: ['data' => $command]
-        );
-        $request->headers->add(["Content-Type" => "application/ld+json"]);
-        $resonse = $request;
-        dd($request);
+        $this->addGroupMemberShip($command->getContent());
+        dd("some");
     }
+
+    private function addGroupMemberShip($data)
+    {
+        dd(json_decode($data));
+    }
+
 }

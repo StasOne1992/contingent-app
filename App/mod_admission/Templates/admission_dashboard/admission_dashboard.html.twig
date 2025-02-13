@@ -1,0 +1,178 @@
+{% extends '../../../../templates/base.html.twig' %}
+{% set refer = 0 %}
+{% set canreset = 0 %}
+{% set page_title =  "Приемная кампания" %}
+{% set sub_page_title = 'Панель управления' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-12 ">
+            <div class="block block-rounded block-bordered block-themed">
+                <div class="block-header block-header-default bg-secondary">
+                    <h3 class="block-title">Ход приемной кампании <small></small></h3>
+                </div>
+                <div class="block-content">
+                    <div class="row">
+                        <div class="col-12 col-xl-9">
+                            <h2 class="content-heading border-bottom mb-4 pb-2"><span class="lead fw-bold">Общие сведения</span>
+                            </h2>
+                            <div class="row row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 ">
+                                {% for metric in SummaryMetricReport %}
+
+                                    <div class="block-rounded text-center mb-3">
+                                        <div class="block-content bg-body-light ">
+                                            <i class=" {{ metric.Icon }} fa-3x {{ metric.Color }}"></i>
+                                            <div class="fs-3 fw-semibold  {{ metric.Color }}">{{ metric.Value }}</div>
+                                            <div class="fw-bold pb-4 fs-6 text-uppercase text-break">{{ metric.Title }}</div>
+                                            {% if (metric.Title=='Доступны для загрузки')and(metric.Value>0) %}
+                                                {% if is_granted('ROLE_STAFF_AB_PETITIONS_VIS') %}
+                                                    <div class="btn-group" role="group" aria-label=VISLOAD">
+                                                        <a type="button" class="btn btn-secondary"
+                                                           href="{{ path('app_abiturient_petition_loadFromVIS') }}"><i
+                                                                    class='fa-solid fa-file-circle-plus'></i> Загрузить
+                                                            новые</a>
+                                                    </div>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <h2 class="content-heading border-bottom mb-4 pb-2"><span class="lead fw-bold">Сведения по специальностям</span>
+                            </h2>
+                            <div class="row">
+                                {% for item in facultyPetitionCount %}
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-9">
+                                                <div class="block block-rounded block-themed  mb-4">
+                                                    <div class="block-header bg-secondary fs-4">
+                                                        {{ item.Faculty }}
+                                                    </div>
+                                                    <div class="block-content block-content-full bg-body-light ">
+
+                                                <div class="row">
+                                                    <div class="col-4 col-sm-2 mx-auto my-auto">
+                                                        <div class="fs-2 fw-black text-success text-center mx-auto">{{ item.PetitionCount }}</div>
+                                                        <div class="fw-bold text-uppercase text-center mx-auto">Всего</div>
+                                                    </div>
+                                                    <div class="col-8 col-sm-10 my-auto">
+                                                        <div class="row row-cols-auto row-cols-sm-2">
+                                                            <div class="col">
+                                                                <div class="row">
+                                                                    <span class="mb-0 fw-normal">Оригиналов: <span
+                                                                                class="text-info fw-black">{{ item.Origins }}</span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="row">
+                                                            <span class="mb-0 fw-normal">Отозвано: <span
+                                                                        class="text-warning fw-black">{{ item.Rejected }}</span>
+                                                            </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="row">
+                                                                    <span class="mb-0 fw-normal">Зарегистрировано: <span
+                                                                                class="text-danger fw-black">{{ item.Registred }}</span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="row">
+                                                            <span class="mb-0 fw-normal">В ФИС ГИА: <span
+                                                                        class="text-info fw-black">{{ item.FISGIA }}</span></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="row">
+                                                            <span class="mb-0 fw-normal">Рекомендованы:
+                                                            <span
+                                                                    class="text-success fw-black">{{ item.Enroll }}</span></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="row">
+                                                                    <span class="mb-0 fw-normal">Зачислено: <span
+                                                                                class="text-success fw-black">{{ item.Induct }}</span></span>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-3">
+                                                <div class="block block-rounded">
+                                                    <div class="block-header mx-auto bg-secondary">
+                                                        <div class="row w-100 row-cols-1 mx-auto">
+                                                            <div class="col">
+                                                                <a class="btn w-100 btn-outline-light text-center"
+                                                                   href="{{ path('app_admission_dashboard_faculty_petition_index',{admission:item.Admission.id,faculty:item.Faculty.id}) }}">
+                                                                    Список заявлений
+                                                                </a>
+                                                            </div>
+                                                            <div class="col">
+                                                                {% if (item.Faculty.getAdmissionExaminations().getValues()|length>0) %}
+                                                                    <a class="btn w-100 btn-outline-light text-center col "
+                                                                       href="{{ path('app_abiturient_petition_show_by_admission_and_faculty_and_exam_result',{admissionID:item.Admission.id,facultyID:item.Faculty.id,facultyTitle:item.Faculty.Name}) }}">Рейтинг
+                                                                        оригиналов с учетом ВИ</a>
+                                                                {% else %}
+                                                                    <a class="btn w-100  btn-outline-light text-center col  "
+                                                                       href="{{ path('app_abiturient_petition_show_by_admission_and_faculty',{admissionID:item.Admission.id,facultyID:item.Faculty.id,facultyTitle:item.Faculty.Name}) }}">Рейтинг
+                                                                        оригиналов</a>
+                                                                {% endif %}
+
+                                                            </div>
+                                                            <div class="col">
+                                                                <a class="btn w-100  btn-outline-light text-center col "
+                                                                   href="{{ path('app_abiturient_petition_show_by_admission_and_faculty_enroll',{admissionID:item.Admission.id,facultyID:item.Faculty.id,facultyTitle:item.Faculty.Name}) }}">Рекомендованные</a>
+                                                            </div>
+                                                            <div class="col">
+                                                                <a class="btn w-100  btn-outline-light text-center col "
+                                                                   href="{{ path('app_abiturient_petition_show_by_admission_and_faculty_induct',{admissionID:item.Admission.id,facultyID:item.Faculty.id,facultyTitle:item.Faculty.Name}) }}">Зачисленные</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-xl-3">
+                            <h2 class="content-heading border-bottom mb-4 pb-2"><span class="fw-bold">Распределение заявлений по регионам</span>
+                            </h2>
+                            <div class="row">
+                                {% for region in byRegionsReport %}
+                                    {% if region.Count>0 %}
+                                        <div class="row">
+                                            <div class="col-10 fs-base">{{ region.Title }}</div>
+                                            <div class="col-2 fw-bold">{{ region.Count }}</div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+{% endblock %}

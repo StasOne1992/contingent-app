@@ -32,7 +32,7 @@ class AdmissionExaminationResultController extends AbstractController
         return $this->render('admission_examination_result/index.html.twig', [
             'admission_examination_results' => $admissionExaminationResultRepository->findAll(),
         ]);
-    }
+    } 
 
     #[Route('/new', name: 'app_admission_examination_result_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response

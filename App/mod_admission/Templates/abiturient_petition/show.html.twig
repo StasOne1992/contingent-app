@@ -1,0 +1,268 @@
+{% extends '../../../../templates/base.html.twig' %}
+
+{% block title %}AbiturientPetition{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-12 col-sm-4">
+            <div class="block block-themed block-bordered">
+                <div class="block-header bg-dark block-header-default">
+                    <h3 class="block-title">Учётная информация</h3>
+                </div>
+                <div class="block-content">
+                    <div class="row">
+                        <div class="mb-2">
+                            <div class="row row-cols-auto">
+                                <div class="col"><h6>GUID</h6></div>
+                                <div class="col">{{ abiturient_petition.GUID }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-2">
+                            <div class="row row-cols-auto">
+                                <div class="col"><h6>Статус заявления</h6></div>
+                                <div class="col">{{ abiturient_petition.status }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-2">
+                            <div class="row row-cols-auto">
+                                <div class="col"><h6>Номер в ВИС</h6></div>
+                                <div class="col">{{ abiturient_petition.number }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-cols-2 mb-2">
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Рег. номер</h6></div>
+                            <div class="col">{{ abiturient_petition.localNumber }}</div>
+                        </div>
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Дата в ВИС</h6></div>
+                            <div class="col">   {{ abiturient_petition.createdTs|format_datetime('short', 'short', locale='ru') }}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Приемная кампания </h6></div>
+                            <div class="col"> {{ abiturient_petition.admission }}</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Специальность </h6></div>
+                            <div class="col"> {{ abiturient_petition.Faculty }}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Регион проживания</h6></div>
+                            <div class="col"> {{ abiturient_petition.Region }}</div>
+                        </div>
+                    </div>
+                    <h2 class="content-heading border-bottom mb-4 pb-2">Решение об оказании услуги</h2>
+                    <div class="row row-cols-auto mb-2">
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Дата решения </h6></div>
+                            <div class="col"> {{ abiturient_petition.DateProvision|format_datetime('short', 'none', locale='ru') }}</div>
+                        </div>
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Номер </h6></div>
+                            <div class="col"> {{ abiturient_petition.NumberProvision }}</div>
+                        </div>
+                    </div>
+                    <h2 class="content-heading border-bottom mb-2 pb-2">Решение об отказе в услуге</h2>
+                    <div class="row row-cols-auto mb-2">
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Дата решения </h6></div>
+                            <div class="col">{{ abiturient_petition.DateCancel|format_datetime('short', 'none', locale='ru') }}</div>
+                        </div>
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Номер </h6></div>
+                            <div class="col"> {{ abiturient_petition.NumberCancel }}</div>
+                        </div>
+                    </div>
+                    <div class="row mx-auto">
+                        {{ abiturient_petition.CancelReason }}
+                    </div>
+                    <h2 class="content-heading border-bottom mb-2 pb-2">Служебные метки</h2>
+                    <div class="row row-cols-auto mx-auto mb-2">
+                        {% if(abiturient_petition.documentObtained==true) %}
+                            <span class="badge bg-success-light text-primary-dark"><b>Оригинал</b></span>
+                        {% endif %}
+                        {% if(abiturient_petition.canceled) %}
+                            <span class="badge bg-danger">Отозвано</span>
+                        {% endif %}
+                        {% if(abiturient_petition.faculty==null) %}
+                            <span class="badge bg-danger">Не заполнена специальность</span>
+                        {% endif %}
+                        {% if(abiturient_petition.localNumber==null) %}
+                            <span class="badge bg-danger">Не присвоен номер</span>
+                        {% endif %}
+                        {% if(abiturient_petition.loadToFISGIA==true) %}
+                            <span class="badge bg-info">ФИС</span>
+                        {% endif %}
+                        {% if(abiturient_petition.CanPay==true) %}
+                            <span class="badge bg-info">Возможно платно</span>
+                        {% endif %}
+                        {% if(abiturient_petition.HaveErrorInPetition==true) %}
+                            <span class="badge bg-info">В заявлении ошибка</span>
+                        {% endif %}
+                        {% if(abiturient_petition.LockUpdateFormVIS==true) %}
+                            <span class="badge bg-info">Заблокировано обновление из ВИС</span>
+                        {% endif %}
+                        {% if(abiturient_petition.HasTargetAgreement ==true) %}
+                            <span class="badge bg-info">Целевой договор</span>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+            <div class="block block-themed block-bordered">
+                <div class="block-header bg-dark block-header-default">
+                    <h3 class="block-title">Комментарий</h3>
+                </div>
+                <div class="block-content pb-4">
+                    {{ abiturient_petition.Comment }}
+                </div>
+            </div>
+            <div class="block block-themed block-bordered">
+                <div class="block-header bg-dark block-header-default">
+                    <h3 class="block-title">Вложения</h3>
+                </div>
+                <div class="block-content pb-4">
+                    <div class="row row-cols-1">
+                        {% for attach in abiturient_petition.Attaches %}
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="fw-semibold fs-base mb-1">{{ attach.attach.documentType.category.title }}
+                                        <br>
+                                        <small>{{ attach.attach.documentType.name }} </small></div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-sm text-muted"><a target="_blank"
+                                                                     href="http://prof.mo.mosreg.ru/api/file/{{ attach.attach.id }}">Открыть</a>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-8">
+            <div class="block block-themed block-bordered mb-4">
+                <div class="block-header bg-dark block-header-default">
+                    <h3 class="block-title">Сведения об абитуриенте</h3>
+                </div>
+                <div class="block-content">
+                    <h2 class="content-heading border-bottom mb-4 pb-2">Социальный учёт</h2>
+                    <div class="row mx-auto row-cols-auto gap-1">
+                        {% if(abiturient_petition.IsInvalid==true) %}
+                            <span class="badge bg-secondary">Инвалид</span>
+                        {% endif %}
+                        {% if(abiturient_petition.IsPoor==true) %}
+                            <span class="badge bg-warning">Малоимущая семья</span>
+                        {% endif %}
+                        {% if(abiturient_petition.IsOrphan==true) %}
+                            <span class="badge bg-danger">Сирота</span>
+                        {% endif %}
+                        {% if(abiturient_petition.NeedStudentAccommondation==true) %}
+                            <span class="badge bg-info">Нуждается в общежитии</span>
+                        {% endif %}
+                    </div>
+                    <h2 class="content-heading border-bottom mb-4 pb-2">Основные сведения</h2>
+                    <div class="row row-cols-3  mb-4">
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Фамилия</h6></div>
+                            <div class="col"> {{ abiturient_petition.lastName }}</div>
+                        </div>
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Имя</h6></div>
+                            <div class="col">{{ abiturient_petition.firstName }}</div>
+                        </div>
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Отчество</h6></div>
+                            <div class="col">{{ abiturient_petition.middleName }}</div>
+                        </div>
+                    </div>
+                    <div class="row row-cols-auto  mb-4">
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Пол</h6></div>
+                            <div class="col">{{ abiturient_petition.gender }}</div>
+                        </div>
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Дата рождения</h6></div>
+                            <div class="col">{{ abiturient_petition.BirthDate|format_datetime('short', 'none', locale='ru') }}</div>
+                        </div>
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Место рождения</h6></div>
+                            <div class="col">{{ abiturient_petition.birthPlace }}</div>
+                        </div>
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Телефон</h6></div>
+                            <div class="col">{{ abiturient_petition.phone }}</div>
+                        </div>
+                    </div>
+                    <div class="row row-cols-auto">
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Зарегистрирован(-а) по адресу</h6></div>
+                            <div class="col">{{ abiturient_petition.registrationAddress }}</div>
+                        </div>
+                        <div class="row row-cols-auto">
+                            <div class="col"><h6>Проживает по адресу</h6></div>
+                            <div class="col"> {{ abiturient_petition.currentLocationAddress }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="block block-themed block-bordered mb-4">
+                <div class="block-header bg-dark block-header-default">
+                    <h3 class="block-title">Документы абитуриента</h3>
+                </div>
+                <div class="block-content">
+                    <div class="row row-cols-auto  mb-4">
+                        <div class="col-12 col-sm-6">  {{ abiturient_petition.documentSNILS }}</div>
+                        <div class="col-12 col-sm-6"></div>
+                    </div>
+
+                    <h2 class="content-heading border-bottom mb-4 pb-2">Паспортные данные</h2>
+                    <div class="row row-cols-2 mb-2">
+                        {{ abiturient_petition.pasportSeries }}
+                        {{ abiturient_petition.pasportNumber }}
+                    </div>
+                    <div class="row"></div>
+
+                    <h2 class="content-heading border-bottom mb-4 pb-2">Документ об образовании</h2>
+                    <div class="row row-cols-1 row-cols-sm-3 mb-2">
+                        {{ abiturient_petition.EducationDocumentName }}
+                        {{ abiturient_petition.EducationDocumentNumber }}
+                        {{ abiturient_petition.educationDocumentGPA }}
+                    </div>
+                    <div class="row  mb-2">
+                        {{ abiturient_petition.SchoolName }}
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="block block-themed block-bordered mb-4">
+        <div class="block-header bg-dark block-header-default">
+            <div class="block-title"></div>
+            <div class="block-options">
+                <div class="block-options-item">
+                    <button class="btn btn-outline-light">{{ button_label|default('Save') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

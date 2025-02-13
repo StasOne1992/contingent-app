@@ -8,6 +8,7 @@ class AddGroupMembershipMessage
 
     public function __construct(string $content)
     {
+        dump('some text');
         $this->content = $content;
     }
     public function getContent(): string
