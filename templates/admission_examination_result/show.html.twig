@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AdmissionExaminationResult{% endblock %}
+
+{% block body %}
+    <h1>AdmissionExaminationResult</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ admission_examination_result.id }}</td>
+            </tr>
+            <tr>
+                <th>Mark</th>
+                <td>{{ admission_examination_result.Mark }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admission_examination_result_index') }}">back to list</a>
+
+    <a href="{{ path('app_admission_examination_result_edit', {'id': admission_examination_result.id}) }}">edit</a>
+
+    {{ include('admission_examination_result/_delete_form.html.twig') }}
+{% endblock %}

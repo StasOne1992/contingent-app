@@ -1,0 +1,342 @@
+{% if not topmenu is defined %}
+    {% set topmenu = false %}
+{% endif %}
+{% if not actions_menu is defined %}
+    {% set actions_menu = false %}
+{% endif %}
+<!doctype html>
+<html lang="ru" class="remember-theme">
+<head>
+    <meta charset="utf-8">
+    <!--
+      Available classes for <html> element:
+
+      'dark'                  Enable dark mode - Default dark mode preference can be set in app.js file (always saved and retrieved in localStorage afterwards):
+                                window.One = new App({ darkMode: "system" }); // "on" or "off" or "system"
+      'dark-custom-defined'   Dark mode is always set based on the preference in app.js file (no localStorage is used)
+      'remember-theme'        Remembers active color theme between pages using localStorage when set through
+                                - Theme helper buttons [data-toggle="theme"]
+    -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <title>{% block title %}Welcome!{% endblock %}</title>
+
+    <meta name="description" content='АИС ГБПОУ МО "ВАТ "Холмогорка"'>
+    <meta name="author" content="vatholmogorka">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph Meta -->
+    <meta property="og:title" content='АИС ГБПОУ МО "ВАТ "Холмогорка"'>
+    <meta property="og:site_name" content="AISVatholm">
+    <meta property="og:description" content='АИС ГБПОУ МО "ВАТ "Холмогорка"'>
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <!-- Icons -->
+    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+    <link rel="shortcut icon" href="/assets/media/favicons/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/media/favicons/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/media/favicons/apple-touch-icon-180x180.png">
+    <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.2.1/af-2.7.0/b-3.2.0/b-colvis-3.2.0/b-html5-3.2.0/b-print-3.2.0/cr-2.0.4/date-1.5.5/fc-5.0.4/fh-4.0.1/kt-2.12.1/r-3.0.3/rg-1.5.1/rr-1.5.0/sc-2.4.3/sb-1.8.1/sp-2.3.3/sl-3.0.0/sr-1.4.1/datatables.min.css"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/css/oneui.min.css') }}" >
+
+</head>
+
+<body>
+<!-- Page Container -->
+
+<div id="page-container" class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed">
+
+    <!-- Side Navigation -->
+    {% include '_side_overlay.html.twig' %}
+    {% include '_sidebar.html.twig' %}
+    {% include '_header.html.twig' %}
+
+
+    <!-- Main Container -->
+    <main id="main-container">
+        <!-- Hero -->
+
+        <div class="bg-body-light">
+            <div class="content content-full">
+                <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center py-1">
+                    {% if (refer is defined and refer_link is defined) and refer!=0 %}
+                        <div class="flex-grow-0"><a href="{{ refer_link }}"
+                                                    class="btn btn-secondary mx-2"><i class="fa-solid fa-reply"></i></a>
+                        </div>
+                    {% else %}
+
+                    {% endif %}
+
+                    <div class="flex-grow-1">
+                        <h1 class="h3 fw-bold mb-2">
+                            {% if page_title is defined %} {{ page_title }} {% endif %}
+                        </h1>
+                        <h2 class="fs-base lh-base fw-medium text-muted mb-0">
+                            {% if sub_page_title is defined %} {{ sub_page_title |raw }} {% endif %}
+                        </h2>
+                    </div>
+                    <!--<nav class="flex-shrink-0 mt-3 mt-sm-0 ms-sm-3" aria-label="breadcrumb">
+                        <ol class="breadcrumb breadcrumb-alt">
+                            <li class="breadcrumb-item">
+                                <a class="link-fx" href="javascript:void(0)">Layout</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a class="link-fx" href="javascript:void(0)">Page</a>
+                            </li>
+                            <li class="breadcrumb-item" aria-current="page">
+                                Default
+                            </li>
+                        </ol>
+                    </nav>-->
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <!-- END Hero -->
+        {% if actions_menu %}
+            <div class="fixed-bottom">
+                <div class="block mb-0 block-themed ">
+                <div class="block-header bg-secondary">
+                    <h1> </h1>
+                    <div class="block-options">
+                        <a class="btn btn-primary">SomeButtonTest</a>
+                        {% block topmenu_items %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Page Content -->
+        <div class="content pt-3">
+            <div class="progress d-none" id="pbmain_div" style="height: 50px">
+                <div id="pbmain"
+                     class="progress-bar  progress-bar-striped progress-bar-animated bg-secondary text-light"
+                     role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+
+            {% block body %}
+            {% endblock %}
+
+        </div>
+        <!-- END Page Content -->
+
+        <div class="toast-container bg-warning" id="toast-container">
+            {% block toasts_container %}
+            {% endblock %}
+        </div>
+    </main>
+    <!-- END Main Container -->
+
+
+
+    {% include '_footer.html.twig' %}
+
+</div>
+
+
+<!-- END Page Container -->
+
+<!--
+    OneUI JS
+
+    Core libraries and functionality
+    webpack is putting everything together at assets/_js/main/app.js
+-->
+{% block javascripts %}
+
+{% endblock %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.maskedinput@1.4.1/src/jquery.maskedinput.min.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.2.1/af-2.7.0/b-3.2.0/b-colvis-3.2.0/b-html5-3.2.0/b-print-3.2.0/cr-2.0.4/date-1.5.5/fc-5.0.4/fh-4.0.1/kt-2.12.1/r-3.0.3/rg-1.5.1/rr-1.5.0/sc-2.4.3/sb-1.8.1/sp-2.3.3/sl-3.0.0/sr-1.4.1/datatables.min.js"></script>
+<script src="{{ asset('js/oneui.app.js') }}"></script>
+
+
+<!-- Page JS Helpers (Flatpickr + BS Datepicker + BS Maxlength + Select2 + Masked Inputs + Ion Range Slider plugins) -->
+<script>
+    document.addEventListener('DOMContentLoaded', function ($) {
+
+        One.helpersOnLoad(['js-flatpickr', 'jq-datepicker', 'jq-maxlength', 'jq-select2', 'jq-masked-inputs', 'jq-rangeslider']);
+    })
+</script>
+<script>
+    /*
+        let timer;
+
+        function hideProgressBar() {
+            document.getElementById('pbmain').setAttribute("style", 'width:0%');
+            document.getElementById('pbmain_div').classList.remove('d-block');
+            document.getElementById('pbmain_div').classList.add('d-none')
+        }
+
+        const eventSource = new EventSource("{{ mercure('popup-notify')|escape('js') }}");
+    eventSource.onmessage = event => {
+        clearTimeout(timer);
+        // Will be called every time an update is published by the server
+        let message = JSON.parse(event.data);
+        /* One.helpers('jq-notify', {
+             type: message.type,
+             from: 'bottom',
+             icon: message.icon,
+             title: message.header,
+             message: message.header + ' ' + message.message
+         });*/
+        //console.log('width: '+12+Math.random()+'%');
+        //console.log(message.currentElement);
+        //console.log(message.countElement);
+
+        // console.log(JSON.parse(event.data));
+    /*     document.getElementById('pbmain_div').classList.remove('d-none');
+         document.getElementById('pbmain_div').classList.add('d-block');
+         let progressbar = document.getElementById('pbmain');
+         progressbar.setAttribute("style", 'width: 100%');
+         progressbar.innerHTML = '<b> Фоновая задача: ' + message.header + ' ' + message.message + '</b>';
+         timer = setTimeout(hideProgressBar, 5000);
+
+     }*/
+</script>
+
+<script>
+    /*var StickyElement = function (node) {
+        var doc = $(document),
+            fixed = false,
+            anchor = node.find('.sticky-anchor'),
+            content = node.find('.sticky-content');
+        var onScroll = function (e) {
+            var docTop = doc.scrollTop(),
+                anchorTop = anchor.offset().top;
+            if (docTop > anchorTop) {
+                if (!fixed) {
+                    anchor.height(content.outerHeight());
+                    content.addClass('fixed');
+                    fixed = true;
+                }
+            } else {
+                if (fixed) {
+                    anchor.height(0);
+                    content.removeClass('fixed');
+                    fixed = false;
+                }
+            }
+        };
+        $(window).on('scroll', onScroll);
+    };
+    var sticky = new StickyElement($('.sticky-element'));
+*/
+</script>
+<script>
+    //One.helpers('jq-notify', {from: 'bottom', message: 'Your message!'});
+    /*const ToastNotify = new EventSource("{{ mercure('toast-notify')|escape('js') }}");
+    ToastNotify.onmessage = event => {
+        let message = JSON.parse(event.data);
+        One.helpers('jq-notify', {
+            type: message.type,
+            from: 'bottom',
+            icon: message.icon,
+            title: message.header,
+            message: message.header + ' ' + message.message
+        });
+    }*/
+
+</script>
+<script>
+
+    /*   !(function () {
+           class e {
+               static initDataTables() {
+                   jQuery.extend(jQuery.fn.DataTable.ext.classes,
+                       {
+                           sWrapper: "dataTables_wrapper dt-bootstrap5",
+                           sFilterInput: "form-control form-control-sm",
+                           sLengthSelect: "form-select form-select-sm"
+                       }),
+                       jQuery.extend(!0, jQuery.fn.DataTable.defaults, {
+                           language: {
+                               lengthMenu: "_MENU_",
+                               search: "_INPUT_",
+                               searchPlaceholder: "Поиск..",
+                               info: "Страница <strong>_PAGE_</strong> из <strong>_PAGES_</strong>",
+                               paginate: {
+                                   first: '<i class="fa fa-angle-double-left"></i>',
+                                   previous: '<i class="fa fa-angle-left"></i>',
+                                   next: '<i class="fa fa-angle-right"></i>',
+                                   last: '<i class="fa fa-angle-double-right"></i>'
+                               },
+                           },
+                       }),
+                       jQuery.extend(!0, jQuery.fn.DataTable.Buttons.defaults, {dom: {button: {className: "btn btn-sm btn-primary"}}}),
+                       jQuery(".js-dataTable-full").DataTable({
+                           pageLength: 25,
+                           lengthMenu: [
+                               [25, 35, 45, 55],
+                               [25, 35, 45, 55],
+                           ],
+                           autoWidth: !1,
+                       }),
+                       jQuery(".js-dataTable-full-pagination").DataTable({
+                           pagingType: "full_numbers",
+                           pageLength: 25,
+                           lengthMenu: [
+                               [25, 35, 45, 55],
+                               [25, 35, 45, 55],
+                           ],
+                           autoWidth: !1,
+                       }),
+                       jQuery(".js-dataTable-simple").DataTable({
+                           pageLength: 10,
+                           lengthMenu: !1,
+                           searching: !1,
+                           autoWidth: !1,
+                           dom: "<'row'<'col-sm-12'tr>><'row'<'col-sm-6'i><'col-sm-6'p>>"
+                       }),
+                       jQuery(".js-dataTable-buttons").DataTable({
+                           pageLength: 25,
+                           lengthMenu: [
+                               [25, 35, 45, 55],
+                               [25, 35, 45, 55],
+                           ],
+                           autoWidth: !1,
+                           buttons: ["copy", "csv", "excel", "pdf", "print"],
+                           dom: "<'row'<'col-sm-12'<'text-center bg-body-light py-2 mb-2'B>>><'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                       }),
+                       jQuery(".js-dataTable-responsive").DataTable({
+                           pagingType: "full_numbers",
+                           pageLength: 25,
+                           lengthMenu: [
+                               [25, 35, 45, 55],
+                               [25, 35, 45, 55],
+                           ],
+                           autoWidth: !1,
+                           responsive: !0,
+                       });
+               }
+
+               static init() {
+                   this.initDataTables();
+               }
+           }
+
+           One.onLoad(() => e.init());
+       })();*/
+</script>
+
+
+<script>
+    {% block customjs %}
+    {% endblock %}
+</script>
+
+</body>
+</html>

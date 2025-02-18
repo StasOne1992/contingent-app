@@ -188,6 +188,18 @@
             ".env"
         ]
     },
+    "symfony/form": {
+        "version": "7.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "7.2",
+            "ref": "7d86a6723f4a623f59e2bf966b6aad2fc461d36b"
+        },
+        "files": [
+            "config/packages/csrf.yaml"
+        ]
+    },
     "symfony/framework-bundle": {
         "version": "6.3",
         "recipe": {
@@ -325,6 +337,21 @@
             "config/packages/security.yaml"
         ]
     },
+    "symfony/stimulus-bundle": {
+        "version": "2.23",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.20",
+            "ref": "3acc494b566816514a6873a89023a35440b6386d"
+        },
+        "files": [
+            "assets/bootstrap.js",
+            "assets/controllers.json",
+            "assets/controllers/csrf_protection_controller.js",
+            "assets/controllers/hello_controller.js"
+        ]
+    },
     "symfony/translation": {
         "version": "6.3",
         "recipe": {
@@ -359,6 +386,18 @@
             "version": "7.0",
             "ref": "0df5844274d871b37fc3816c57a768ffc60a43a5"
         }
+    },
+    "symfony/ux-icons": {
+        "version": "2.23",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.17",
+            "ref": "803a3bbd5893f9584969ab8670290cdfb6a0a5b5"
+        },
+        "files": [
+            "assets/icons/symfony.svg"
+        ]
     },
     "symfony/validator": {
         "version": "6.3",

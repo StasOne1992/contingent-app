@@ -22,24 +22,26 @@ return [
     'oneUI' => [
         'path' => './assets/js/oneui.app.js',
     ],
-    'init-swagger-ui'=>
-    [
-        'path' => './public/bundles/apiplatform/init-swagger-ui.js'
+    'init-swagger-ui' => [
+        'path' => './public/bundles/apiplatform/init-swagger-ui.js',
     ],
     'provide_jquery' => [
         'path' => './assets/js/provide_jquery.js',
+    ],
+    '@symfony/stimulus-bundle' => [
+        'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
     ],
     'jquery' => [
         'version' => '3.7.1',
     ],
     'datatables.net-bs5' => [
-        'version' => '2.2.1',
+        'version' => '2.2.2',
     ],
     'datatables.net' => [
-        'version' => '2.2.1',
+        'version' => '2.2.2',
     ],
     'datatables.net-bs5/css/dataTables.bootstrap5.min.css' => [
-        'version' => '2.2.1',
+        'version' => '2.2.2',
         'type' => 'css',
     ],
     'jquery-countdown' => [
@@ -77,10 +79,10 @@ return [
         'version' => '3.10.1',
     ],
     '@ckeditor/ckeditor5-build-classic' => [
-        'version' => '44.1.0',
+        'version' => '44.2.0',
     ],
     '@ckeditor/ckeditor5-build-inline' => [
-        'version' => '44.1.0',
+        'version' => '44.2.0',
     ],
     'chart.js' => [
         'version' => '4.4.7',
@@ -133,10 +135,10 @@ return [
         'version' => '6.1.15',
     ],
     'preact' => [
-        'version' => '10.25.4',
+        'version' => '10.26.0',
     ],
     'preact/compat' => [
-        'version' => '10.25.4',
+        'version' => '10.26.0',
     ],
     '@fullcalendar/core/internal.js' => [
         'version' => '6.1.15',
@@ -148,7 +150,7 @@ return [
         'version' => '6.1.15',
     ],
     'preact/hooks' => [
-        'version' => '10.25.4',
+        'version' => '10.26.0',
     ],
     'highlightjs' => [
         'version' => '9.16.2',
@@ -200,12 +202,15 @@ return [
         'version' => '1.8.1',
     ],
     'sweetalert2' => [
-        'version' => '11.15.10',
+        'version' => '11.17.2',
     ],
     'vide' => [
         'version' => '0.5.1',
     ],
     'jquery.maskedinput' => [
         'version' => '1.4.1',
+    ],
+    '@hotwired/stimulus' => [
+        'version' => '3.2.2',
     ],
 ];
