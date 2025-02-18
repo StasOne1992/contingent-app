@@ -1,3 +1,4 @@
+import './bootstrap.js';
 /*
  * Welcome to your app's main JavaScript file!
  *
@@ -9,13 +10,13 @@
 /**
  * JS import
  */
-import 'js/provide_jquery';
 
+import 'jquery';
 /**
  * CSS import
  */
-import 'css/oneui.min.css';
-import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
+
+
 
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');

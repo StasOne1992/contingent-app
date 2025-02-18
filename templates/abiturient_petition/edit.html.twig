@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% set refer = 1 %}
+{%  set refer_link = path('app_abiturient_petition_index')%}
+{% set canreset = 0 %}
+{% set page_title =  'Редактировать заявления абитуриента'%}
+{% set sub_page_title = '' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block body %}
+
+    {{ include('abiturient_petition/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_abiturient_petition_index') }}">back to list</a>
+
+    {{ include('abiturient_petition/_delete_form.html.twig') }}
+{% endblock %}

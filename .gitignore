@@ -20,7 +20,7 @@
 /public/assets.7z
 /public/be_blocks_options.html
 /composer.lock
-/.idea/
+/.idea/*
 /public/assets/assets.zip
 /public/upload/tmp/
 

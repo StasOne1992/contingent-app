@@ -1,0 +1,137 @@
+<div class="col-12">
+    <div class="row">
+        {% if (abiturient_petition.getStatus().getName!='RECOMMENDED' and abiturient_petition.getStatus().getName!='INDUCTED' and inducted==false) %}
+            <div class="btn-group  mx-auto">
+
+                <a type="button" class="btn btn-sm btn-dark"
+                   href="{{ path('app_abiturient_petition_edit', {'id': abiturient_petition.id}) }}"><i
+                            class="fa  pull-right fa-pencil me-1"></i>Изменить</a>
+                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split"
+                        id="dropdown-split-primary" data-bs-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <span class="visually-hidden">Дополнительные действия</span>
+                </button>
+                <div class="dropdown-menu fs-sm" aria-labelledby="dropdown-split-primary">
+                    <a class="dropdown-item" target="_blank"
+                       href="{{ 'http://prof.mo.mosreg.ru/#spo/petition/'~abiturient_petition.GUID }}"><i
+                                class=" fa-arrow-up-right-from-square "></i> Открыть
+                        в ВИС</a>
+                    <a class="dropdown-item"
+                       href="{{ path('app_abiturient_petition_updateFromVIS',{'GUID':abiturient_petition.GUID}) }}"><i
+                                class="fas fa-download"></i> Обновить из ВИС</a>
+                    <a class="dropdown-item disabled" disabled="disabled" href="javascript:void(0)">Something else
+                        here</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item disabled" disabled="disabled" href="javascript:void(0)">Separated link</a>
+                </div>
+            </div>
+
+        {% endif %}
+        {% if (abiturient_petition.getStatus().getName=='RECOMMENDED') %}
+            <div class="btn-group  mx-auto">
+                <button type="button" class="btn btn-alt-primary" data-bs-toggle="modal"
+                        data-bs-target="#contingentDocumentList-{{ abiturient_petition.id }}">
+                    <i class=" fa-file-circle-plus"></i> Зачислить
+                </button>
+
+                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split"
+                        id="dropdown-split-primary" data-bs-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <span class="visually-hidden">Дополнительные действия</span>
+                </button>
+                <div class="dropdown-menu fs-sm" aria-labelledby="dropdown-split-primary">
+                    <a class="dropdown-item"
+                       href="{{ path('app_abiturient_petition_edit', {'id': abiturient_petition.id}) }}"><i
+                                class="fa  pull-right fa-pencil me-1"></i>Изменить</a>
+                    <a class="dropdown-item" target="_blank"
+                       href="{{ 'http://prof.mo.mosreg.ru/#spo/petition/'~abiturient_petition.GUID }}"><i
+                                class=" fa-arrow-up-right-from-square "></i> Открыть
+                        в ВИС</a>
+                </div>
+            </div>
+            <div class="modal" id="contingentDocumentList-{{ abiturient_petition.id }}" tabindex="-1" role="dialog"
+                 aria-labelledby="contingentDocumentList"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="block block-rounded block-transparent mb-0">
+                            <div class="block-header block-header-default">
+                                <h3 class="block-title">Зачисление студента</h3>
+                                <div class="block-options">
+                                    <button type="button" class="btn-block-option" data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                        <i class="fa fa-fw fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="block-content fs-sm">
+                                <p class="fs-6">Вы выбрали заявление:<br> {{ abiturient_petition }}</p>
+                                <div class="alert alert-warning" role="alert">
+                                    <div class="row px-3">
+                                        <h5 class="h5 text-center">Редактирование заявления абитуриента будет
+                                            заблокировано!</h5>
+                                        <p class="text-center">После нажатия кнопки "Зачислить" произойдёт добавление
+                                            абитуриента в выбранный
+                                            приказ.
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <form id="contingentDocument-{{ abiturient_petition.id }}" method="post"
+                                  action="{{ path('app_abiturient_petition_induct') }}">
+                                <div class="block-content block-content-full">
+                                    <div class="mb-4">
+                                        <div class="d-none">
+                                            <label class="form-label" for="PetitionId">№ заявления</label>
+                                            <input type="text" required class="form-control" id="abiturient_petition"
+                                                   name="PetitionId" placeholder="Заявление"
+                                                   value="{{ abiturient_petition.id }}">
+                                        </div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label">Укажите приказ</label>
+                                        <div class="space-y-2">
+                                            {% for document in contingentDocumentsList %}
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio"
+                                                           id="ContingentDocument-{{ document.id }}"
+                                                           name="contingentDocument" value="{{ document.id }}">
+                                                    <label class="form-check-label"
+                                                           for="ContingentDocument-{{ document.id }}">{{ document }}</label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block-content block-content-full text-end bg-body">
+
+                                    <button type="button" class="btn btn-sm btn-alt-secondary me-1"
+                                            data-bs-dismiss="modal">
+                                        Закрыть
+                                    </button>
+                                    <button type="submit" class="btn btn-sm btn-primary" data-bs-dismiss="modal"><i
+                                                class=" fa-file-circle-plus"></i> Зачислить
+                                    </button>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if (abiturient_petition.getStatus().getName=='INDUCTED') %}
+            <h5>В приказе</h5>
+        {% endif %}
+    </div>
+    {% if (abiturient_petition.getStatus().getName!='RECOMMENDED') and(abiturient_petition.getStatus().getName!='INDUCTED') and (abiturient_petition.getStatus().getName=='ACCEPTED') and (enroll) %}
+        <div class="row pt-4 mx-2">
+            <a class="btn btn-primary btn-sm"
+               href="{{ path('app_abiturient_petition_enroll',{'id': abiturient_petition.id}) }}"> <i
+                        class=" fa-badge-check"> </i> Рекомендовать</a>
+        </div>
+    {% endif %}
+</div>
+

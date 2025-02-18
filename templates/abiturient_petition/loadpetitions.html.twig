@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+{% set refer = 1 %}
+{% set canreset = 0 %}
+{% set page_title =  "Загрузка заявлений из ВИС" %}
+{% set sub_page_title = '' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col=12">
+            {{ form_start(form) }}
+            <div class="block block-bordered block-themed">
+                <div class="block-content">
+
+                    <h5>Выполнено чтение заявлений из ВИС "Зачисление в ПОО Московская область"</h5>
+                    <p>Для загрузки доступно: <b>{{ fetched_petition|length }}</b> заявлений</p>
+
+                    <div class="block block-rounded block-themed block-mode-hidden">
+                        <div class="block-header bg-dark block-header-default">
+                            <h3 class="block-title">Список заявлений </h3>
+                            <div class="block-options">
+                                <button type="button" class="btn-block-option" data-toggle="block-option"
+                                        data-action="fullscreen_toggle"><i class="fa-regular fa-arrows-maximize"></i>
+                                </button>
+                                <button type="button" class="btn-block-option" data-toggle="block-option"
+                                        data-action="pinned_toggle">
+                                    <i class="fa fa-pin"></i>
+                                </button>
+                                <button type="button" class="btn-block-option" data-toggle="block-option"
+                                        data-action="state_toggle" data-action-mode="demo">
+                                    <i class="fa-regular fa-arrows-rotate"></i>
+                                </button>
+                                <button type="button" class="btn-block-option" data-toggle="block-option"
+                                        data-action="content_toggle"></button>
+                                <button type="button" class="btn-block-option" data-toggle="block-option"
+                                        data-action="close">
+                                    <i class="fa fa-close"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="block-content">
+                            <table class="table table-bordered table-striped table-vcenter js-dataTable-responsive">
+                                <thead>
+                                <tr>
+                                    <th>GUID</th>
+                                    <th>Специальность</th>
+                                    <th>ФИО</th>
+                                    <th>Дата создания</th>
+                                    <th>Средний балл</th>
+                                    <th>Отозвано</th>
+                                    <th>№ ВИС</th>
+                                    <th>Действия</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for abiturient_petition in fetched_petition %}
+                                    <tr>
+                                        <td>{{ abiturient_petition.id }}</td>
+                                        <td>{{ abiturient_petition.speciality }}</td>
+                                        <td>{{ abiturient_petition.fio }}</td>
+                                        <td>{{ abiturient_petition.createdTs }}</td>
+                                        <td>{{ abiturient_petition.educationDocumentGPA }}</td>
+                                        <td>{{ abiturient_petition.canceled }}</td>
+                                        <td>{{ abiturient_petition.number }}</td>
+                                        <td>
+                                            <a target="_blank" href="{{'http://prof.mo.mosreg.ru/#spo/petition/'~abiturient_petition.id}}">Открыть в ВИС</a>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="8">Нет ни одной записи</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="block-header  block-header-default bg-secondary">
+                <div class="block-options"></div>
+                <button type="submit" class="btn btn-primary">Загрузить в систему</button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

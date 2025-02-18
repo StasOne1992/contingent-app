@@ -17,8 +17,12 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ORM\Entity(repositoryClass: ContingentDocumentRepository::class)]
 #[ApiResource(
     operations: [
-        new Get(normalizationContext: ['groups' => 'contingent_document:item']),
-        new GetCollection(normalizationContext: ['groups' => 'contingent_document:list'])
+        new Get(normalizationContext: ['groups' => 'contingent_document:item'],name: 'getDocument'),
+        new GetCollection(normalizationContext: ['groups' => 'contingent_document:list']),
+        new Get(
+            normalizationContext: ['groups' => 'contingent_document_students:item'],
+            name: "getStudentsInDocument"
+        ),
     ],
 )]
 class ContingentDocument
@@ -26,7 +30,7 @@ class ContingentDocument
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
-    #[Groups(['contingent_document:list', 'contingent_document:item'])]
+    #[Groups(['contingent_document:list', 'contingent_document:item','contingent_document_students:item'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -54,6 +58,7 @@ class ContingentDocument
     private ?string $Reason = null;
 
     #[ORM\OneToMany(mappedBy: 'ContingentDocument', targetEntity: GroupMembership::class)]
+    #[Groups(['contingent_document:item'])]
     private Collection $GroupMemberships;
 
     public function __construct()

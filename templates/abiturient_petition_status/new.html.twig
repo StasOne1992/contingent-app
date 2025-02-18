@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New AbiturientPetitionStatus{% endblock %}
+
+{% block body %}
+    <h1>Create new AbiturientPetitionStatus</h1>
+
+    {{ include('abiturient_petition_status/_form.html.twig') }}
+
+    <a href="{{ path('app_abiturient_petition_status_index') }}">back to list</a>
+{% endblock %}

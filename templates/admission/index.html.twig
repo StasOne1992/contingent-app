@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admission index{% endblock %}
+
+{% block body %}
+    <h1>Admission index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>DateStart</th>
+                <th>DateEnd</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for admission in admissions %}
+            <tr>
+                <td>{{ admission.id }}</td>
+                <td>{{ admission.name }}</td>
+                <td>{{ admission.dateStart ? admission.dateStart|date('Y-m-d') : '' }}</td>
+                <td>{{ admission.dateEnd ? admission.dateEnd|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_admission_show', {'id': admission.id}) }}">show</a>
+                    <a href="{{ path('app_admission_edit', {'id': admission.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admission_new') }}">Create new</a>
+{% endblock %}

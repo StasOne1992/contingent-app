@@ -21,15 +21,45 @@
     <div class="col">
         <div class="block">
             <div class="block-header block-header-default">
-                <div class="block-title "> Список студентов</div>
+                <div class="block-title "> Студенты в документе</div>
                 <div class="block-options">
-                    <button type="button" onclick="getStudentList()" class="btn btn-primary btn-sm"><i
-                                class="fa fa-plus"></i> Добавить студента
+                    <button type="button" onclick='$("#modal-student-list").modal("show")'
+                            class="btn btn-primary btn-sm"><i
+                                class="fa fa-plus"></i> Добавить студентов в приказ
                     </button>
                 </div>
             </div>
 
             <div class="block-content">
+                <div {{ stimulus_controller("mod_education--edit_contingent_document_student_in_document") }}>
+                    <table id="table-student-in-document-list" class="table table-bordered" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Фамилия</th>
+                            <th>Имя</th>
+                            <th>Отчество</th>
+                            <th>СНИЛС</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Office</th>
+                            <th>Age</th>
+                            <th>Start date</th>
+
+                        </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+
+
                 {% if not form.vars.data.groupMemberships|length == 0 %}
                     {% for membership in form.vars.data.groupMemberships %}
                         <p>{{ membership.student }}</p>
@@ -83,6 +113,8 @@
                     </div>
                 </div>
                 <div class="block-content fs-sm">
+                    <div {{ stimulus_controller("mod_education--edit_contingent_document") }}>
+                        <input id="contingent-document-id" value="{{ contingent_document.id }}">
                     <table id="table-student-list" class="table table-bordered" style="width:100%">
                         <thead>
                         <tr>
@@ -107,122 +139,23 @@
                         </tr>
                         </tfoot>
                     </table>
-                </div>
-                <div class="block-content block-content-full text-end bg-body">
+
+                        <div class="block-content block-content-full text-end bg-body">
                     <button type="button" class="btn btn-sm btn-alt-secondary me-1" data-bs-dismiss="modal">Close
                     </button>
-                    <button type="button" onclick="addToDocument()" class="btn btn-sm btn-primary"
-                            data-bs-dismiss="modal">Perfect
+
+                            <button type="button" data-action="click->mod-education--edit-contingent-document#addtodocument"
+                                    class="btn btn-sm btn-primary">Perfect
                     </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- END Large Block Modal -->
-
-<script src="{{ asset('js/app/mod_education/contingent_document/editform.js') }}"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log("Ready!");
-    }, false);
-
-    function getStudentList() {
-
-        $('#table-student-list').DataTable({
-            ajax: {
-                url: '/api/students',
-                dataSrc: 'member'
-            },
-            paging: true,
-            pageLength: 30,
-            lengthMenu: [30, 50, 75, 100],
-
-            columns: [
-                {
-                    data: 'id',
-                    render: DataTable.render.select(),
-                },
-
-                {data: 'FirstName'},
-                {data: 'LastName'},
-                {data: 'MiddleName'},
-                {data: 'DocumentSnils'},
-            ],
-            select: {
-                style: 'multi'
-            }
-        });
-        $("#modal-student-list").modal('show');
-    }
-
-    function apiRequest() {
-        $.ajax({
-            url: 'api/students',         /* Куда пойдет запрос */
-            method: 'get',             /* Метод передачи (post или get) */
-            dataType: 'html',          /* Тип данных в ответе (xml, json, script, html). */
-            data: {text: 'Текст'},     /* Параметры передаваемые в запросе. */
-            done: function (data) {   /* функция которая будет выполнена после успешного запроса.  */
-                alert(data);            /* В переменной data содержится ответ от index.php. */
-            }
-        });
-    }
-
-    async function addToDocument() {
-        let data = $('#table-student-list').DataTable().rows({selected: true}).data();
-        fetch("/mod_education/messenger/add_task", {
-            method: "POST",
-            body: JSON.stringify(Array.from(data)),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        });
-        /*
-                console.log(JSON.stringify(Array.from(data)))
-
-                $('#load-progress').css('width', 0 + '%');
-                document.getElementById('load-progress').setAttribute('aria-valuemax', data.count());
-                let data_count = data.count();
-                for (let i = 0; i < data_count; i++) {
-                    let response_data = {
-                        "@context": "/api/context/GroupMemberShip",
-                        "@type": "GroupMemberShip",
-                        "Student": data[i]['@id'],
-                        "ContingentDocument": "/api/contingent_documents/{{ contingent_document.id|raw }}",
-                "Active": true
-            }
 
 
-            let result;
-            result = await sendData(response_data, i, data_count);
-            console.log(result);
-        }
-        $('#table-student-list').DataTable().destroy()
-        $("#modal-student-list").hide();*/
-    }
-
-    async function sendData(response_data, current_item, data_count) {
-        fetch('/mod_education/messenger/add_task', {
-            method: 'POST',
-            //headers: {'Content-Type': 'application/ld+json'},
-            body: JSON.stringify(response_data)
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Сетевая ошибка');
-                }
-                $('#load-progress').css('width', current_item + '%');
-                $('#load-progress-count').innerHTML = `${current_item} из ${data_count}`
-                return response;
-            })
-            .catch(error => console.error('Ошибка:', error));
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        let myToastEl = document.getElementById('toast-1')
-        let myToast = bootstrap.Toast.getOrCreateInstance(myToastEl)
-    })
-</script>
 
 
 
