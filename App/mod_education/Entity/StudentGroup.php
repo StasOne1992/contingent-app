@@ -5,6 +5,7 @@ namespace App\mod_education\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use App\MainApp\Entity\College;
 use App\MainApp\Entity\Staff;
 use App\mod_education\Repository\StudentGroupsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -25,23 +26,59 @@ class StudentGroup
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
-    #[Groups(['student_group:list', 'student_group:item'])]
+    #[Groups(
+        [
+            'student_group:list',
+            'student_group:item',
+            'contingent_document:item',
+        ]
+    )]
     private ?int $id = null;
 
     #[ORM\Column(length: 12)]
-    #[Groups(['student_group:list', 'student_group:item'])]
+    #[Groups(
+        [
+            'student_group:list',
+            'student_group:item',
+            'contingent_document:item',
+        ]
+    )]
     private ?string $Name = " ";
 
     #[ORM\ManyToOne(inversedBy: 'studentGroup')]
-    #[Groups(['student_group:list', 'student_group:item'])]
+    #[Groups(
+        [
+            'student_group:list',
+            'student_group:item',
+        ]
+    )]
     private ?Faculty $Faculty = null;
+    #[ORM\ManyToOne(inversedBy: 'studentGroup')]
+    #[Groups(
+        [
+            'student_group:list',
+            'student_group:item',
+        ]
+    )]
+    private ?College $College = null;
 
     #[ORM\ManyToOne(inversedBy: 'studentGroup')]
-    #[Groups(['student_group:list', 'student_group:item'])]
+    #[Groups(
+        [
+            'student_group:list',
+            'student_group:item',
+        ]
+    )]
     private ?Staff $GroupLeader = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['student_group:list', 'student_group:item'])]
+    #[Groups(
+        [
+            'student_group:list',
+            'student_group:item',
+            'contingent_document:item',
+        ]
+    )]
     private ?string $Code = " ";
 
     #[ORM\OneToMany(mappedBy: 'StudentGroup', targetEntity: Student::class)]
@@ -61,7 +98,8 @@ class StudentGroup
 
     #[ORM\Column(nullable: true)]
     private ?int $ParallelNumber = 1;
-
+    #[ORM\OneToMany(mappedBy: 'StudentGroup', targetEntity: GroupMembership::class)]
+    private Collection $groupMemberships;
     private ?array $socialPassport = array();
 
     public function __construct()
@@ -388,6 +426,16 @@ class StudentGroup
             if (!$student->isIsLiveStudentAccommondation()) $result += 1;
         }
         return $result;
+    }
+    
+    public function getGroupMemberships(): Collection
+    {
+        return $this->groupMemberships;
+    }
+
+    public function setGroupMemberships(Collection $groupMemberships): void
+    {
+        $this->groupMemberships = $groupMemberships;
     }
 
 

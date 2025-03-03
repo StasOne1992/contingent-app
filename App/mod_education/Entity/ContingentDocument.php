@@ -15,6 +15,8 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
 
 #[ORM\Entity(repositoryClass: ContingentDocumentRepository::class)]
+#[ApiProperty()]
+
 #[ApiResource(
     operations: [
         new Get(normalizationContext: ['groups' => 'contingent_document:item'],name: 'getDocument'),
@@ -32,31 +34,22 @@ class ContingentDocument
     #[ORM\Column]
     #[Groups(['contingent_document:list', 'contingent_document:item','contingent_document_students:item'])]
     private ?int $id = null;
-
     #[ORM\Column(length: 255)]
     #[Groups(['contingent_document:list', 'contingent_document:item'])]
     private ?string $number = null;
-
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Groups(['contingent_document:list', 'contingent_document:item'])]
     private ?\DateTimeInterface $createDate = null;
-
     #[ORM\ManyToOne(inversedBy: 'contingentDocuments')]
     private ?ContingentDocumentType $type = null;
-
-
     #[ORM\Column]
     private ?bool $isActive = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
-
     #[ORM\ManyToOne(inversedBy: 'contingentDocuments')]
     private ?College $College = null;
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $Reason = null;
-
     #[ORM\OneToMany(mappedBy: 'ContingentDocument', targetEntity: GroupMembership::class)]
     #[Groups(['contingent_document:item'])]
     private Collection $GroupMemberships;

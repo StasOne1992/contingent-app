@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use App\mod_education\Repository\GroupMembershipRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: GroupMembershipRepository::class)]
 #[ApiResource]
@@ -14,12 +15,15 @@ class GroupMembership
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
+
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'groupMemberships')]
+    #[Groups(['contingent_document:item'])]
     private ?Student $Student = null;
 
     #[ORM\ManyToOne(inversedBy: 'groupMemberships')]
+    #[Groups(['contingent_document:item'])]
     private ?StudentGroup $StudentGroup = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -28,7 +32,7 @@ class GroupMembership
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $DateEnd = null;
 
-    #[ORM\ManyToOne(targetEntity: ContingentDocument::class, inversedBy: 'groupMemberships')]
+    #[ORM\ManyToOne(targetEntity: ContingentDocument::class,inversedBy: 'groupMemberships')]
     private ?ContingentDocument $ContingentDocument = null;
 
     #[ORM\Column(nullable: true)]
