@@ -1,12 +1,15 @@
 api_platform:
-    title: Hello API Platform
-    version: 1.0.0
-    mapping:
-        paths: [
-             '%kernel.project_dir%/App/mod_education/Entity',
-             '%kernel.project_dir%/App/MainApp/Entity'
-        ]
-    defaults:
-        stateless: true
-        cache_headers:
-            vary: ['Content-Type', 'Authorization', 'Origin']
+  eager_loading:
+    max_joins: 100
+  title: Hello API Platform
+  version: 1.0.0
+
+  mapping:
+    paths: [
+      '%kernel.project_dir%/App/mod_education/Entity',
+      '%kernel.project_dir%/App/MainApp/Entity'
+    ]
+  defaults:
+    stateless: true
+    cache_headers:
+      vary: [ 'Content-Type', 'Authorization', 'Origin' ]

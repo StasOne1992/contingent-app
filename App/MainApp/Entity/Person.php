@@ -34,6 +34,8 @@ class Person
 
     #[ORM\Column(length: 12, nullable: true)]
     private ?string $INN = null;
+    #[ORM\ManyToOne(inversedBy: 'Person')]
+    private ?Gender $Gender = null;
 
     /**
      * @ORM\Column(type="snils", nullable=true, options={"unsigned": true, "comment": "СНИЛС"})
@@ -359,7 +361,15 @@ class Person
         return $this;
     }
 
+    public function getGender(): ?Gender
+    {
+        return $this->Gender;
+    }
 
+    public function setGender(?Gender $Gender): void
+    {
+        $this->Gender = $Gender;
+    }
 
 
 }

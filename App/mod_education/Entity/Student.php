@@ -39,7 +39,7 @@ class Student
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
-    #[Groups(['student:list', 'student:item'])]
+    #[Groups(['student:list', 'student:item','contingent_document:item'])]
     private ?int $id = null;
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $NumberZachetka = null;
@@ -51,13 +51,37 @@ class Student
     private ?string $PhoneNumber = null;
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
-    #[Groups(['student:list', 'student:item'])]
+    #[Groups(
+        [
+        'student:list',
+        'student:item',
+        'contingent_document:item'
+        ]
+    )]
     private ?string $FirstName = null;
-    #[Groups(['student:list', 'student:item'])]
+    #[Groups(
+        [
+            'student:list',
+            'student:item',
+            'contingent_document:item'
+        ]
+    )]
     private ?string $LastName = null;
-    #[Groups(['student:list', 'student:item'])]
+    #[Groups(
+        [
+            'student:list',
+            'student:item',
+            'contingent_document:item'
+        ]
+    )]
     private ?string $MiddleName = null;
-    #[Groups(['student:list', 'student:item'])]
+    #[Groups(
+        [
+            'student:list',
+            'student:item',
+            'contingent_document:item'
+        ]
+    )]
     private ?Snils $DocumentSnils = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -84,7 +108,6 @@ class Student
     #[ORM\OneToMany(mappedBy: 'Student', targetEntity: PersonalDocuments::class)]
     private Collection $personalDocuments;
 
-    #[ORM\ManyToOne(inversedBy: 'student')]
     private ?Gender $Gender = null;
 
     #[ORM\Column(nullable: true)]
@@ -164,6 +187,10 @@ class Student
     #[ORM\OneToMany(mappedBy: 'Student', targetEntity: StudentPunishment::class)]
     private Collection $studentPunishments;
 
+
+    #[ORM\OneToMany(mappedBy: 'Student', targetEntity: GroupMembership::class)]
+    private Collection $groupMemberships;
+
     #[ORM\ManyToOne(inversedBy: 'student')]
     #[Groups(['student:list', 'student:item'])]
     private ?Person $person = null;
@@ -183,6 +210,8 @@ class Student
         $this->eventsLists = new ArrayCollection();
         $this->eventsResults = new ArrayCollection();
         $this->studentPunishments = new ArrayCollection();
+        $this->groupMemberships = new ArrayCollection();
+        $this->gender=$this->person->getGender();
     }
 
 
@@ -935,5 +964,18 @@ class Student
     {
         $this->person = $person;
         return $this;
+    }
+
+    /**
+     * @return Collection<int, GroupMembership>
+     */
+    public function getGroupMembership(): Collection
+    {
+        return $this->groupMembership;
+    }
+
+    public function setGroupMembership(Collection $groupMembership): void
+    {
+        $this->groupMembership = $groupMembership;
     }
 }

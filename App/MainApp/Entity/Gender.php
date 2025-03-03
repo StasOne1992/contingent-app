@@ -22,8 +22,10 @@ class Gender
 
     #[ORM\OneToMany(mappedBy: 'Gender', targetEntity: Student::class)]
     private Collection $students;
+    #[ORM\OneToMany(mappedBy: 'Gender', targetEntity: Person::class)]
+    private Collection $persons;
 
-    #[ORM\OneToMany(mappedBy: 'gender', targetEntity: AbiturientPetition::class)]
+    #[ORM\OneToMany(mappedBy: 'Gender', targetEntity: AbiturientPetition::class)]
     private Collection $abiturientPetitions;
 
     #[ORM\Column(length: 255,nullable: true)]
@@ -126,5 +128,15 @@ class Gender
         $this->genderName = $genderName;
 
         return $this;
+    }
+
+    public function getPersons(): Collection
+    {
+        return $this->persons;
+    }
+
+    public function setPersons(Collection $persons): void
+    {
+        $this->persons = $persons;
     }
 }
