@@ -21,10 +21,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
     operations: [
         new Get(normalizationContext: ['groups' => 'contingent_document:item'],name: 'getDocument'),
         new GetCollection(normalizationContext: ['groups' => 'contingent_document:list']),
-        new Get(
-            normalizationContext: ['groups' => 'contingent_document_students:item'],
-            name: "getStudentsInDocument"
-        ),
     ],
 )]
 class ContingentDocument
