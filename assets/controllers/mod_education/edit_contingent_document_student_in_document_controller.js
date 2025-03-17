@@ -16,6 +16,7 @@ export default class extends Controller {
             this.studentGroupSelect = this.generateSelectGroupList();
             select = this.studentGroupSelect;
 
+            console.log($('#contingent-document-id').val());
 
             $('#table-student-in-document-list').DataTable({
             ajax: {

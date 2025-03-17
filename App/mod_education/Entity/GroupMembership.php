@@ -3,13 +3,19 @@
 namespace App\mod_education\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use App\mod_education\Repository\GroupMembershipRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: GroupMembershipRepository::class)]
-#[ApiResource]
+#[ApiResource (
+    operations:[
+        new Post (status: 202, output: false, messenger: true)
+    ]
+)]
 class GroupMembership
 {
     #[ORM\Id]

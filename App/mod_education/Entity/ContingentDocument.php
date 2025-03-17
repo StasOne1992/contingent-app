@@ -4,6 +4,7 @@ namespace App\mod_education\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\MainApp\Entity\College;
+use App\mod_education\Controller\Api\ContingentDocument\PushGroupMemberShip;
 use App\mod_education\Repository\ContingentDocumentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,11 +12,11 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\Attribute\Groups;
-
+use ApiPlatform\Metadata\Post;
 
 #[ORM\Entity(repositoryClass: ContingentDocumentRepository::class)]
-#[ApiProperty()]
 
 #[ApiResource(
     operations: [
@@ -180,3 +181,4 @@ class ContingentDocument
         return $this;
     }
 }
+
