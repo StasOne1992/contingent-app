@@ -1,0 +1,228 @@
+{% extends '../base.html.twig' %}
+{% set refer = 1 %}
+{% set canreset = 0 %}
+{% set page_title = 'Приемная комиссия' %}
+
+{% set sub_page_title = 'Список заявлений' %}
+
+{% if facultyTitle is defined %}
+    {% set sub_page_title=sub_page_title~' Специальность '~facultyTitle %}
+{% endif %}
+
+{% if showExamResul is defined %}
+    {% set showExamResult=true %}
+    {% set sub_page_title=sub_page_title~' с учетом результатов вступительных испытаний' %}
+{% else %}
+    {% set showExamResult=false %}
+{% endif %}
+
+{% if enroll is defined %}
+    {% set enroll=enroll %}
+{% else %}
+    {% set enroll=false %}
+{% endif %}
+
+
+{% if inducted is defined %}
+    {% set inducted=inducted %}
+{% else %}
+    {% set inducted=false %}
+{% endif %}
+
+{% if contingentDocumentsList is defined %}
+    {% set contingentDocumentsList=contingentDocumentsList %}
+{% else %}
+    {% set contingentDocumentsList=[] %}
+{% endif %}
+
+
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% block topmenu_items %}
+    <div class="row row-cols-1 row-cols-sm-auto">
+        <div class="block-options-item">
+            <div class="dropdown">
+                <button type="button" class="btn btn-outline-light dropdown-toggle"
+                        id="dropdown-VIS"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        {% if not is_granted('ROLE_STAFF_AB_PETITIONS_VIS') %}
+                            {{ ' disabled' }}
+                        {% endif %}>
+
+                    <span><i class="fa fa-right-left"></i> Обмен с ВИС</span>
+                </button>
+                {% if is_granted('ROLE_STAFF_AB_PETITIONS_VIS') %}
+                    <div class="dropdown-menu fs-sm" aria-labelledby="dropdown-VIS">
+                        <a class="dropdown-item" href="{{ path('app_abiturient_petition_loadFromVIS') }}"><i
+                                    class='fa-solid fa-file-circle-plus'></i> Загрузить новые</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item"
+                           href="{{ path('app_abiturient_petition_updateAllFromVIS') }}">
+                            <i class="fa fa-solid fa-arrows-rotate"></i> Обновить все</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="block-options-item">
+            <div class="dropdown">
+                <button type="button" class="btn btn-outline-light dropdown-toggle"
+                        id="dropdown-VIS"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        {% if not is_granted('ROLE_STAFF_AB_PETITIONS_VIS') %}
+                            {{ ' disabled' }}
+                        {% endif %}>
+
+                    <span><i class="fa fa-right-left"></i> Обмен с сайтом</span>
+                </button>
+                {% if is_granted('ROLE_STAFF_AB_PETITIONS_VIS') %}
+                    <div class="dropdown-menu fs-sm" aria-labelledby="dropdown-VIS">
+                        <a class="dropdown-item"
+                           href="{{ path('app_abiturient_petition_uploadToSite') }}"><i
+                                    class='fa-solid fa-file-circle-plus'></i> Загрузить заявления на
+                            сайт</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        {% if is_granted('ROLE_STAFF_AB_PETITIONS_MANUAL_C') %}
+            <div class="block-options-item"><a href="{{ path('app_abiturient_petition_new') }}"
+                                               type="button" class="btn btn-outline-light">
+                    <i class="fa fa-plus"></i> <span>Добавить заявление</span>
+                </a></div>
+        {% endif %}
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="block block-rounded block-bordered block-themed">
+        <div class="block-header block-header-default bg-secondary">
+            <h3 class="block-title">Заявления абитуриентов <small></small></h3>
+            <div class="block-options">
+
+            </div>
+        </div>
+        <div class="block-content block-content-full">
+
+            <table id="myTable" class="table table-bordered table-striped table-vcenter js-dataTable-responsive">
+                <thead>
+                <tr>
+                    <th>№ п/п</th>
+                    <th>Рег.№</th>
+                    <th>Абитуриент</th>
+                    <th>Номер ВИС</th>
+                    <th>Поступило в ВИС</th>
+                    <th>Специальность</th>
+                    <th>Средний балл</th>
+                    {% if showExamResult %}
+                        <th>Результат ВИ</th>
+                        <th>Итоговый балл</th>
+                    {% endif %}
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set itter=0 %}
+
+                {% for abiturient_petition in abiturient_petitions %}
+                    {% set itter=itter+1 %}
+                    <tr>
+                        <td>{{ itter }}</td>
+                        <td class="small">{{ abiturient_petition.localNumber }}</td>
+
+                        <td>{{ abiturient_petition.lastName~' '~abiturient_petition.firstName~' '~ abiturient_petition.middleName }}
+                            <br>
+                            <div class="row row-cols-auto gap-1 mx-auto">
+                                {% if not abiturient_petition.status.name  is null %}
+                                    {% if(abiturient_petition.status.name=="REGISTERED") %}
+                                        <span class="badge bg-black-50">{{ abiturient_petition.status.title }}</span>
+                                    {% endif %}
+                                    {% if(abiturient_petition.status.name=="REJECTED") %}
+                                        <span class="badge bg-danger">{{ abiturient_petition.status.title }}</span>
+                                    {% endif %}
+                                    {% if(abiturient_petition.status.name=="CHECK"and (abiturient_petition.faculty!=null)) %}
+                                        <span class="badge bg-info">{{ abiturient_petition.status.title }}</span>
+                                    {% endif %}
+                                    {% if(abiturient_petition.status.name=="ACCEPTED"and (abiturient_petition.faculty!=null)) %}
+                                        <span class="badge bg-primary">{{ abiturient_petition.status.title }}</span>
+                                    {% endif %}
+                                    {% if(abiturient_petition.status.name=="RECOMMENDED"and (abiturient_petition.faculty!=null)) %}
+                                        <span class="badge bg-warning">{{ abiturient_petition.status.title }}</span>
+                                    {% endif %}
+                                    {% if(abiturient_petition.status.name=="INDUCTED"and (abiturient_petition.faculty!=null)) %}
+                                        <span class="badge bg-success">{{ abiturient_petition.status.title }}</span>
+                                    {% endif %}
+                                    {% if((abiturient_petition.status.name=="DOCUMENTS_OBTAINED")and (abiturient_petition.faculty!=null)) %}
+                                        <span class="badge bg-primary">{{ abiturient_petition.status.title }}</span>
+                                    {% endif %}
+                                    {% if(abiturient_petition.documentObtained==true) %}
+                                        <span class="badge bg-success-light text-primary-dark"><b>Оригинал</b></span>
+                                    {% endif %}
+                                    {% if(abiturient_petition.canceled) %}
+                                        <span class="badge bg-danger">Отозвано</span>
+                                    {% endif %}
+                                    {% if(abiturient_petition.faculty==null) %}
+                                        <span class="badge bg-danger">Не заполнена специальность</span>
+                                    {% endif %}
+                                    {% if(abiturient_petition.localNumber==null) %}
+                                        <span class="badge bg-danger">Не присвоен номер</span>
+                                    {% endif %}
+                                    {% if(abiturient_petition.loadToFISGIA==true) %}
+                                        <span class="badge bg-info">ФИС</span>
+                                    {% endif %}
+                                    {% if(abiturient_petition.HasTargetAgreement ==true) %}
+                                        <span class="badge bg-info">Целевой договор</span>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td class="small">
+                            {{ abiturient_petition.number }}</td>
+                        <td {% if not showExamResult %}
+                            data-order='{{ abiturient_petition.createdTs|date('U') }}'
+                        {% endif %}
+                        >
+                            {{ abiturient_petition.createdTs|format_datetime('short', 'none', locale='ru') }}
+                        </td>
+                        <td>{{ abiturient_petition.faculty }}</td>
+                        <td>{{ abiturient_petition.educationDocumentGPA }}</td>
+                        {% if showExamResult %}
+                            <td>
+                                {% set examSumm=0 %}
+                                {% for result in abiturient_petition.getResult() %}
+
+                                    {% set examSumm=examSumm+result.getMark() %}
+
+                                {% endfor %}
+                                {{ examSumm }}</td>
+                            <td data-order="'{{ examSumm+abiturient_petition.educationDocumentGPA|number_format }}'">
+                                {{ examSumm+abiturient_petition.educationDocumentGPA }}
+                            </td>
+                        {% endif %}
+
+                        <td>
+                            {% include '_action_buttons_petition.html.twig' %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">Нет ни одной записи</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- Modal -->
+
+
+
+{% endblock %}
+
+    {% block customjs %}
+    {% endblock %}

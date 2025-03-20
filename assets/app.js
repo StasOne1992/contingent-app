@@ -6,17 +6,17 @@ import './bootstrap.js';
  * which should already be in your base.html.twig.
  */
 
-
 /**
  * JS import
  */
+import jquery from "jquery";
 
-import 'jquery';
+window.jQuery = jquery;
+window.$ = jquery;
+import 'setTheme';
+import 'oneUI';
 /**
  * CSS import
  */
 
-
-
-
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+/*console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');*/

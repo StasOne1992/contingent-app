@@ -1,0 +1,61 @@
+{% extends '../base.html.twig' %}
+{% set refer = 1 %}
+{% set canreset = 0 %}
+{% set page_title = 'Приемная комиссия' %}
+{% set sub_page_title = 'Вступительные испытания' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+
+{% block body %}
+    <div class="block block-rounded block-bordered block-themed">
+        <div class="block-header block-header-default bg-secondary">
+            <h3 class="block-title">Вступительные испытания <small></small></h3>
+            <div class="block-options">
+                <div class="row row-cols-1 row-cols-sm-auto">
+                    <div class="block-options-item">
+                        <a class="btn btn-outline-light" href="{{ path('app_admission_examination_new') }}"><i class="fa fa-plus"></i> Добавить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="block-content">
+            <table class="table table-bordered table-striped table-vcenter js-dataTable-responsive">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Дата</th>
+                    <th>Наименование</th>
+                    <th>Специальность/ПК</th>
+                    <th>Действия</th>
+
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for admission_examination in admission_examinations %}
+
+                    <tr>
+                        <td>{{ admission_examination.id }}</td>
+                        <td>{{ admission_examination.ExaminationSubject }}</td>
+                        <td>{{ admission_examination.Date ? admission_examination.Date|date('d.m.Y') : '' }}</td>
+                        <td>{{ admission_examination.AdmissionPlanPosition }}</td>
+                        <td>
+                            <a href="{{ path('app_admission_examination_show', {'id': admission_examination.id}) }}">Просмотреть</a>
+                            <a href="{{ path('app_admission_examination_edit', {'id': admission_examination.id}) }}">Изменить</a>
+                            <a href="{{ path('app_admission_examination_preparation', {'id': admission_examination.id}) }}">Заполнить
+                                профили</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">Нет ни одной записи</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

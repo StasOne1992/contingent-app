@@ -1,0 +1,35 @@
+{% extends '../base.html.twig' %}
+
+{% block title %}AdmissionStatus index{% endblock %}
+
+{% block body %}
+    <h1>AdmissionStatus index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for admission_status in admission_statuses %}
+            <tr>
+                <td>{{ admission_status.id }}</td>
+                <td>{{ admission_status.Name }}</td>
+                <td>
+                    <a href="{{ path('app_admission_status_show', {'id': admission_status.id}) }}">show</a>
+                    <a href="{{ path('app_admission_status_edit', {'id': admission_status.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Нет ни одной записи</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admission_status_new') }}">Create new</a>
+{% endblock %}

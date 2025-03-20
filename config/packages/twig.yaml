@@ -1,5 +1,5 @@
 twig:
-    default_path: '%kernel.project_dir%/templates'
+    default_path: '%kernel.project_dir%/App/templates'
     paths:
         '%kernel.project_dir%/App/MainApp/Templates': 'MainApp'
         '%kernel.project_dir%/App/mod_student_app/Templates': 'mod_student_app'
