@@ -36,7 +36,7 @@ class ContingentDocumentController extends AbstractController
     public function index(ContingentDocumentRepository $contingentDocumentRepository) : Response
     {
 
-        return $this->render('contingent_document/index.html.twig', [
+        return $this->render('@mod_education/contingent_document/index.html.twig', [
             'contingent_documents' => $contingentDocumentRepository->findAll(),
         ]);
     }
@@ -54,7 +54,7 @@ class ContingentDocumentController extends AbstractController
             return $this->redirectToRoute('app_contingent_document_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('contingent_document/new.html.twig', [
+        return $this->render('@mod_education/contingent_document/new.html.twig', [
             'contingent_document' => $contingentDocument,
             'form' => $form,
         ]);
@@ -65,7 +65,7 @@ class ContingentDocumentController extends AbstractController
     public function show(ContingentDocument $contingentDocument, ContingentDocumentRepository $contingentDocumentRepository): Response
     {
         $contingentDocument->getStudent()->getValues();
-        return $this->render('contingent_document/show.html.twig', [
+        return $this->render('@mod_education/contingent_document/show.html.twig', [
             'contingent_document' => $contingentDocument,
         ]);
     }
@@ -84,7 +84,7 @@ class ContingentDocumentController extends AbstractController
             return $this->redirectToRoute('app_contingent_document_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('contingent_document/edit.html.twig', [
+        return $this->render('@mod_education/contingent_document/edit.html.twig', [
             'contingent_document' => $contingentDocument,
             'form' => $form,
             'studentGroup'=>$studentGroupRepository->findAll(),

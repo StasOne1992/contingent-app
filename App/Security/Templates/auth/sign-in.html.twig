@@ -60,8 +60,10 @@
                                                 <div class="col-lg-6 col-xxl-5">
                                                     <input type="hidden" name="_csrf_token"
                                                            value="{{ csrf_token('authenticate') }}">
-                                                    <button type="submit" class="btn w-100 btn-alt-primary">
-                                                        <i class="fa fa-fw fa-sign-in-alt me-1 opacity-50"></i> Войти
+                                                    <button id="login-button" type="submit" class="btn w-100 btn-alt-primary">
+                                                        <span id="login-spinner" hidden="true" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+
+                                                        <i id="button-icon" class="fa fa-fw fa-sign-in-alt me-1 opacity-50"></i> Войти
                                                     </button>
                                                 </div>
                                             </div>

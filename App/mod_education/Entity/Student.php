@@ -211,7 +211,9 @@ class Student
         $this->eventsResults = new ArrayCollection();
         $this->studentPunishments = new ArrayCollection();
         $this->groupMemberships = new ArrayCollection();
-        $this->gender=$this->person->getGender();
+        if ($this->person) {
+            $this->gender = $this->person->getGender();
+        }
     }
 
 

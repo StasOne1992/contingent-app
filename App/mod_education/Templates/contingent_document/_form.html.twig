@@ -9,12 +9,14 @@
                 <h4>Сведения о приказе</h4>
             </div>
             <div class="block-content pb-4">
-                {{ form_widget(form.college) }}
-                {{ form_widget(form.createDate) }}
-                {{ form_widget(form.isActive) }}
-                {{ form_widget(form.name) }}
-                {{ form_widget(form.reason) }}
-                {{ form_widget(form.type) }}
+                {{ form_row(form.id) }}
+                {{ form_row(form.college) }}
+                {{ form_row(form.createDate) }}
+                {{ form_row(form.isActive) }}
+                {{ form_row(form.name) }}
+                {{ form_row(form.reason) }}
+                {{ form_row(form.type) }}
+
             </div>
         </div>
     </div>

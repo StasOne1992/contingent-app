@@ -31,9 +31,20 @@ class ContingentDocumentForm extends AbstractType
                 'label' => 'Номер приказа',
                 'empty_data' => null,
                 'attr' => [
+
                     'placeholder' => 'Номер приказа',
                     'required' => false,
                     'class' => TextType::class . ' form-control']
+            ))
+            ->add('id', TextType::class, array(
+                'label' => 'ID приказа',
+                'empty_data' => null,
+                'attr' => [
+                    'id' => 'document_id',
+                    'placeholder' => 'ID приказа',
+                    'required' => false,
+                    'class' => TextType::class . ' form-control ',
+                    'disabled' => 'disabled']
             ))
             ->add('createDate', DateType::class, [
                 'label' => 'Дата приказа',

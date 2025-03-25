@@ -9,12 +9,12 @@ import './bootstrap.js';
 /**
  * JS import
  */
-import jquery from "jquery";
 
-window.jQuery = jquery;
-window.$ = jquery;
+
+
+
 import 'setTheme';
-import 'oneUI';
+import 'oneUI'
 /**
  * CSS import
  */

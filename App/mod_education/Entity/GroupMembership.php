@@ -11,11 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: GroupMembershipRepository::class)]
-#[ApiResource (
-    operations:[
-        new Post (status: 202, output: false, messenger: true)
-    ]
-)]
 class GroupMembership
 {
     #[ORM\Id]

@@ -13,18 +13,11 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/mod_education/messenger')]
 class ModEducationMessageController extends AbstractController
 {
-
-    #[Route('/add_task', name: 'app_mod_education_messenger_index', methods: ['GET', 'POST'])]
+    #[Route('/add_to_contingent_document', name: 'app_mod_education_messenger_index', methods: ['GET', 'POST'])]
     public function addTask(Request $request, MessageBusInterface $bus): Response
     {
-        $data = $request->request->all();
-        $data =
-            '{
-        "0":{"@id":"/api/students/698","@type":"Student","id":698,"FirstName":"Ящук","LastName":"Альбина","MiddleName":"Ильишна","DocumentSnils":"334-932-984 01","person":"/api/people/713"},
-        "1":{"@id":"/api/students/734","@type":"Student","id":734,"FirstName":"Ящина","LastName":"Ярослава","MiddleName":"Леонтьевна","DocumentSnils":"665-383-857 46","person":"/api/people/749"}
-        }';
-        $task = json_decode($data);
-        dump($task);
+        $task = json_decode($request->getContent());
+        dd($task);
         foreach ($task as $item) {
             $message = new AddGroupMembershipMessage(json_encode($item));
             try {
