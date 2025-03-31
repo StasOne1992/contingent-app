@@ -6,7 +6,6 @@ import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 
 export default class extends Controller {
     connect() {
-        console.log('ecdc');
         $('#table-student-list').DataTable({
             ajax: {
                 url: '/api/students',

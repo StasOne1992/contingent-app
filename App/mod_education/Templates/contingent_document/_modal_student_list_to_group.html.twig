@@ -1,0 +1,65 @@
+<div {{ stimulus_controller("mod_education--edit_contingent_document_modal_student_list_to_group") }}>
+    <div class="modal" id="modal-student-list-to-group" role="dialog" aria-labelledby="modal-block-large"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="block block-rounded block-transparent mb-0">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">Список студентов</h3>
+                        <div class="block-options">
+                            <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="fa fa-fw fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="block-content fs-sm">
+
+                        <input id="contingent-document-id" value="{{ contingent_document.id }}">
+                        <select class="form-select" id="target_student_group"></select>
+                        <table id="student-list" class="table table-bordered" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Фамилия</th>
+                                <th>Имя</th>
+                                <th>Отчество</th>
+                                <th>СНИЛС</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Office</th>
+                                <th>Age</th>
+                                <th>Start date</th>
+
+                            </tr>
+                            </tfoot>
+                        </table>
+
+                        <div class="block-content block-content-full text-end bg-body">
+                            <button type="button" class="btn btn-sm btn-alt-secondary me-1" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <button type="button" class="btn btn-sm btn-alt-secondary me-1" data-bs-dismiss="modal"
+                                    data-action="click->modal#close">
+                                CloseST
+                            </button>
+
+                            <button type="button"
+                                    data-action="click->mod-education--edit-contingent-document-modal-student-list-to-group#addtodocument"
+                                    class="btn btn-sm btn-primary">Сохранить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

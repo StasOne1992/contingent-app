@@ -28,5 +28,7 @@ class studentGroupFilter extends SQLFilter
             return $filterString;
         }
         return '';
+
+        ##"afasfasfas"
     }
 }

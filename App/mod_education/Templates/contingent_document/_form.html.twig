@@ -29,6 +29,10 @@
                             class="btn btn-primary btn-sm"><i
                                 class="fa fa-plus"></i> Добавить студентов в приказ
                     </button>
+                    <button type="button" onclick='$("#modal-student-list-to-group").modal("show")'
+                            class="btn btn-primary btn-sm"><i
+                                class="fa fa-plus"></i> Добавить студентов группы в приказ
+                    </button>
                 </div>
             </div>
 
@@ -37,7 +41,11 @@
                     <table id="table-student-in-document-list" class="table table-bordered" style="width:100%">
                         <thead>
                         <tr>
-                            <th>Фамилия</th><th>Имя</th><th>Отчество</th><th>Отчество</th><th>Отчество</th>
+                            <th>Фамилия</th>
+                            <th>Имя</th>
+                            <th>Отчество</th>
+                            <th>Отчество</th>
+                            <th>Отчество</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -51,20 +59,16 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>Student</th><th>Student</th>
+                            <th>Student</th>
+                            <th>Student</th>
+                            <th>Student</th>
+                            <th>Student</th>
+                            <th>Student</th>
                         </tr>
                         </tfoot>
                     </table>
 
                 </div>
-
-
-                {% if not form.vars.data.groupMemberships|length == 0 %}
-                    {% for membership in form.vars.data.groupMemberships %}
-                        <p>{{ membership.student }}</p>
-                    {% endfor %}
-                {% endif %}
-
             </div>
         </div>
     </div>
@@ -97,64 +101,8 @@
     </div>
 </div>
 
-
-<!-- Large Block Modal -->
-<div class="modal" id="modal-student-list" role="dialog" aria-labelledby="modal-block-large" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="block block-rounded block-transparent mb-0">
-                <div class="block-header block-header-default">
-                    <h3 class="block-title">Список студентов</h3>
-                    <div class="block-options">
-                        <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
-                            <i class="fa fa-fw fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="block-content fs-sm">
-                    <div {{ stimulus_controller("mod_education--edit_contingent_document") }}>
-                        <input id="contingent-document-id" value="{{ contingent_document.id }}">
-                    <table id="table-student-list" class="table table-bordered" style="width:100%">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>Фамилия</th>
-                            <th>Имя</th>
-                            <th>Отчество</th>
-                            <th>СНИЛС</th>
-
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>
-                            <th>Age</th>
-                            <th>Start date</th>
-
-                        </tr>
-                        </tfoot>
-                    </table>
-
-                        <div class="block-content block-content-full text-end bg-body">
-                    <button type="button" class="btn btn-sm btn-alt-secondary me-1" data-bs-dismiss="modal">Close
-                    </button>
-
-                            <button type="button" data-action="click->mod-education--edit-contingent-document#addtodocument"
-                                    class="btn btn-sm btn-primary">Perfect
-                    </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
+    <!--  Block Modal -->
+    {% include("@mod_education/contingent_document/_modal_student_list_to_group.html.twig") %}
+    {% include("@mod_education/contingent_document/_modal_student_list.html.twig") %}
+    <!--  Block Modal -->
 

@@ -122,8 +122,6 @@ export default class extends Controller {
     generateSelectGroupList() {
         let groupListSelect = document.createElement("select");
         this.getStudentGroupList().then(data => {
-
-
         })
         return groupListSelect;
     }

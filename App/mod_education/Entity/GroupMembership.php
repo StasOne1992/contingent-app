@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: GroupMembershipRepository::class)]
+#[ApiResource()]
 class GroupMembership
 {
     #[ORM\Id]

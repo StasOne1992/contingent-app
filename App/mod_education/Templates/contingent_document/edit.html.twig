@@ -1,11 +1,14 @@
 {% extends '@MainApp/base/base.html.twig' %}
+{% set actions_menu=false %}
 
 {% block title %}Edit ContingentDocument{% endblock %}
 
 {% block body %}
+    <div {{ stimulus_controller('mod_education--contingent-document-form-edit') }}>
     {{  include('@mod_education/contingent_document/_form.html.twig', {'button_label': 'Обновить'}) }}
 
     <a href="{{ path('app_contingent_document_index') }}">back to list</a>
 
     {{ include('@mod_education/contingent_document/_delete_form.html.twig') }}
+    </div>
 {% endblock %}
