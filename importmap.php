@@ -363,4 +363,19 @@ return [
         'version' => '1.4.1',
         'type' => 'css',
     ],
+    'stimulus-select2' => [
+        'version' => '0.0.4',
+    ],
+    'stimulus' => [
+        'version' => '1.1.1',
+    ],
+    '@stimulus/core' => [
+        'version' => '1.1.1',
+    ],
+    '@stimulus/mutation-observers' => [
+        'version' => '1.1.1',
+    ],
+    '@stimulus/multimap' => [
+        'version' => '2.0.0',
+    ],
 ];
