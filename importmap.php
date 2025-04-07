@@ -378,4 +378,7 @@ return [
     '@stimulus/multimap' => [
         'version' => '2.0.0',
     ],
+    'lodash' => [
+        'version' => '4.17.21',
+    ],
 ];

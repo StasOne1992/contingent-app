@@ -5,6 +5,10 @@
 
 {% block body %}
     <div {{ stimulus_controller('mod_education--contingent-document-form-edit') }}>
+        <button type="button"
+                data-action="click->mod-education--contingent-document-form-edit#reload_datatable_group_membership"
+        >Reload DT
+        </button>
     {{  include('@mod_education/contingent_document/_form.html.twig', {'button_label': 'Обновить'}) }}
 
     <a href="{{ path('app_contingent_document_index') }}">back to list</a>
