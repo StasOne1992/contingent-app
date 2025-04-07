@@ -22,7 +22,7 @@ import "datatables.net-staterestore-bs5"
 import _ from "lodash"
 import "bootstrap-toaster"
 import Swal from 'sweetalert2'
-import  '@editorjs/editorjs';
+import EditorJS from '@editorjs/editorjs';
 
 
 export default class extends Controller {
@@ -34,7 +34,6 @@ export default class extends Controller {
     student_group_select;
     student_in_document_list = [];
     student_list;
-    editor = new EditorJS();
 
 
     connect() {

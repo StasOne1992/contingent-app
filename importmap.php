@@ -416,4 +416,7 @@ return [
     '@cropper/element-viewer' => [
         'version' => '2.0.0',
     ],
+    'rollup' => [
+        'version' => '4.39.0',
+    ],
 ];
