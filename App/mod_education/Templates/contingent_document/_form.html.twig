@@ -2,7 +2,7 @@
 
 
 <div class="row">
-<div id="selectdemo"></div>
+    <div id="selectdemo"></div>
     <div class="col-4">
         <div class="block ">
             <div class="block-header">
@@ -28,7 +28,7 @@
 
                     <button type="button" class="btn btn-primary"><i class="fa fa-save me-1"></i>Сохранить изменения
                     </button>
-                    <input class="form-check-input" type="checkbox" value="" id="auto-save-changes" >
+                    <input class="form-check-input" type="checkbox" value="" id="auto-save-changes">
                     <label class="form-check-label small" for="auto-save-changes">
                         Сохранять автоматически
                     </label>
@@ -40,12 +40,17 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li>
-                                <a class="dropdown-item" onclick='$("#modal-student-list").modal("show")'>
+                                <a class="dropdown-item"
+                                   data-action='mod-education--contingent-document-form-edit#init_modal_student_add'
+                                   data-mod-education--contingent-document-form-edit-group-mode-param="false">
                                     <i class="fa fa-plus"></i> Добавить студентов в приказ
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" onclick='$("#modal-student-list-to-group").modal("show")'>
+                                <a class="dropdown-item"
+                                   data-action='mod-education--contingent-document-form-edit#init_modal_student_add'
+                                   data-mod-education--contingent-document-form-edit-group-mode-param="true"
+                                >
                                     <i class="fa fa-plus"></i> Добавить студентов группы в приказ
                                 </a>
                             </li>
@@ -55,7 +60,7 @@
             </div>
 
             <div class="block-content">
-                <div {{ stimulus_controller("mod_education--edit_contingent_document_student_in_document") }}>
+                <div>
                     <table id="table-student-in-document-list" class="table table-bordered" style="width:100%">
                         <thead>
                         <tr>
@@ -119,8 +124,8 @@
     </div>
 </div>
 
-    <!--  Block Modal -->
-    {% include("@mod_education/contingent_document/_modal_student_list_to_group.html.twig") %}
+<!--  Block Modal -->
+{% include("@mod_education/contingent_document/_modal_student_list_to_group.html.twig") %}
     {% include("@mod_education/contingent_document/_modal_student_list.html.twig") %}
-    <!--  Block Modal -->
+<!--  Block Modal -->
 

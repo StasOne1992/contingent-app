@@ -1,55 +1,20 @@
-<div class="modal" id="modal-student-list" role="dialog" aria-labelledby="modal-block-large" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+<div class="modal" id="modal-student-list" tabindex="-1" role="dialog" aria-labelledby="modal-block-large"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="block block-rounded block-transparent mb-0">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">Список студентов</h3>
+                    <h3 class="block-title">Modal Title</h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
                             <i class="fa fa-fw fa-times"></i>
                         </button>
                     </div>
                 </div>
-                <div class="block-content fs-sm">
-                    <div {{ stimulus_controller("mod_education--edit_contingent_document") }}>
-                        <input id="contingent-document-id" value="{{ contingent_document.id }}">
-                        <table id="table-student-list" class="table table-bordered" style="width:100%">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th>Фамилия</th>
-                                <th>Имя</th>
-                                <th>Отчество</th>
-                                <th>СНИЛС</th>
-
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-
-                            </tr>
-                            </tfoot>
-                        </table>
-
-                        <div class="block-content block-content-full text-end bg-body">
-                            <button type="button" class="btn btn-sm btn-alt-secondary me-1" data-bs-dismiss="modal">
-                                Close
-                            </button>
-
-                            <button type="button"
-                                    data-action="click->mod-education--edit-contingent-document#addtodocument"
-                                    class="btn btn-sm btn-primary">Perfect
-                            </button>
-                        </div>
-                    </div>
+                <div id="modal-student-list-content" class="block-content fs-sm">
                 </div>
+                <div id="modal-student-list-content-buttons"
+                     class="block-content block-content-full text-end bg-body"></div>
             </div>
         </div>
     </div>

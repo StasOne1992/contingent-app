@@ -20,6 +20,9 @@ import "datatables.net-searchpanes-bs5"
 import "datatables.net-select-bs5"
 import "datatables.net-staterestore-bs5"
 import _ from "lodash"
+import "bootstrap-toaster"
+import Swal from 'sweetalert2'
+import  '@editorjs/editorjs';
 
 
 export default class extends Controller {
@@ -31,8 +34,11 @@ export default class extends Controller {
     student_group_select;
     student_in_document_list = [];
     student_list;
+    editor = new EditorJS();
+
 
     connect() {
+
         this.contingent_document_id = $("#contingent_document_form_id").val();
         let init_contingent_document_object = this.init_contingent_document_object().then(r => {
             $.each(r[['GroupMemberships']], (index, value) => {
@@ -56,8 +62,7 @@ export default class extends Controller {
             student_list,
         ])
             .then(() => {
-
-
+                    this.update_student_list()
                     this.init_datatable_group_membership()
                     console.log(this)
                 }
@@ -246,7 +251,6 @@ export default class extends Controller {
         }
     }
 
-
     save_group_changes(current_id) {
         const contingent_document = this.contingent_document_object;
         const select = $(`#select-${current_id}`).get(0);
@@ -358,7 +362,6 @@ export default class extends Controller {
         btn_cancel.setAttribute('hidden', 'hidden')
     }
 
-
     reload_datatable_group_membership() {
         const table = $('#table-student-in-document-list');
         if ($.fn.dataTable.isDataTable(table)) {
@@ -368,19 +371,18 @@ export default class extends Controller {
         this.init_datatable_group_membership();
     }
 
-
     init_contingent_document_object() {
         let document_id = this.contingent_document_id;
-            return Promise.resolve(
-                $.ajax({
-                    url: ` /api/contingent_documents/${document_id}`,
-                    method: `GET`,
-                    headers: {
-                        'content-type': 'application/json',
-                    }
-                })
-            )
-        }
+        return Promise.resolve(
+            $.ajax({
+                url: ` /api/contingent_documents/${document_id}`,
+                method: `GET`,
+                headers: {
+                    'content-type': 'application/json',
+                }
+            })
+        )
+    }
 
     init_student_group_list() {
         try {
@@ -389,5 +391,126 @@ export default class extends Controller {
             console.error('error:', error);
         }
     }
+
+    init_modal_student_add(event) {
+        const params = event.params
+        const modal = new bootstrap.Modal($('#modal-student-list').get(0));
+        const modal_content = $('#modal-student-list-content')
+        const modal_buttons = $('#modal-student-list-content-buttons');
+        modal_content.empty();
+        modal_buttons.empty();
+        let table = document.createElement('table')
+        table.classList.add('table');
+        table.id = "student-list-table";
+        const label = document.createElement('label');
+        label.innerHTML = 'Группа'
+        label.setAttribute('for', 'target-student-group')
+        const group_list = this.student_group_select.cloneNode(true);
+        group_list.id = 'target-student-group'
+        group_list.classList.add('form-select')
+
+
+        modal_content.append(label, group_list, table)
+        const btn_save = document.createElement('button')
+        const btn_cancel = document.createElement('button')
+
+        btn_save.innerHTML = '<i class="fa fa-plus-circle me-1"></i> Добавить в приказ'
+        btn_save.type = "button"
+        btn_save.setAttribute('data-action', 'mod-education--contingent-document-form-edit#add_to_document')
+        btn_save.setAttribute('data-mod-education--contingent-document-form-edit-group-mode-param', false)
+        btn_save.setAttribute('data-mod-education--contingent-document-form-edit-group-field-id-param', 'target-student-group')
+
+        btn_cancel.innerHTML = '<i class="fa fa-window-close me-1"></i> Закрыть'
+        btn_cancel.type = "button"
+
+
+        modal_buttons.append(btn_save, btn_cancel)
+
+
+        let headers = ['Фамилия', 'Имя', 'Отчество', 'СНИЛС'];
+        $(`#student-list-table`).DataTable({
+            data: this.student_list,
+            paging: true,
+            pageLength: 20,
+            lengthMenu: [30, 50, 75, 100],
+            columns: [
+                {
+                    data: '@id',
+                    render: DataTable.render.select(),
+                },
+
+                {title: headers[0], data: 'FirstName'},
+                {title: headers[1], data: 'LastName'},
+                {title: headers[2], data: 'MiddleName'},
+                {title: headers[3], data: 'DocumentSnils'},
+            ],
+            select: {
+                style: 'multi'
+            }
+        });
+
+        if (params['groupMode']) {
+            btn_save.setAttribute('data-mod-education--contingent-document-form-edit-group-mode-param', true)
+            label.removeAttribute('hidden')
+            group_list.removeAttribute('hidden')
+        } else {
+            btn_save.setAttribute('data-mod-education--contingent-document-form-edit-group-mode-param', false)
+            label.setAttribute('hidden', 'hidden')
+            group_list.setAttribute('hidden', 'hidden')
+        }
+
+        modal.show()
+    }
+
+    add_to_document(event) {
+        const params = event.params
+        const table = $('#student-list-table')
+        const groupMode = params['groupMode']
+        const groupField = $(`#${params['groupFieldId']}`)
+        const contingent_document = this.contingent_document_object;
+
+
+        let data = table.DataTable().rows({selected: true}).data();
+        if (data.length > 0) {
+            for (const item in data) {
+                if (typeof data[item] === 'object' && '@id' in data[item]) {
+                    console.log(data[item])
+                    let body = {
+                            "@context": "/api/context/GroupMemberShip",
+                            "@type": "GroupMembership",
+                            "ContingentDocument": `${contingent_document['@id']}`,
+                            "Student": `${data[item]['@id']}`,
+                            "Active": false,
+                        }
+                    ;
+                    if (groupMode) {
+                        body['studentGroup'] = groupField.val()
+                    }
+
+
+                    this.push_to_document(body).then()
+
+                    //this.addToDocument(contingent_document, data[item]);
+                }
+            }
+        }
+
+
+    }
+
+    async push_to_document(body) {
+        return Promise.resolve($.ajax({
+                url: `/api/group_memberships`,
+                method: `POST`,
+                headers: {
+                    'accept': 'application/ld+json',
+                    'content-type': 'application/ld+json',
+                },
+                dataType: 'json',
+                data: JSON.stringify(body)
+            })
+        )
+    }
+
 
 }

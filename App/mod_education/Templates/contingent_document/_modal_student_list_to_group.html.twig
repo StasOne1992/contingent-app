@@ -1,4 +1,7 @@
-<div {{ stimulus_controller("mod_education--edit_contingent_document_modal_student_list_to_group") }}>
+
+
+
+<div>
     <div class="modal" id="modal-student-list-to-group" role="dialog" aria-labelledby="modal-block-large"
          aria-hidden="true">
 
@@ -14,8 +17,6 @@
                         </div>
                     </div>
                     <div class="block-content fs-sm">
-
-                        <input id="contingent-document-id" value="{{ contingent_document.id }}">
                         <select class="form-select" id="target_student_group"></select>
                         <table id="student-list" class="table table-bordered" style="width:100%">
                             <thead>

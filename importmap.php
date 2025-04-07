@@ -57,13 +57,13 @@ return [
         'version' => '1.0.1',
     ],
     'bootstrap' => [
-        'version' => '5.3.3',
+        'version' => '5.3.5',
     ],
     '@popperjs/core' => [
         'version' => '2.11.8',
     ],
     'bootstrap/dist/css/bootstrap.min.css' => [
-        'version' => '5.3.3',
+        'version' => '5.3.5',
         'type' => 'css',
     ],
     'bootstrap-datepicker' => [
@@ -79,23 +79,19 @@ return [
         'version' => '3.10.1',
     ],
     '@ckeditor/ckeditor5-build-classic' => [
-        'version' => '44.2.0',
+        'version' => '44.3.0',
     ],
     '@ckeditor/ckeditor5-build-inline' => [
-        'version' => '44.2.0',
+        'version' => '44.3.0',
     ],
     'chart.js' => [
-        'version' => '4.4.7',
+        'version' => '4.4.8',
     ],
     '@kurkle/color' => [
         'version' => '0.3.4',
     ],
     'cropperjs' => [
-        'version' => '1.6.2',
-    ],
-    'cropperjs/dist/cropper.min.css' => [
-        'version' => '1.6.2',
-        'type' => 'css',
+        'version' => '2.0.0',
     ],
     'dropzone' => [
         'version' => '6.0.0-beta.2',
@@ -114,43 +110,43 @@ return [
         'type' => 'css',
     ],
     'fullcalendar' => [
-        'version' => '6.1.15',
+        'version' => '6.1.17',
     ],
     '@fullcalendar/core/index.js' => [
-        'version' => '6.1.15',
+        'version' => '6.1.17',
     ],
     '@fullcalendar/interaction/index.js' => [
-        'version' => '6.1.15',
+        'version' => '6.1.17',
     ],
     '@fullcalendar/daygrid/index.js' => [
-        'version' => '6.1.15',
+        'version' => '6.1.17',
     ],
     '@fullcalendar/timegrid/index.js' => [
-        'version' => '6.1.15',
+        'version' => '6.1.17',
     ],
     '@fullcalendar/list/index.js' => [
-        'version' => '6.1.15',
+        'version' => '6.1.17',
     ],
     '@fullcalendar/multimonth/index.js' => [
-        'version' => '6.1.15',
+        'version' => '6.1.17',
     ],
     'preact' => [
-        'version' => '10.26.0',
+        'version' => '10.26.5',
     ],
     'preact/compat' => [
-        'version' => '10.26.0',
+        'version' => '10.26.5',
     ],
     '@fullcalendar/core/internal.js' => [
-        'version' => '6.1.15',
+        'version' => '6.1.17',
     ],
     '@fullcalendar/core/preact.js' => [
-        'version' => '6.1.15',
+        'version' => '6.1.17',
     ],
     '@fullcalendar/daygrid/internal.js' => [
-        'version' => '6.1.15',
+        'version' => '6.1.17',
     ],
     'preact/hooks' => [
-        'version' => '10.26.0',
+        'version' => '10.26.5',
     ],
     'highlightjs' => [
         'version' => '9.16.2',
@@ -367,18 +363,57 @@ return [
         'version' => '0.0.4',
     ],
     'stimulus' => [
-        'version' => '1.1.1',
+        'version' => '3.2.2',
     ],
     '@stimulus/core' => [
-        'version' => '1.1.1',
+        'version' => '2.0.0',
     ],
     '@stimulus/mutation-observers' => [
-        'version' => '1.1.1',
+        'version' => '2.0.0',
     ],
     '@stimulus/multimap' => [
         'version' => '2.0.0',
     ],
     'lodash' => [
         'version' => '4.17.21',
+    ],
+    'bootstrap-toaster' => [
+        'version' => '5.2.0-beta1.1',
+    ],
+    '@editorjs/editorjs' => [
+        'version' => '2.30.8',
+    ],
+    '@cropper/utils' => [
+        'version' => '2.0.0',
+    ],
+    '@cropper/elements' => [
+        'version' => '2.0.0',
+    ],
+    '@cropper/element' => [
+        'version' => '2.0.0',
+    ],
+    '@cropper/element-canvas' => [
+        'version' => '2.0.0',
+    ],
+    '@cropper/element-image' => [
+        'version' => '2.0.0',
+    ],
+    '@cropper/element-shade' => [
+        'version' => '2.0.0',
+    ],
+    '@cropper/element-handle' => [
+        'version' => '2.0.0',
+    ],
+    '@cropper/element-selection' => [
+        'version' => '2.0.0',
+    ],
+    '@cropper/element-grid' => [
+        'version' => '2.0.0',
+    ],
+    '@cropper/element-crosshair' => [
+        'version' => '2.0.0',
+    ],
+    '@cropper/element-viewer' => [
+        'version' => '2.0.0',
     ],
 ];
