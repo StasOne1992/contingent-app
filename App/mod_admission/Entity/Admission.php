@@ -29,20 +29,21 @@ class Admission
     #[ORM\OneToMany(mappedBy: 'admission', targetEntity: AdmissionPlan::class)]
     private Collection $admissionPlans;
 
-    #[ORM\ManyToOne(inversedBy: 'admissions')]
+    #[ORM\Column(type: 'enum', enumType: AdmissionStatus::class)]
     private ?AdmissionStatus $status = null;
 
     #[ORM\OneToMany(mappedBy: 'admission', targetEntity: AbiturientPetition::class)]
     private Collection $abiturientPetitions;
 
     #[ORM\ManyToOne(inversedBy: 'admissions')]
-    private ?College $College = null;
+    private ?College $college = null;
 
     #[ORM\Column (nullable: true)]
-    private ?bool $IsActive = null;
+    private ?bool $active = null;
 
     public function __construct()
     {
+        $this->status = AdmissionStatus::draft;
         $this->admissionPlans = new ArrayCollection();
         $this->abiturientPetitions = new ArrayCollection();
     }
@@ -123,12 +124,12 @@ class Admission
         return $this->getName();
     }
 
-    public function getStatus(): ?AdmissionStatus
+    public function getStatus(): AdmissionStatus
     {
         return $this->status;
     }
 
-    public function setStatus(?AdmissionStatus $status): static
+    public function setStatus(AdmissionStatus $status): static
     {
         $this->status = $status;
 
@@ -167,24 +168,24 @@ class Admission
 
     public function getCollege(): ?College
     {
-        return $this->College;
+        return $this->college;
     }
 
-    public function setCollege(?College $College): static
+    public function setCollege(?College $college): static
     {
-        $this->College = $College;
+        $this->college = $college;
 
         return $this;
     }
 
-    public function isIsActive(): ?bool
+    public function isActive(): ?bool
     {
-        return $this->IsActive;
+        return $this->active;
     }
 
-    public function setIsActive(bool $IsActive): static
+    public function setActive(bool $active): static
     {
-        $this->IsActive = $IsActive;
+        $this->active = $active;
 
         return $this;
     }

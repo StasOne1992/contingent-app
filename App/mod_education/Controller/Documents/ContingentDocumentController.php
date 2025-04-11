@@ -13,6 +13,7 @@ use App\mod_education\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use FontLib\Table\Type\name;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,9 +65,9 @@ class ContingentDocumentController extends AbstractController
     #[IsGranted("ROLE_STAFF_CONT_DOC_R")]
     public function show(ContingentDocument $contingentDocument, ContingentDocumentRepository $contingentDocumentRepository): Response
     {
-        $contingentDocument->getStudent()->getValues();
         return $this->render('@mod_education/contingent_document/show.html.twig', [
             'contingent_document' => $contingentDocument,
+            'group_memberships' => $contingentDocument->getGroupMemberships(),
         ]);
     }
 
@@ -130,6 +131,58 @@ class ContingentDocumentController extends AbstractController
         );
     }
 
+    #[Route('/{id}/submit', name: 'app_contingent_document_submit', methods: ['GET', 'POST'])]
+    public function submit(Request $request, ContingentDocument $contingentDocument, EntityManagerInterface $entityManager): Response
+    {
+        $contingentDocumentMembers = $contingentDocument->getGroupMemberships()->getValues();
+        if (count($contingentDocumentMembers) > 0) {
+            $have_error = false;
+            foreach ($contingentDocumentMembers as $member) {
+                $student = $member->getStudent();
+                $studentGroup = $member->getStudentGroup();
+                if ($studentGroup != null or !is_null($studentGroup)) {
+                    $member->setActive(true);
+                    $student->setStudentGroup($studentGroup);
+                    $entityManager->persist($student);
+                    $entityManager->persist($member);
+                } else {
+                    $have_error = true;
+                }
+            }
+            if (!$have_error) {
+                $contingentDocument->setIsActive(true);
+                $entityManager->flush();
+                return new Response('Документ проведён', Response::HTTP_OK);
+            } else {
+                return new Response("Ошибка при проведении документа. Как минимум для одного студента не задана группа", Response::HTTP_BAD_REQUEST);
+            }
+        }
+        return $response = new Response('Документ пуст', Response::HTTP_NO_CONTENT);
+
+
+    }
+
+    #[Route('/{id}/unsubmit', name: 'app_contingent_document_unsubmit', methods: ['GET', 'POST'])]
+    public function unsubmit(Request $request, ContingentDocument $contingentDocument, EntityManagerInterface $entityManager)
+    {
+        $contingentDocumentMembers = $contingentDocument->getGroupMemberships()->getValues();
+        if (count($contingentDocumentMembers) > 0) {
+            foreach ($contingentDocumentMembers as $member) {
+                $student = $member->getStudent();
+                $studentGroup = $member->getStudentGroup();
+
+                if ($studentGroup != null or !is_null($studentGroup)) {
+                    $member->setActive(true);
+                    $student->setStudentGroup($studentGroup);
+                    $entityManager->persist($student);
+                    $entityManager->persist($member);
+                    $entityManager->flush();
+                }
+            }
+        }
+        dd();
+    }
+
     #[Route ('/{id}/putToUse', name: 'app_contingent_document_put_into_use', methods: ['GET', 'POST'])]
     #[IsGranted("ROLE_STAFF_CONT_DOC_U")]
     public function putIntoUse(Request $request, ContingentDocument $contingentDocument, EntityManagerInterface $entityManager, ContingentDocumentRepository $contingentDocumentRepository, StudentRepository $studentRepository)
@@ -171,13 +224,6 @@ class ContingentDocumentController extends AbstractController
 
 
         return $this->redirect($request->headers->get('referer'),301);
-    }
-
-    #[Route ('/{id}/putOutUse', name: 'app_contingent_document_put_out_use', methods: ['GET', 'POST'])]
-    #[IsGranted("ROLE_STAFF_CONT_DOC_U")]
-    public function putOutUse()
-    {
-
     }
 
     #[Route ('/setStudents/{id}', name: 'app_contingent_document_set', methods: ['GET', 'POST'])]

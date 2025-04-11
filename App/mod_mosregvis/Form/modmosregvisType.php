@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class modmosregvisType extends AbstractType
 {
@@ -26,12 +27,14 @@ class modmosregvisType extends AbstractType
                             'placeholder' => 'Укажите имя пользователя'
                         ]),
                 ])
-            ->add('password', TextType::class,
+            ->add('password', PasswordType::class,
                 [
                     'label' => 'Пароль для входа',
                     'empty_data' => null,
+
                     'attr' => array_merge([],
                         [
+                            'type' => 'password',
                             'required' => true,
                             'class' => TextType::class . ' form-control',
                             'placeholder' => 'Укажите пароль'

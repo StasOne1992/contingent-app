@@ -1,11 +1,15 @@
-{% extends 'base.html.twig' %}
+{% extends '@MainApp/base/base.html.twig' %}
+{% set page_title = 'Интеграция с ВИС Московской области' %}
+{% set sub_page_title = 'Добавить настройку модуля интеграции' %}
 
-{% block title %}New modmosregvis{% endblock %}
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
 
+{% set actions_menu = 'true' %}
 {% block body %}
-    <h1>Create new modmosregvis</h1>
-
+    <div {{ stimulus_controller('mod-mosreg-vis--mod-mosregvis-new') }}>
     {{ include('@mod_mosregvis/_form.html.twig') }}
-
+    </div>
     <a href="{{ path('mod_mosregvis_index') }}">back to list</a>
 {% endblock %}

@@ -23,7 +23,7 @@ class AdmissionPlanController extends AbstractController
     #[Route('/', name: 'app_admission_plan_index', methods: ['GET'])]
     public function index(AdmissionPlanRepository $admissionPlanRepository): Response
     {
-        return $this->render('admission_plan/index.html.twig', [
+        return $this->render('@mod_admission/admission_plan/index.html.twig', [
             'admission_plans' => $admissionPlanRepository->findAll(),
         ]);
     }
@@ -41,7 +41,7 @@ class AdmissionPlanController extends AbstractController
             return $this->redirectToRoute('app_admission_plan_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admission_plan/new.html.twig', [
+        return $this->render('@mod_admission/admission_plan/new.html.twig', [
             'admission_plan' => $admissionPlan,
             'form' => $form,
         ]);
@@ -50,7 +50,7 @@ class AdmissionPlanController extends AbstractController
     #[Route('/{id}/show', name: 'app_admission_plan_show', methods: ['GET'])]
     public function show(AdmissionPlan $admissionPlan): Response
     {
-        return $this->render('admission_plan/show.html.twig', [
+        return $this->render('@mod_admission/admission_plan/show.html.twig', [
             'admission_plan' => $admissionPlan,
         ]);
     }
@@ -67,7 +67,7 @@ class AdmissionPlanController extends AbstractController
             return $this->redirectToRoute('app_admission_plan_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admission_plan/edit.html.twig', [
+        return $this->render('@mod_admission/admission_plan/edit.html.twig', [
             'admission_plan' => $admissionPlan,
             'form' => $form,
         ]);

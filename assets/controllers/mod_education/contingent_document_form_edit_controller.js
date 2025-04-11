@@ -22,11 +22,8 @@ import "datatables.net-staterestore-bs5"
 import _ from "lodash"
 import "bootstrap-toaster"
 import Swal from 'sweetalert2'
-import EditorJS from '@editorjs/editorjs';
-
 
 export default class extends Controller {
-    const
     contingent_document_id;
     contingent_document_object;
     contingent_document_member_ship;
@@ -129,7 +126,6 @@ export default class extends Controller {
 
                                 groupListSelect.classList = 'form-select';
                                 groupListSelect.id = 'select-' + currentID;
-                                groupListSelect.setAttribute('data-controller', 'select2')
                                 groupListSelect.setAttribute('data-action', 'change->mod-education--contingent-document-form-edit#on_change_select_group')
                                 groupListSelect.setAttribute('data-mod-education--contingent-document-form-edit-prevent-group-param', '')
                                 groupListSelect.setAttribute('data-mod-education--contingent-document-form-edit-group-membership-id-param', row['@id'])
@@ -430,8 +426,8 @@ export default class extends Controller {
         $(`#student-list-table`).DataTable({
             data: this.student_list,
             paging: true,
-            pageLength: 20,
-            lengthMenu: [30, 50, 75, 100],
+            pageLength: 25,
+            lengthMenu: [25, 50, 75, 100],
             columns: [
                 {
                     data: '@id',

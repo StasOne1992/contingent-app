@@ -15,6 +15,8 @@ class ModMosregApiOpenService
     private HttpClientInterface $client;
     private string $ApiUrl = "http://prof.mo.mosreg.ru/api";
     private string $ApiAvailableUrl = "http://prof.mo.mosreg.ru";
+    private string $api_chec_authenticated = 'https://prof.mo.mosreg.ru/api/check/authenticated';
+
     private array $ApiHeaders = ['Accept: */*', 'Content-Type: application/json', 'Cookie: Cookie_1=value'];
 
     public function __construct(
@@ -38,6 +40,9 @@ class ModMosregApiOpenService
         }
         return false;
     }
+
+
+
 
     /**
      * @throws ClientExceptionInterface

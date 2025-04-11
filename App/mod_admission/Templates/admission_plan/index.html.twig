@@ -1,9 +1,11 @@
-{% extends '../../../../templates/base.html.twig' %}
+{% extends '@MainApp/base/base.html.twig' %}
 {% set refer = 1 %}
 {% set canreset = 0 %}
 {% set page_title = 'Приемная комиссия' %}
 
 {% set sub_page_title = 'Конкурсы' %}
+
+{% set actions_menu='true' %}
 {% block topmenu_items %}
     <a class="btn btn-sm btn-outline-light" href="{{ path('app_admission_plan_new') }}"><i class="fa fa-plus"></i> Добавить</a>
 {% endblock %}

@@ -198,7 +198,7 @@ return [
         'version' => '1.8.1',
     ],
     'sweetalert2' => [
-        'version' => '11.17.2',
+        'version' => '11.4.8',
     ],
     'vide' => [
         'version' => '0.5.1',
@@ -363,13 +363,13 @@ return [
         'version' => '0.0.4',
     ],
     'stimulus' => [
-        'version' => '3.2.2',
+        'version' => '1.1.1',
     ],
     '@stimulus/core' => [
-        'version' => '2.0.0',
+        'version' => '1.1.1',
     ],
     '@stimulus/mutation-observers' => [
-        'version' => '2.0.0',
+        'version' => '1.1.1',
     ],
     '@stimulus/multimap' => [
         'version' => '2.0.0',
@@ -379,9 +379,6 @@ return [
     ],
     'bootstrap-toaster' => [
         'version' => '5.2.0-beta1.1',
-    ],
-    '@editorjs/editorjs' => [
-        'version' => '2.30.8',
     ],
     '@cropper/utils' => [
         'version' => '2.0.0',

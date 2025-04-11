@@ -26,7 +26,6 @@ class ModMosregVis
     #[ORM\ManyToOne(inversedBy: 'MosregVISCollege')]
     private ?MosregVISCollege $mosregVISCollege = null;
 
-
     public function getId(): ?int
     {
         return $this->id;

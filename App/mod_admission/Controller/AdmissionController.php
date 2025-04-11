@@ -2,7 +2,6 @@
 
 namespace App\mod_admission\Controller;
 
-use App\Controller\App\Admission\IsGranted;
 use App\mod_admission\Entity\Admission;
 use App\mod_admission\Form\AdmissionType;
 use App\mod_admission\Repository\AdmissionRepository;
@@ -12,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 //use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -20,33 +20,17 @@ use Symfony\Component\Routing\Attribute\Route;
 class AdmissionController extends AbstractController
 {
     #[Route('/', name: 'app_admission_index', methods: ['GET'])]
+    #[IsGranted('ROLE_STAFF_ADMISSION_R')]
     public function index(AdmissionRepository $admissionRepository): Response
     {
-        return $this->render('admission/index.html.twig', [
+        return $this->render('@mod_admission/admission/index.html.twig', [
             'admissions' => $admissionRepository->findAll(),
         ]);
     }
 
-    #[Route('/push', name: 'app_admission_push', methods: ['GET', 'POST'])]
-    public function push(HubInterface $hub): Response
-    {
-        $topics = 'popup-notify';
-        $type='danger';
-        $icon= ' fa fa-check me-1 ';//icon class full
-        $header = 'Заголовок';
-        $message = 'Текст сообщения';
-        $update = new Update(
-            $topics,
-            json_encode([ 'type'=>$type,'header' => $header,'icon'=>$icon, 'message' => $message])
-        );
-        $hub->publish($update);
 
-       return new Response('published!');
-
-    }
-
-    #[
-        Route('/new', name: 'app_admission_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_admission_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_STAFF_ADMISSION_C')]
     public function new(Request $request, AdmissionRepository $admissionRepository): Response
     {
         $admission = new Admission();
@@ -59,21 +43,23 @@ class AdmissionController extends AbstractController
             return $this->redirectToRoute('app_admission_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admission/new.html.twig', [
+        return $this->render('@mod_admission/admission/new.html.twig', [
             'admission' => $admission,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}/show', name: 'app_admission_show', methods: ['GET'])]
+    #[IsGranted('ROLE_STAFF_ADMISSION_R')]
     public function show(Admission $admission): Response
     {
-        return $this->render('admission/show.html.twig', [
+        return $this->render('@mod_admission/admission/show.html.twig', [
             'admission' => $admission,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_admission_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_STAFF_ADMISSION_U')]
     public function edit(Request $request, Admission $admission, AdmissionRepository $admissionRepository): Response
     {
         $form = $this->createForm(AdmissionType::class, $admission);
@@ -85,13 +71,14 @@ class AdmissionController extends AbstractController
             return $this->redirectToRoute('app_admission_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admission/edit.html.twig', [
+        return $this->render('@mod_admission/admission/edit.html.twig', [
             'admission' => $admission,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}/delete', name: 'app_admission_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_STAFF_ADMISSION_D')]
     public function delete(Request $request, Admission $admission, AdmissionRepository $admissionRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $admission->getId(), $request->request->get('_token'))) {

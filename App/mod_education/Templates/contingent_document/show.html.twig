@@ -7,7 +7,9 @@
 {% set refer_link =path('app_contingent_document_index') %}
 
 {% block body %}
-<div class="row">
+    <div class="row" {{ stimulus_controller('mod-education--contingent-document-form-show') }}
+         data-mod-education--contingent-document-form-show-contingent-document-id-value="{{ contingent_document.id }}"
+    >
     <div class="col-12 col-md-4">
         <div class="block block-rounded block-bordered block-themed">
             <div class="block-header block-header-default bg-secondary">
@@ -18,18 +20,22 @@
                             <a href="{{ path('app_contingent_document_print',{id:contingent_document.id}) }}" type="button" class="btn btn-primary">
                                 <i class="fa fa-fw fa-print"></i>
                             </a>
-                            <div class="btn-group" role="group" aria-label="Icons File group">
-                                <a href="{{ path('app_contingent_document_put_into_use',{id:contingent_document.id}) }}"
+                            {% if (not contingent_document.isActive) %}
+                                <a href="{{ path('app_contingent_document_submit',{id:contingent_document.id}) }}"
                                    type="button" class="btn btn-primary">
-                                    <i class="fa fa-fw fa-file-check"></i>
+                                    <i class="fa fa-fw fa-check-circle"></i>
                                 </a>
-                            </div>
-                            <button type="button" class="btn btn-danger">
-                                <i class="fa fa-fw fa-trash-can"></i>
-                            </button>
-                            <a href="{{ path('app_contingent_document_edit', {'id': contingent_document.id}) }}"
-                               type="button" class="btn btn-alt-primary"><i class="fa fa-pencil"></i>
-                            </a>
+                                <a href="{{ path('app_contingent_document_edit', {'id': contingent_document.id}) }}"
+                                   type="button" class="btn btn-alt-primary"><i class="fa fa-pencil"></i>
+                                </a>
+                                <button type="button" class="btn btn-danger">
+                                    <i class="fa fa-fw fa-trash-can"></i>
+                                </button>
+                            {% else %}
+
+                            {% endif %}
+
+
                         </div>
                     </div>
                 </div>
@@ -66,27 +72,8 @@
 
             </div>
             <div class="block-content">
-                <table class="table table-bordered table-striped table-vcenter js-dataTable-responsive">
-                    <thead>
-                    <tr>
-                        <th class="w-auto">№п/п</th>
-                        <th class="w-auto">ФИО</th>
-                        <th class="w-auto">Группа</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% set itterator=0 %}
-                    {% for element in contingent_document.student %}
-                        {% set itterator=itterator+1 %}
-                        <tr>
-                            <td>
-                                {{ itterator }}
-                            </td>
-                            <td>{{ element.LastName~" "~element.FirstName~" "~element.MiddleName }}</td>
-                            <td>{{ element.StudentGroup }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
+                <table id="student-list-table"
+                       class="table table-bordered table-striped table-vcenter js-dataTable-responsive">
                 </table>
 
             </div>

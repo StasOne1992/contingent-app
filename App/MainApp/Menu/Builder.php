@@ -21,7 +21,6 @@ class Builder
 
     public function mainMenu(array $options): ItemInterface
     {
-
         $menu = $this->factory->createItem('root');
         $menu->addChild('Личный кабинет', ['route' => 'app_dashboard_index']);
         if ($this->authorizationChecker->isGranted('ROLE_STAFF_AB_PETITIONS_R')) {
@@ -39,6 +38,13 @@ class Builder
             $admissionExamination->addChild('Дисциплины', ['route' => 'app_admission_examination_subjects_index']);
             $admission_reports = $menu->addChild('Отчёты по ПК', ['uri' => '/', 'attributes' => ['dropdown' => true]]);
             $admission_reports->addChild('Выполнение плана', ['route' => 'app_abiturient_petition_index']);
+            $priem = $menu->addChild('Модуль "Зачисление в ПОО"', ['uri' => '/', 'attributes' => ['dropdown' => true]]);
+            $priem->addChild('Заявления ВИС', ['route' => 'app_abiturient_petition_index']);
+            $priem->addChild('К', ['route' => 'app_abiturient_petition_index']);
+            $priem->addChild('2', ['route' => 'app_abiturient_petition_index']);
+            $priem->addChild('3', ['route' => 'app_abiturient_petition_index']);
+            $priem->addChild('Настройки', ['route' => 'mod_mosregvis_index']);
+
         }
         if ($this->authorizationChecker->isGranted('ROLE_STAFF_STUDENT_R')) {
             if (($this->authorizationChecker->isGranted('ROLE_STAFF_STUDENT_R')

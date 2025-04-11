@@ -3,9 +3,11 @@
 namespace App\mod_admission\Form;
 
 use App\mod_admission\Entity\Admission;
+use App\mod_admission\Entity\AdmissionStatus;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 
 class AdmissionType extends AbstractType
 {
@@ -15,7 +17,7 @@ class AdmissionType extends AbstractType
             ->add('name')
             ->add('dateStart')
             ->add('dateEnd')
-            ->add('status')
+            ->add('status', EnumType::class, ['class' => AdmissionStatus::class])
             ->add('IsActive')
         ;
     }

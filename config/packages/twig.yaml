@@ -3,6 +3,8 @@ twig:
     paths:
         '%kernel.project_dir%/App/MainApp/Templates': 'MainApp'
         '%kernel.project_dir%/App/mod_student_app/Templates': 'mod_student_app'
+        '%kernel.project_dir%/App/mod_admission/Templates': 'mod_admission'
+
         '%kernel.project_dir%/App/mod_mosregvis/Templates': 'mod_mosregvis'
         '%kernel.project_dir%/App/mod_education/Templates': 'mod_education'
         '%kernel.project_dir%/App/mod_events/Templates': 'mod_events'

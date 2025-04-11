@@ -1,13 +1,12 @@
 import {startStimulusApp} from '@symfony/stimulus-bundle';
-
 import jquery from "jquery";
+import Select2Controller from 'stimulus-select2'
+
+
 
 window.jQuery = jquery;
 window.$ = jquery;
 import "jquery-mask-plugin";
-
-
-import Select2Controller from 'stimulus-select2'
 
 
 const app = startStimulusApp();

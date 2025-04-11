@@ -2,6 +2,9 @@
 
 namespace App\mod_mosregvis\Entity;
 
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+
+
 class mosregApiConnection
 {
     protected string $token;
@@ -11,10 +14,22 @@ class mosregApiConnection
     private string $username;
     private string $password;
     private string $apiUrl;
-
+    private string $apiLoginUrl;
     private string $apiAvailableUrl;
     private array $apiHeaders;
     private int $admissionId;
+
+    public function __construct()
+    {
+        $this->setApiUrl("https://prof.mo.mosreg.ru/api");
+        $this->setApiAvailableUrl("https://prof.mo.mosreg.ru");
+        $this->setApiLoginUrl($this->getApiUrl().'/login');
+        $this->setApiHeaders([
+            'Accept: */*',
+            'Content-Type: application/json',
+            'Cookie: Cookie_1=value']);
+    }
+
 
     public function getToken(): string
     {
@@ -101,11 +116,6 @@ class mosregApiConnection
         return $this->apiHeaders;
     }
 
-    public function setApiHeaders(array $apiHeaders): void
-    {
-        $this->apiHeaders = $apiHeaders;
-    }
-
     public function getAdmissionId(): int
     {
         return $this->admissionId;
@@ -114,6 +124,21 @@ class mosregApiConnection
     public function setAdmissionId(int $admissionId): void
     {
         $this->admissionId = $admissionId;
+    }
+
+    public function getApiLoginUrl(): string
+    {
+        return $this->apiLoginUrl;
+    }
+
+    public function setApiLoginUrl(string $apiLoginUrl): void
+    {
+        $this->apiLoginUrl = $apiLoginUrl;
+    }
+
+    public function setApiHeaders(array $apiHeaders): void
+    {
+        $this->apiHeaders = $apiHeaders;
     }
 
 }

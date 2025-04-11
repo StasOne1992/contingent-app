@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MosregVISCollegeRepository::class)]
-class MosregVISCollege extends College
+class MosregVISCollege
 {
     #[ORM\OneToMany(mappedBy: 'mosregVISCollege', targetEntity: modMosregVis::class)]
     private Collection $modmosregvis;
@@ -24,7 +24,6 @@ class MosregVISCollege extends College
 
     public function __construct()
     {
-        parent::__construct();
         $this->modmosregvis = new ArrayCollection();
         $this->spoEducationYear = new ArrayCollection();
     }
@@ -54,7 +53,7 @@ class MosregVISCollege extends College
     }
     public function __toString(): string
     {
-        return parent::__toString();
+        return $this->visCollegeId;
     }
 
     public function getSpoEducationYear(): Collection

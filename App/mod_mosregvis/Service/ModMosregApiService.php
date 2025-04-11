@@ -36,7 +36,7 @@ class ModMosregApiService
         $this->collegeRepository = $collegeRepository;
         $this->requestStack = $requestStack;
         $this->client = $client;
-        $this->college = $this->collegeRepository->find($this->requestStack->getSession()->get('college')->getId());
+        //$this->college = $this->collegeRepository->find($this->requestStack->getSession()->get('college')->getId());
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Controller\App\EduPart\Student;
 use App\MainApp\Repository\UserRepository;
 use App\MainApp\Service\StudentGroupsService;
 use App\MainApp\Service\TypicalDocuments;
+use App\mod_education\Entity\StudentGroup;
 use App\mod_education\Entity\StudentGroups;
 use App\mod_education\Form\StudentGroupsType;
 use App\mod_education\Repository\StudentGroupsRepository;
@@ -78,7 +79,7 @@ class StudentGroupsController extends AbstractController
     }
     #[IsGranted('ROLE_STAFF_STUDENT_GROUP_R')]
     #[Route('/{id}/show', name: 'app_student_groups_show', methods: ['GET'])]
-    public function show(StudentGroups $studentGroup, StudentGroupsService $StudentGroupsService, StudentGroupsRepository $StudentGroupsRepository): Response
+    public function show(StudentGroup $studentGroup, StudentGroupsService $StudentGroupsService, StudentGroupsRepository $StudentGroupsRepository): Response
     {
         $studentGroup->getSocialPassport();
         return $this->render('student_groups/show.html.twig', [

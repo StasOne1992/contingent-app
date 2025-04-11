@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '@MainApp/base/base.html.twig' %}
 {% set page_title = 'Интеграция с ВИС Московской области' %}
 {% set sub_page_title = 'Настройка модуля интеграции' %}
 
@@ -6,6 +6,7 @@
     {% if page_title is defined %} {{ page_title }} {% endif %}
 {% endblock %}
 
+{% set actions_menu = 'true' %}
 {% block topmenu_items %}
     <a href="{{ path('mod_mosregvis_new') }}" type="button"
        class="btn btn-light btn-sm w-100 js-bs-popover-enabled"

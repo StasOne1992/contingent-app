@@ -110,7 +110,7 @@ class AbiturientPetitionController extends AbstractController
     public function index(AbiturientPetitionRepository $abiturientPetitionRepository): Response
     {
         $this->abiturientPetitionStatusRepository->findAll();
-        return $this->render('abiturient_petition/index.html.twig', [
+        return $this->render('@mod_admission/abiturient_petition/index.html.twig', [
             'abiturient_petitions' => $abiturientPetitionRepository->findAll(),
         ]);
     }
@@ -212,7 +212,7 @@ class AbiturientPetitionController extends AbstractController
     public function show(AbiturientPetition $abiturientPetition): Response
     {
         $this->abiturientPetitionStatusRepository->findAll();
-        return $this->render('abiturient_petition/show.html.twig', [
+        return $this->render('@mod_admission/abiturient_petition/show.html.twig', [
             'abiturient_petition' => $abiturientPetition,
         ]);
     }

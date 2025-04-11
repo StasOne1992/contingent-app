@@ -1,30 +1,36 @@
-{% extends '../../../../templates/base.html.twig' %}
+{% extends '@MainApp/base/base.html.twig' %}
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+{% set actions_menu='true' %}
+{% set page_title = 'Приемная комиссия' %}
+{% set sub_page_title = 'Список приемных кампаний' %}
 
-{% block title %}Admission index{% endblock %}
+{% block topmenu_items %}
 
+    <a class="btn btn-sm btn-primary" href="{{ path('app_admission_new') }}"><i class="fa fa-plus-circle me-1"></i>Добавить
+        новую</a>
+{% endblock %}
 {% block body %}
-    <h1>Admission index</h1>
-
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Name</th>
-                <th>DateStart</th>
-                <th>DateEnd</th>
-                <th>actions</th>
+                <th>Наименование</th>
+                <th>Дата начала/завершения</th>
+                <th>Действия</th>
             </tr>
         </thead>
         <tbody>
         {% for admission in admissions %}
             <tr>
-                <td>{{ admission.id }}</td>
+                <td>{{ loop.index }}</td>
                 <td>{{ admission.name }}</td>
-                <td>{{ admission.dateStart ? admission.dateStart|date('Y-m-d') : '' }}</td>
-                <td>{{ admission.dateEnd ? admission.dateEnd|date('Y-m-d') : '' }}</td>
+                <td>{{ admission.dateStart ? admission.dateStart|date('Y-m-d') : '' }}
+                    <br>{{ admission.dateEnd ? admission.dateEnd|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_admission_show', {'id': admission.id}) }}">show</a>
-                    <a href="{{ path('app_admission_edit', {'id': admission.id}) }}">edit</a>
+                    <a class="btn btn-sm btn-primary" href="{{ path('app_admission_show', {'id': admission.id}) }}">Просмотр</a>
+                    <a class="btn btn-sm btn-primary" href="{{ path('app_admission_edit', {'id': admission.id}) }}">Редактировать</a>
                 </td>
             </tr>
         {% else %}
@@ -35,5 +41,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_admission_new') }}">Create new</a>
+
 {% endblock %}

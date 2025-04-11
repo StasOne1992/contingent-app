@@ -133,7 +133,7 @@ class AdmissionDashboard extends AbstractController
     #[Route('/', name: 'app_admission_dashboard_index', methods: ['GET'])]
     public function index(): Response
     {
-        return $this->render('admission_dashboard/admission_dashboard.html.twig',
+        return $this->render('@mod_admission/admission_dashboard/admission_dashboard.html.twig',
             [
                 'HaveAdmission'=> $this->HaveAddmission,
                 'facultyPetitionCount' => $this->facultyPetitionCount,

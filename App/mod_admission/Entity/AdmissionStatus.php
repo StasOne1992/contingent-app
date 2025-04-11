@@ -2,54 +2,17 @@
 
 namespace App\mod_admission\Entity;
 
-use App\mod_admission\Repository\AdmissionStatusRepository;
 use Doctrine\ORM\Mapping as ORM;
+use HeyMoon\DoctrinePostgresEnum\Attribute\EnumType;
+use Symfony\Contracts\Translation\{TranslatableInterface, TranslatorInterface};
 
-#[ORM\Entity(repositoryClass: AdmissionStatusRepository::class)]
-class AdmissionStatus
+#[EnumType('admission_status')]
+enum AdmissionStatus: string
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
-    #[ORM\Column]
-    private ?int $id = null;
+    case draft = "DRAFT";
+    case planning = "PLANNING";
+    case reception = "RECEPTION";
+    case open = "OPEN";
+    case close = "CLOSE";
 
-    #[ORM\Column(length: 255)]
-    private ?string $Name = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $Title = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->Name;
-    }
-
-    public function setName(string $Name): static
-    {
-        $this->Name = $Name;
-
-        return $this;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->Title;
-    }
-
-    public function setTitle(string $Title): static
-    {
-        $this->Title = $Title;
-
-        return $this;
-    }
-
-    public function __toString(): string
-    {
-        return $this->getTitle();
-    }
 }
