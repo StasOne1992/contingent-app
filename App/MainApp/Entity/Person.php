@@ -64,7 +64,7 @@ class Person
     private Collection $staff;
 
     #[ORM\OneToMany(mappedBy: 'person', targetEntity: AbiturientPetition::class)]
-    private Collection $AbiturientPetition;
+    private Collection $abiturientPetition;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?DateTimeInterface $birthDate = null;
@@ -77,7 +77,7 @@ class Person
     {
         $this->student = new ArrayCollection();
         $this->staff = new ArrayCollection();
-        $this->AbiturientPetition = new ArrayCollection();
+        $this->abiturientPetition = new ArrayCollection();
         $this->personDocument = new ArrayCollection();
     }
 

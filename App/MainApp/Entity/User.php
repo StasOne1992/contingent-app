@@ -49,7 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?array $FrontEndParams = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
-    private ?College $College = null;
+    private ?College $college = null;
 
     public function __construct()
     {
@@ -230,12 +230,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getCollege(): ?College
     {
-        return $this->College;
+        return $this->college;
     }
 
-    public function setCollege(?College $College): static
+    public function setCollege(?College $college): static
     {
-        $this->College = $College;
+        $this->college = $college;
 
         return $this;
     }

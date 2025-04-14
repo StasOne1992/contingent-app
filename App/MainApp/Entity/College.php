@@ -5,6 +5,8 @@ namespace App\MainApp\Entity;
 use App\MainApp\Repository\CollegeRepository;
 use App\mod_admission\Entity\Admission;
 use App\mod_education\Entity\StudentGroup;
+use App\mod_mosregvis\Entity\ModMosregVis;
+use App\mod_mosregvis\Entity\MosregVISCollege;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Schema\Sequence;
@@ -12,7 +14,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CollegeRepository::class)]
-#[ORM\InheritanceType('SINGLE_TABLE')]
 class College
 {
     #[ORM\Id, ORM\GeneratedValue(strategy: 'SEQUENCE'), ORM\Column]
@@ -51,17 +52,22 @@ class College
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $SettingsStudentsDomain = null;
 
-    #[ORM\OneToMany(mappedBy: 'College', targetEntity: User::class)]
+    #[ORM\OneToMany(mappedBy: 'college', targetEntity: User::class)]
     private Collection $users;
 
-    #[ORM\OneToMany(mappedBy: 'College', targetEntity: Admission::class)]
+    #[ORM\OneToMany(mappedBy: 'college', targetEntity: Admission::class)]
     private Collection $admissions;
+
+    #[ORM\OneToOne(targetEntity: MosregVISCollege::class,mappedBy: 'college')]
+    private MosregVISCollege|null $mosregVISCollege;
 
     #[ORM\ManyToMany(targetEntity: Staff::class, mappedBy: 'College')]
     private Collection $staff;
 
-    #[ORM\OneToMany(mappedBy: 'College', targetEntity: StudentGroup::class)]
+    #[ORM\OneToMany(mappedBy: 'college', targetEntity: StudentGroup::class)]
     private Collection $studentGroup;
+    #[ORM\OneToMany(targetEntity: ModMosregVis::class, mappedBy: 'mosregVis')]
+    private ModMosregVis $mosregVis;
 
 
     public function __construct()

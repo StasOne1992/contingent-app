@@ -13,8 +13,8 @@ class AdmissionExaminationResult
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Result')]
-    private ?AbiturientPetition $AbiturientPetition = null;
+    #[ORM\ManyToOne(inversedBy: 'admissionExaminationResult')]
+    private ?AbiturientPetition $abiturientPetition = null;
 
     #[ORM\Column]
     private ?float $Mark = null;
@@ -29,12 +29,12 @@ class AdmissionExaminationResult
 
     public function getAbiturientPetition(): ?AbiturientPetition
     {
-        return $this->AbiturientPetition;
+        return $this->abiturientPetition;
     }
 
-    public function setAbiturientPetition(?AbiturientPetition $AbiturientPetition): static
+    public function setAbiturientPetition(?AbiturientPetition $abiturientPetition): static
     {
-        $this->AbiturientPetition = $AbiturientPetition;
+        $this->abiturientPetition = $abiturientPetition;
 
         return $this;
     }

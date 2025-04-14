@@ -20,12 +20,12 @@ class Gender
     #[ORM\Column(length: 255)]
     private ?string $Name = null;
 
-    #[ORM\OneToMany(mappedBy: 'Gender', targetEntity: Student::class)]
+    #[ORM\OneToMany(mappedBy: 'gender', targetEntity: Student::class)]
     private Collection $students;
-    #[ORM\OneToMany(mappedBy: 'Gender', targetEntity: Person::class)]
+    #[ORM\OneToMany(mappedBy: 'gender', targetEntity: Person::class)]
     private Collection $persons;
 
-    #[ORM\OneToMany(mappedBy: 'Gender', targetEntity: AbiturientPetition::class)]
+    #[ORM\OneToMany(mappedBy: 'gender', targetEntity: AbiturientPetition::class)]
     private Collection $abiturientPetitions;
 
     #[ORM\Column(length: 255,nullable: true)]

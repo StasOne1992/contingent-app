@@ -18,7 +18,7 @@ class HealthGroup
     #[ORM\Column(length: 255)]
     private ?string $Name = null;
 
-    #[ORM\OneToMany(mappedBy: 'HealtgGroupID', targetEntity: Student::class)]
+    #[ORM\OneToMany(targetEntity: Student::class, mappedBy: 'healthGroupID')]
     private Collection $students;
 
     public function __construct()

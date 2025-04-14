@@ -2,6 +2,7 @@
 
 namespace App\mod_mosregvis\Entity;
 
+use App\MainApp\Entity\College;
 use App\mod_mosregvis\Repository\modMosregVisRepository;
 use App\mod_mosregvis\Entity\MosregVISCollege;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,15 +17,18 @@ class ModMosregVis
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $username = null;
+    private string|null $username = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $password = null;
+    private string|null $password = null;
 
     #[ORM\Column(length: 255,nullable: true)]
-    private ?string $orgId = null;
+    private string|null $orgId = null;
     #[ORM\ManyToOne(inversedBy: 'MosregVISCollege')]
-    private ?MosregVISCollege $mosregVISCollege = null;
+    private MosregVISCollege|null $mosregVISCollege = null;
+
+    #[ORM\ManyToOne(inversedBy: 'College')]
+    private College|null $college = null;
 
     public function getId(): ?int
     {
@@ -54,15 +58,6 @@ class ModMosregVis
 
         return $this;
     }
-    public function setMosregVISCollege(MosregVISCollege $mosregVISCollege):static
-    {
-        $this->mosregVISCollege=$mosregVISCollege;
-        return $this;
-    }
-    public function getMosregVISCollege():?MosregVISCollege
-    {
-        return $this->mosregVISCollege;
-    }
     public function __toString(): string
     {
         return $this->username;
@@ -76,5 +71,25 @@ class ModMosregVis
     public function setOrgId(?string $orgId): void
     {
         $this->orgId = $orgId;
+    }
+
+    public function getCollege(): ?College
+    {
+        return $this->college;
+    }
+
+    public function setCollege(?College $college): void
+    {
+        $this->college = $college;
+    }
+
+    public function getMosregVISCollege(): ?\App\mod_mosregvis\Entity\MosregVISCollege
+    {
+        return $this->mosregVISCollege;
+    }
+
+    public function setMosregVISCollege(?\App\mod_mosregvis\Entity\MosregVISCollege $mosregVISCollege): void
+    {
+        $this->mosregVISCollege = $mosregVISCollege;
     }
 }

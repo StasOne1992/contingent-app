@@ -31,9 +31,13 @@ class AdmissionPlan
     #[ORM\OneToMany(mappedBy: 'AdmissionPlanPosition', targetEntity: AdmissionExamination::class)]
     private Collection $admissionExaminations;
 
+    #[ORM\OneToMany(mappedBy: 'admissionPlanPosition', targetEntity: AbiturientPetition::class)]
+    private Collection $abiturientPetitions;
+
     public function __construct()
     {
         $this->admissionExaminations = new ArrayCollection();
+        $this->abiturientPetitions = new ArrayCollection();
     }
 
     public function getId(): ?int

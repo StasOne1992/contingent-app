@@ -13,6 +13,12 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: MosregVISCollegeRepository::class)]
 class MosregVISCollege
 {
+    #[ORM\Id, ORM\GeneratedValue(strategy: 'SEQUENCE'), ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\OneToOne(targetEntity: College::class)]
+    private College|null $college;
+
     #[ORM\OneToMany(mappedBy: 'mosregVISCollege', targetEntity: modMosregVis::class)]
     private Collection $modmosregvis;
 

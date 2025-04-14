@@ -2,6 +2,7 @@
 
 namespace App\mod_mosregvis\Form;
 
+use App\MainApp\Entity\College;
 use App\mod_mosregvis\Entity\modMosregVis;
 use App\mod_mosregvis\Entity\MosregVISCollege;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -48,7 +49,7 @@ class modmosregvisType extends AbstractType
                     'class' => 'form-select',
                 ]),
                 'required' => false,
-                'class' => MosregVISCollege::class
+                'class' => College::class
             ])
             ->add('orgId', TextType::class,
                 [

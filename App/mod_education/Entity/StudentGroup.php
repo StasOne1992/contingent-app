@@ -5,7 +5,7 @@ namespace App\mod_education\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use App\MainApp\Entity\College;
+use App\MainApp\Entity\college;
 use App\MainApp\Entity\Staff;
 use App\mod_education\Repository\StudentGroupsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -60,7 +60,7 @@ class StudentGroup
             'student_group:item',
         ]
     )]
-    private ?College $College = null;
+    private ?College $college = null;
 
     #[ORM\ManyToOne(inversedBy: 'studentGroup')]
     #[Groups(
@@ -81,7 +81,7 @@ class StudentGroup
     )]
     private ?string $Code = " ";
 
-    #[ORM\OneToMany(mappedBy: 'StudentGroup', targetEntity: Student::class)]
+    #[ORM\OneToMany(mappedBy: 'studentGroup', targetEntity: Student::class)]
     private Collection $students;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -436,6 +436,16 @@ class StudentGroup
     public function setGroupMemberships(Collection $groupMemberships): void
     {
         $this->groupMemberships = $groupMemberships;
+    }
+
+    public function getCollege(): ?college
+    {
+        return $this->college;
+    }
+
+    public function setCollege(?college $college): void
+    {
+        $this->college = $college;
     }
 
 

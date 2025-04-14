@@ -36,7 +36,7 @@ class AbiturientPetition
     private ?\DateTimeInterface $createdTs = null;
 
     #[ORM\ManyToOne(inversedBy: 'abiturientPetitions')]
-    private ?Gender $Gender = null;
+    private ?Gender $gender = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $phone = null;
@@ -150,11 +150,11 @@ class AbiturientPetition
     #[ORM\Column(nullable: true)]
     private ?bool $LockUpdateFormVIS = null;
 
-    #[ORM\OneToMany(mappedBy: 'AbiturientPetition', targetEntity: AdmissionExaminationResult::class)]
-    private Collection $AdmissionExaminationResult;
+    #[ORM\OneToMany(mappedBy: 'abiturientPetition', targetEntity: AdmissionExaminationResult::class)]
+    private Collection $admissionExaminationResult;
 
     #[ORM\ManyToOne(inversedBy: 'abiturientPetitions')]
-    private ?AdmissionPlan $AdmissionPlanPosition = null;
+    private ?AdmissionPlan $admissionPlanPosition = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $potok = null;
@@ -171,13 +171,13 @@ class AbiturientPetition
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $TargetAgreementEmployer = null;
 
-    #[ORM\OneToMany(mappedBy: 'AbiturientPetition', targetEntity: Student::class)]
-    private Collection $students;
+    #[ORM\OneToMany(mappedBy: 'abiturientPetition', targetEntity: Student::class)]
+    private Collection $student;
 
     #[ORM\Column(nullable: true)]
     private ?bool $isBlockedToEdit = null;
 
-    #[ORM\ManyToOne(inversedBy: 'AbiturientPetition', cascade: ['persist'])]
+    #[ORM\ManyToOne(inversedBy: 'abiturientPetition', cascade: ['persist'])]
     private ?Person $person = null;
 
     public function __construct()
@@ -186,7 +186,7 @@ class AbiturientPetition
             $this->person = new Person();
         };
         $this->Result = new ArrayCollection();
-        $this->students = new ArrayCollection();
+        $this->student = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -280,12 +280,12 @@ class AbiturientPetition
 
     public function getGender(): ?Gender
     {
-        return $this->Gender;
+        return $this->gender;
     }
 
-    public function setGender(?Gender $Gender): static
+    public function setGender(?Gender $gender): static
     {
-        $this->Gender = $Gender;
+        $this->gender = $gender;
 
         return $this;
     }
@@ -742,22 +742,22 @@ class AbiturientPetition
         return $this->AdmissionExaminationResult;
     }
 
-    public function addResult(AdmissionExaminationResult $AdmissionExaminationResult): static
+    public function addResult(dmissionExaminationResult $admissionExaminationResult): static
     {
-        if (!$this->AdmissionExaminationResult->contains($AdmissionExaminationResult)) {
-            $this->AdmissionExaminationResult->add($AdmissionExaminationResult);
-            $AdmissionExaminationResult->setAbiturientPetition($this);
+        if (!$this->admissionExaminationResult->contains($admissionExaminationResult)) {
+            $this->admissionExaminationResult->add($admissionExaminationResult);
+            $admissionExaminationResult->setAbiturientPetition($this);
         }
 
         return $this;
     }
 
-    public function removeResult(AdmissionExaminationResult $AdmissionExaminationResult): static
+    public function removeResult(AdmissionExaminationResult $admissionExaminationResult): static
     {
-        if ($this->AdmissionExaminationResult->removeElement($AdmissionExaminationResult)) {
+        if ($this->admissionExaminationResult->removeElement($admissionExaminationResult)) {
             // set the owning side to null (unless already changed)
-            if ($AdmissionExaminationResult->getAbiturientPetition() === $this) {
-                $AdmissionExaminationResult->setAbiturientPetition(null);
+            if ($admissionExaminationResult->getAbiturientPetition() === $this) {
+                $admissionExaminationResult->setAbiturientPetition(null);
             }
         }
 
@@ -766,12 +766,12 @@ class AbiturientPetition
 
     public function getAdmissionPlanPosition(): ?AdmissionPlan
     {
-        return $this->AdmissionPlanPosition;
+        return $this->admissionPlanPosition;
     }
 
-    public function setAdmissionPlanPosition(?AdmissionPlan $AdmissionPlanPosition): static
+    public function setAdmissionPlanPosition(?AdmissionPlan $admissionPlanPosition): static
     {
-        $this->AdmissionPlanPosition = $AdmissionPlanPosition;
+        $this->admissionPlanPosition = $admissionPlanPosition;
 
         return $this;
     }
@@ -839,15 +839,15 @@ class AbiturientPetition
     /**
      * @return Collection<int, Student>
      */
-    public function getStudents(): Collection
+    public function getStudent(): Collection
     {
-        return $this->students;
+        return $this->student;
     }
 
     public function addStudent(Student $student): static
     {
-        if (!$this->students->contains($student)) {
-            $this->students->add($student);
+        if (!$this->student->contains($student)) {
+            $this->student->add($student);
             $student->setAbiturientPetition($this);
         }
 
@@ -856,7 +856,7 @@ class AbiturientPetition
 
     public function removeStudent(Student $student): static
     {
-        if ($this->students->removeElement($student)) {
+        if ($this->student->removeElement($student)) {
             // set the owning side to null (unless already changed)
             if ($student->getAbiturientPetition() === $this) {
                 $student->setAbiturientPetition(null);

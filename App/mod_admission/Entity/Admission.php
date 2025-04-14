@@ -30,7 +30,7 @@ class Admission
     private Collection $admissionPlans;
 
     #[ORM\Column(type: 'enum', enumType: AdmissionStatus::class)]
-    private ?AdmissionStatus $status = null;
+    private AdmissionStatus|null $status = AdmissionStatus::draft;
 
     #[ORM\OneToMany(mappedBy: 'admission', targetEntity: AbiturientPetition::class)]
     private Collection $abiturientPetitions;
@@ -39,7 +39,7 @@ class Admission
     private ?College $college = null;
 
     #[ORM\Column (nullable: true)]
-    private ?bool $active = null;
+    private ?bool $active = false;
 
     public function __construct()
     {

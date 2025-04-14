@@ -96,8 +96,8 @@ class Student
     #[ORM\ManyToOne(inversedBy: 'student')]
     private ?FamilyTypeList $FamilyTypeID = null;
 
-    #[ORM\ManyToOne(inversedBy: 'student')]
-    private ?HealthGroup $HealtgGroupID = null;
+    #[ORM\ManyToOne(inversedBy: 'students')]
+    private ?HealthGroup $healthGroupID = null;
 
     #[ORM\OneToMany(mappedBy: 'StudentID', targetEntity: LegalRepresentative::class)]
     private Collection $legalRepresentatives;
@@ -108,7 +108,7 @@ class Student
     #[ORM\OneToMany(mappedBy: 'Student', targetEntity: PersonalDocuments::class)]
     private Collection $personalDocuments;
 
-    private ?Gender $Gender = null;
+    private ?Gender $gender = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $isActive = null;
@@ -119,8 +119,8 @@ class Student
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $Photo = null;
 
-    #[ORM\ManyToOne(inversedBy: 'student')]
-    private ?StudentGroup $StudentGroup = null;
+    #[ORM\ManyToOne(inversedBy: 'students')]
+    private ?StudentGroup $studentGroup = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $IsOrphan = null;
@@ -156,7 +156,7 @@ class Student
     private Collection $contingentDocuments;
 
     #[ORM\ManyToOne(inversedBy: 'student')]
-    private ?AbiturientPetition $AbiturientPetition = null;
+    private ?AbiturientPetition $abiturientPetition = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $FirstPassword = null;
@@ -386,14 +386,14 @@ class Student
         return $this;
     }
 
-    public function getHealtgGroupID(): ?HealthGroup
+    public function getHealthGroupID(): ?HealthGroup
     {
-        return $this->HealtgGroupID;
+        return $this->healthGroupID;
     }
 
-    public function setHealtgGroupID(?HealthGroup $HealtgGroupID): self
+    public function setHealthGroupID(?HealthGroup $healthGroupID): self
     {
-        $this->HealtgGroupID = $HealtgGroupID;
+        $this->healthGroupID = $healthGroupID;
 
         return $this;
     }
@@ -490,13 +490,12 @@ class Student
 
     public function getGender(): ?Gender
     {
-        return $this->Gender;
+        return $this->gender;
     }
 
-    public function setGender(?Gender $Gender): self
+    public function setGender(?Gender $gender): self
     {
-        $this->Gender = $Gender;
-
+        $this->gender = $gender;
         return $this;
     }
 
@@ -565,10 +564,10 @@ class Student
         return $this->StudentGroup;
     }
 
-    public function setStudentGroup(?StudentGroup $StudentGroup): self
+    public function setStudentGroup(?StudentGroup $studentGroup): self
     {
 
-        $this->StudentGroup = $StudentGroup;
+        $this->StudentGroup = $studentGroup;
         return $this;
     }
 
@@ -731,12 +730,12 @@ class Student
 
     public function getAbiturientPetition(): ?AbiturientPetition
     {
-        return $this->AbiturientPetition;
+        return $this->abiturientPetition;
     }
 
-    public function setAbiturientPetition(?AbiturientPetition $AbiturientPetition): static
+    public function setAbiturientPetition(?AbiturientPetition $abiturientPetition): static
     {
-        $this->AbiturientPetition = $AbiturientPetition;
+        $this->abiturientPetition = $abiturientPetition;
         return $this;
     }
 
