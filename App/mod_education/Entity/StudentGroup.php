@@ -60,7 +60,7 @@ class StudentGroup
             'student_group:item',
         ]
     )]
-    private ?College $college = null;
+    private College|null $college = null;
 
     #[ORM\ManyToOne(inversedBy: 'studentGroup')]
     #[Groups(
@@ -427,7 +427,7 @@ class StudentGroup
         }
         return $result;
     }
-    
+
     public function getGroupMemberships(): Collection
     {
         return $this->groupMemberships;
@@ -438,12 +438,12 @@ class StudentGroup
         $this->groupMemberships = $groupMemberships;
     }
 
-    public function getCollege(): ?college
+    public function getCollege(): ?College
     {
         return $this->college;
     }
 
-    public function setCollege(?college $college): void
+    public function setCollege(?College $college): void
     {
         $this->college = $college;
     }

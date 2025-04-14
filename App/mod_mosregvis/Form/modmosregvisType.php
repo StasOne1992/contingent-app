@@ -42,7 +42,17 @@ class modmosregvisType extends AbstractType
                         ]),
                 ])
             ->add('mosregVISCollege', EntityType::class, [
-                'label' => 'Учебное заведение',
+                'label' => 'ВИС: Учебное заведение',
+                'placeholder' => 'Укажите учебное заведение',
+                'empty_data' => null,
+                'attr' => array_merge([
+                    'class' => 'form-select',
+                ]),
+                'required' => false,
+                'class' => MosregVISCollege::class
+            ])
+            ->add('college', EntityType::class, [
+                'label' => 'АИС: Учебное заведение',
                 'placeholder' => 'Укажите учебное заведение',
                 'empty_data' => null,
                 'attr' => array_merge([

@@ -57,17 +57,15 @@ class College
 
     #[ORM\OneToMany(mappedBy: 'college', targetEntity: Admission::class)]
     private Collection $admissions;
-
-    #[ORM\OneToOne(targetEntity: MosregVISCollege::class,mappedBy: 'college')]
+    #[ORM\OneToOne(mappedBy: 'college', targetEntity: MosregVISCollege::class)]
     private MosregVISCollege|null $mosregVISCollege;
-
     #[ORM\ManyToMany(targetEntity: Staff::class, mappedBy: 'College')]
     private Collection $staff;
-
     #[ORM\OneToMany(mappedBy: 'college', targetEntity: StudentGroup::class)]
     private Collection $studentGroup;
-    #[ORM\OneToMany(targetEntity: ModMosregVis::class, mappedBy: 'mosregVis')]
-    private ModMosregVis $mosregVis;
+    #[ORM\OneToMany(mappedBy: 'college', targetEntity: MosregVISCollege::class)]
+    private Collection $mosregVisCollege;
+
 
 
     public function __construct()
@@ -76,7 +74,7 @@ class College
         $this->admissions = new ArrayCollection();
         $this->staff = new ArrayCollection();
         $this->studentGroup = new ArrayCollection();
-
+        $this->mosregVisCollege = new ArrayCollection();
     }
 
     public function getFullName(): ?string
@@ -195,9 +193,10 @@ class College
 
         return $this;
     }
+
     public function __toString(): string
     {
-     return $this->getShortName();
+        return $this->getShortName();
     }
 
     public function getSettingsStaffDomain(): ?string
@@ -351,5 +350,14 @@ class College
         return null;
     }
 
+    public function getMosregVISCollege(): ?MosregVISCollege
+    {
+        return $this->mosregVISCollege;
+    }
+
+    public function setMosregVISCollege(?MosregVISCollege $mosregVISCollege): void
+    {
+        $this->mosregVISCollege = $mosregVISCollege;
+    }
 
 }

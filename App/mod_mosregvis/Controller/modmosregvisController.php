@@ -98,24 +98,25 @@ class modmosregvisController extends AbstractController
         $apiConnection = $serializer->deserialize($jsonData, mosregApiConnection::class, 'json');
         $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection, $httpClient);
         $init_data = $apiConnectionService->init_from_api();
-        dump($init_data);
-
-        dump($apiConnection);
         return new Response($init_data->getContent(), $init_data->getStatusCode());
     }
 
 
-    #[Route('/getorgidfromvis', name: 'mod_mosregvis_getorgidfromvis', methods: ['GET'])]
-    public function mod_mosregvis_getorgidfromvis(ModMosregVis $modMosregVis, Request $request, modMosregVisRepository $modMosregVisRepository, ModMosregApiOpenService $modMosregApiOpenService): Response
+    #[Route('/get_org_info', name: 'mod_mosregvis_get_org_info_from_api', methods: ['GET', 'POST'])]
+    public function mod_mosregvis_get_org_info_from_api(Request $request, HttpClientInterface $httpClient, EntityManagerInterface $entityManager, SerializerInterface $serializer): Response
     {
-        $response = new Response();
-        if (is_null($request->getContent())) {
-            $requestData = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
-            $responseData = $modMosregApiOpenService->getOrgIdByUser($requestData['username'], $requestData['password']);
-            $response->setContent($responseData);
-        } else throw new Exception("Ошибка. Не заданы параметры для запроса. Код ошибки: 0xf054");
+        if ('json' !== $request->getContentTypeFormat()) {
+            throw new BadRequestException('Unsupported content format');
+        }
 
-        return $response;
+        $jsonData = json_decode($request->getContent());
+        $apiConnection = $serializer->deserialize($jsonData->connection, mosregApiConnection::class, 'json');
+        $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection, $httpClient);
+
+        //$org_id = 'a58d08dc-8744-45f2-8f9e-b9b6015cda0e';
+        $org_id = $jsonData->org_id;
+        $init_data = $apiConnectionService->get_org_info($org_id);
+        return new Response($init_data->getContent(), $init_data->getStatusCode());
     }
 
 

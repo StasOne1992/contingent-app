@@ -33,7 +33,7 @@ class reference_SpoEducationYear
     private ?int $orderId = null;
 
     #[ORM\OneToOne(targetEntity: Admission::class)]
-    private $admisson;
+    private Admission $admisson;
     #[ORM\ManyToOne(targetEntity: MosregVISCollege::class, inversedBy: 'college')]
     private ?MosregVISCollege $college;
 

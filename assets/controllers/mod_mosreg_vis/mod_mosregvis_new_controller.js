@@ -3,11 +3,11 @@ import {Controller} from '@hotwired/stimulus';
 
 export default class extends Controller {
 
-    const
+
     modmosregvis_username = $('#modmosregvis_username').get(0);
-    const
+
     modmosregvis_password = $('#modmosregvis_password').get(0);
-    let
+    load_info = $('#load-info').get(0);
     api_token = ''
     api_connection
 
@@ -33,12 +33,19 @@ export default class extends Controller {
                     'username': username,
                     'password': hash_value
                 })
+                console.log('Авторизация в API')
                 this.auth_in_api(body).then(d => {
+                    console.log('Выполнена авторизация в API')
                     this.api_connection = JSON.parse(d);
                     this.api_token = `Token: ${JSON.parse(this.api_connection['token'])['token']}`;
-                    console.log(this);
                     this.init_from_api().then(d => {
-                        $('#modmosregvis_orgId').get(0).value = d['orgId']
+                        $('#modmosregvis_orgId').get(0).value = d['orgId'];
+                        console.log('Доступ к API получен')
+                        console.log('Запрос сведений об организации из ВИС')
+                        this.get_org_info(d['orgId']).then(d => {
+                            this.load_info.innerHTML = JSON.stringify(d, null, 2);
+                        }).catch(e => console.error(e))
+
                     }).catch(e => console.log(e));
                 }).catch(e => console.error(e))
 
@@ -65,6 +72,27 @@ export default class extends Controller {
         let body = JSON.stringify(this.api_connection);
         return Promise.resolve($.ajax({
                 url: `/mod_mosregvis/init_from_api`,
+                method: `POST`,
+                headers: {
+                    'accept': 'application/json',
+                    'content-type': 'application/json',
+                },
+                dataType: 'json',
+                data: body
+            })
+        )
+    }
+
+    async get_org_info(org_id) {
+        let body = JSON.stringify({
+                'connection': JSON.stringify(this.api_connection),
+                'org_id': org_id
+            })
+        ;
+        console.log(body)
+        console.log(org_id)
+        return Promise.resolve($.ajax({
+                url: `/mod_mosregvis/get_org_info`,
                 method: `POST`,
                 headers: {
                     'accept': 'application/json',

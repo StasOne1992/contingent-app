@@ -69,6 +69,18 @@ class ModMosregApiConnectionInterfaceService
             return new Response($response->getContent(), $response->getStatusCode());
         }
         return new Response($response->getContent(), $response->getStatusCode());
+    }
 
+    public function get_org_info($org_id): Response
+    {
+        $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . "/spoOrganization/{$org_id}",
+            [
+                'headers' => $this->apiConnection->getApiHeaders(),
+            ]);
+
+        if ($response->getStatusCode() != 200) {
+            return new Response($response->getContent(), $response->getStatusCode());
+        }
+        return new Response($response->getContent(), $response->getStatusCode());
     }
 }

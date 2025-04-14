@@ -22,12 +22,11 @@ class ModMosregVis
     #[ORM\Column(length: 255)]
     private string|null $password = null;
 
-    #[ORM\Column(length: 255,nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private string|null $orgId = null;
-    #[ORM\ManyToOne(inversedBy: 'MosregVISCollege')]
+    #[ORM\ManyToOne(targetEntity: MosregVISCollege::class, inversedBy: 'MosregVISCollege')]
     private MosregVISCollege|null $mosregVISCollege = null;
-
-    #[ORM\ManyToOne(inversedBy: 'College')]
+    #[ORM\ManyToOne(targetEntity: College::class, inversedBy: 'MosregVISCollege')]
     private College|null $college = null;
 
     public function getId(): ?int
@@ -58,6 +57,7 @@ class ModMosregVis
 
         return $this;
     }
+
     public function __toString(): string
     {
         return $this->username;

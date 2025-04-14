@@ -20,18 +20,15 @@ class MosregVISCollege
     private College|null $college;
 
     #[ORM\OneToMany(mappedBy: 'mosregVISCollege', targetEntity: modMosregVis::class)]
-    private Collection $modmosregvis;
+    private Collection $modMosregVis;
 
-    #[ORM\OneToMany(mappedBy: 'college', targetEntity: MosregVISCollege::class)]
-    private Collection $spoEducationYear;
 
     #[ORM\Column(nullable: true)]
     private ?string $visCollegeId = '';
 
     public function __construct()
     {
-        $this->modmosregvis = new ArrayCollection();
-        $this->spoEducationYear = new ArrayCollection();
+        $this->modMosregVis = new ArrayCollection();
     }
 
 
@@ -40,40 +37,28 @@ class MosregVISCollege
      */
     public function getModMosregVIS(): Collection
     {
-        return $this->modmosregvis;
+        return $this->modMosregVis;
     }
 
-    public function addModMosregVIS(modMosregVis $modmosregvis): static
+    public function addModMosregVIS(modMosregVis $modMosregVis): static
     {
 
-        if (!$this->modmosregvis->contains($modmosregvis)) {
-            $this->modmosregvis->add($modmosregvis);
-            $modmosregvis->setCollege($this);
+        if (!$this->modMosregVis->contains($modMosregVis)) {
+            $this->modMosregVis->add($modMosregVis);
+            $modMosregVis->setCollege($this);
         }
         return $this;
     }
-    public function removeModMosregVIS(modMosregVis $modmosregvis): static
+
+    public function removeModMosregVIS(modMosregVis $modMosregVis): static
     {
         //TODO: make this method
         return $this;
     }
+
     public function __toString(): string
     {
         return $this->visCollegeId;
-    }
-
-    public function getSpoEducationYear(): Collection
-    {
-        return $this->spoEducationYear;
-    }
-
-    public function addSpoEducationYear(reference_SpoEducationYear $spoEducationYear): static
-    {
-        if (!$this->spoEducationYear->contains($spoEducationYear)) {
-            $this->spoEducationYear->add($spoEducationYear);
-            $spoEducationYear->setCollege($this);
-        }
-        return $this;
     }
 
     public function getVisCollegeId(): ?string
@@ -86,4 +71,13 @@ class MosregVISCollege
         $this->visCollegeId = $visCollegeId;
     }
 
+    public function getCollege(): ?College
+    {
+        return $this->college;
+    }
+
+    public function setCollege(?College $college): void
+    {
+        $this->college = $college;
+    }
 }
