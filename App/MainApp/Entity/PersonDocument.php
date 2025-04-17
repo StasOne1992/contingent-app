@@ -15,7 +15,7 @@ class PersonDocument
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
     private int $id;
-    #[ORM\ManyToOne(inversedBy: 'PersonDocumentCategory')]
+    #[ORM\ManyToOne(inversedBy: 'personDocuments')]
     private ?PersonDocumentCategory $documentCategory = null;
     #[ORM\Column(nullable: true)]
     private ?string $name;

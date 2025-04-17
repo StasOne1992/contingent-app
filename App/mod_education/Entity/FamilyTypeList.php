@@ -18,7 +18,7 @@ class FamilyTypeList
     #[ORM\Column(length: 255)]
     private ?string $Name = null;
 
-    #[ORM\OneToMany(mappedBy: 'FamilyTypeID', targetEntity: Student::class)]
+    #[ORM\OneToMany(targetEntity: Student::class, mappedBy: 'familyTypeID')]
     private Collection $students;
 
     public function __construct()

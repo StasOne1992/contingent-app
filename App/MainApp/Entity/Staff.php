@@ -2,6 +2,7 @@
 
 namespace App\MainApp\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\MainApp\Repository\StaffRepository;
 use App\mod_education\Entity\StudentGroup;
 use App\mod_events\Entity\EventsList;
@@ -11,6 +12,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StaffRepository::class)]
+#[ApiResource]
 class Staff
 {
     #[ORM\Id]
@@ -18,8 +20,8 @@ class Staff
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToMany(mappedBy: 'Staff', targetEntity: User::class)]
-    private Collection $users;
+    #[ORM\OneToOne(targetEntity: User::class, mappedBy: 'staff')]
+    private Collection $user;
 
     #[ORM\Column(length: 255)]
     private ?string $FirstName = null;
@@ -33,7 +35,7 @@ class Staff
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $Photo = null;
 
-    #[ORM\OneToMany(mappedBy: 'GroupLeader', targetEntity: StudentGroup::class)]
+    #[ORM\OneToMany(targetEntity: StudentGroup::class, mappedBy: 'GroupLeader')]
     private Collection $studentGroup;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -54,7 +56,6 @@ class Staff
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
         $this->studentGroup = new ArrayCollection();
         $this->eventsLists = new ArrayCollection();
         $this->College = new ArrayCollection();
@@ -63,36 +64,6 @@ class Staff
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->setStaff($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getStaff() === $this) {
-                $user->setStaff(null);
-            }
-        }
-
-        return $this;
     }
     public function __toString(): string
     {
@@ -279,6 +250,16 @@ class Staff
         $this->person = $person;
 
         return $this;
+    }
+
+    public function getUser(): Collection
+    {
+        return $this->user;
+    }
+
+    public function setUser(Collection $user): void
+    {
+        $this->user = $user;
     }
 
 }

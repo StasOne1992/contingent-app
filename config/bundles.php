@@ -20,4 +20,5 @@ return [
     Gesdinet\JWTRefreshTokenBundle\GesdinetJWTRefreshTokenBundle::class => ['all' => true],
     Symfony\UX\StimulusBundle\StimulusBundle::class => ['all' => true],
     Symfony\UX\Icons\UXIconsBundle::class => ['all' => true],
+    HeyMoon\DoctrinePostgresEnum\DoctrinePostgresEnumBundle::class => ['all' => true],
 ];

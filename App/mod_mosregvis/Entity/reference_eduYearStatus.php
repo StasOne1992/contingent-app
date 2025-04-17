@@ -21,7 +21,7 @@ class reference_eduYearStatus
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\OneToMany(mappedBy: 'reference_SpoEducationYear', targetEntity: reference_SpoEducationYear::class)]
+    #[ORM\OneToMany(targetEntity: reference_SpoEducationYear::class, mappedBy: 'yearStatus')]
     private Collection $spoEducationYear;
 
     public function __construct()

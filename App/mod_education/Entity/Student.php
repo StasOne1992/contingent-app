@@ -93,8 +93,8 @@ class Student
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $AddressMain = null;
 
-    #[ORM\ManyToOne(inversedBy: 'student')]
-    private ?FamilyTypeList $FamilyTypeID = null;
+    #[ORM\ManyToOne(targetEntity: FamilyTypeList::class, inversedBy: 'students')]
+    private ?FamilyTypeList $familyTypeID = null;
 
     #[ORM\ManyToOne(inversedBy: 'students')]
     private ?HealthGroup $healthGroupID = null;
@@ -113,8 +113,8 @@ class Student
     #[ORM\Column(nullable: true)]
     private ?bool $isActive = null;
 
-    #[ORM\OneToMany(mappedBy: 'Student', targetEntity: User::class)]
-    private Collection $users;
+    #[ORM\OneToOne(targetEntity: User::class, mappedBy: 'student')]
+    private Collection $user;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $Photo = null;
@@ -146,14 +146,11 @@ class Student
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $PasportIssueOrgan = null;
 
-    #[ORM\OneToMany(mappedBy: 'Student', targetEntity: Characteristic::class)]
+    #[ORM\OneToMany(targetEntity: Characteristic::class, mappedBy: 'Student')]
     private Collection $characteristics;
 
     #[ORM\Column(nullable: true)]
     private ?bool $isWithoutParents = null;
-
-    #[ORM\ManyToMany(targetEntity: ContingentDocument::class, mappedBy: 'student')]
-    private Collection $contingentDocuments;
 
     #[ORM\ManyToOne(inversedBy: 'student')]
     private ?AbiturientPetition $abiturientPetition = null;
@@ -161,7 +158,7 @@ class Student
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $FirstPassword = null;
 
-    #[ORM\OneToMany(mappedBy: 'Student', targetEntity: AccessSystemControl::class)]
+    #[ORM\OneToMany(targetEntity: AccessSystemControl::class, mappedBy: 'Student')]
     private Collection $accessSystemControls;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -202,9 +199,8 @@ class Student
         $this->socialNetworks = new ArrayCollection();
         $this->personalDocuments = new ArrayCollection();
         $this->personalDocuments->getValues();
-        $this->users = new ArrayCollection();
+        $this->user = new ArrayCollection();
         $this->characteristics = new ArrayCollection();
-        $this->contingentDocuments = new ArrayCollection();
         $this->accessSystemControls = new ArrayCollection();
         $this->loginValues = new ArrayCollection();
         $this->eventsLists = new ArrayCollection();
@@ -376,12 +372,12 @@ class Student
 
     public function getFamilyTypeID(): ?FamilyTypeList
     {
-        return $this->FamilyTypeID;
+        return $this->familyTypeID;
     }
 
-    public function setFamilyTypeID(?FamilyTypeList $FamilyTypeID): self
+    public function setFamilyTypeID(?FamilyTypeList $familyTypeID): self
     {
-        $this->FamilyTypeID = $FamilyTypeID;
+        $this->familyTypeID = $familyTypeID;
 
         return $this;
     }
@@ -519,15 +515,15 @@ class Student
     /**
      * @return Collection<int, User>
      */
-    public function getUsers(): Collection
+    public function getUser(): Collection
     {
-        return $this->users;
+        return $this->user;
     }
 
     public function addUser(User $user): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
+        if (!$this->user->contains($user)) {
+            $this->user->add($user);
             $user->setStudentID($this);
         }
 
@@ -536,7 +532,7 @@ class Student
 
     public function removeUser(User $user): self
     {
-        if ($this->users->removeElement($user)) {
+        if ($this->user->removeElement($user)) {
             // set the owning side to null (unless already changed)
             if ($user->getStudentID() === $this) {
                 $user->setStudentID(null);
@@ -698,33 +694,6 @@ class Student
     public function setIsWithoutParents(?bool $isWithoutParents): self
     {
         $this->isWithoutParents = $isWithoutParents;
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, ContingentDocument>
-     */
-    public function getContingentDocuments(): Collection
-    {
-        return $this->contingentDocuments;
-    }
-
-    public function addContingentDocument(ContingentDocument $contingentDocument): self
-    {
-        if (!$this->contingentDocuments->contains($contingentDocument)) {
-            $this->contingentDocuments->add($contingentDocument);
-            $contingentDocument->addStudent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeContingentDocument(ContingentDocument $contingentDocument): self
-    {
-        if ($this->contingentDocuments->removeElement($contingentDocument)) {
-            $contingentDocument->removeStudent($this);
-        }
-
         return $this;
     }
 

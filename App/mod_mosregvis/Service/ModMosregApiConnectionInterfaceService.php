@@ -31,9 +31,9 @@ class ModMosregApiConnectionInterfaceService
         }
     }
 
-    private
-    function api_auth()
+    private function api_auth()
     {
+        dump($this);
         $response = $this->client->request('POST', $this->apiConnection->getApiLoginUrl(),
             [
                 'headers' => $this->apiConnection->getApiHeaders(),

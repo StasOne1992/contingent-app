@@ -3,6 +3,8 @@
 namespace App\mod_mosregvis\Entity;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Twig\Token;
+use function Symfony\Component\Translation\t;
 
 
 class mosregApiConnection
@@ -19,7 +21,7 @@ class mosregApiConnection
     private array $apiHeaders;
     private int $admissionId;
 
-    public function __construct()
+    public function __construct(string $token = '', array $apiHeaders = [])
     {
         $this->setApiUrl("https://prof.mo.mosreg.ru/api");
         $this->setApiAvailableUrl("https://prof.mo.mosreg.ru");
@@ -28,16 +30,24 @@ class mosregApiConnection
             'Accept: */*',
             'Content-Type: application/json',
             'Cookie: Cookie_1=value']);
+        if (!empty($apiHeaders)) $this->apiHeaders[] = $apiHeaders;
+        if ($token != '') {
+            $this->token = $token;
+            $this->apiHeaders[] = "Authorization: {$token}";
+        }
+        dump($this);
     }
 
 
     public function getToken(): string
     {
+
         return $this->token;
     }
 
     public function setToken(string $token): void
     {
+        $this->apiHeaders['Authorization'] = $token;
         $this->token = $token;
     }
 

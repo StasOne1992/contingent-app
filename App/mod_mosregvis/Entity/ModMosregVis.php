@@ -24,9 +24,9 @@ class ModMosregVis
 
     #[ORM\Column(length: 255, nullable: true)]
     private string|null $orgId = null;
-    #[ORM\ManyToOne(targetEntity: MosregVISCollege::class, inversedBy: 'MosregVISCollege')]
+    #[ORM\ManyToOne(targetEntity: MosregVISCollege::class, inversedBy: 'modMosregVis')]
     private MosregVISCollege|null $mosregVISCollege = null;
-    #[ORM\ManyToOne(targetEntity: College::class, inversedBy: 'MosregVISCollege')]
+    #[ORM\ManyToOne(targetEntity: College::class, inversedBy: 'modMosregVis')]
     private College|null $college = null;
 
     public function getId(): ?int

@@ -20,7 +20,7 @@ class reference_SpoEducationYear
     #[ORM\Column]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(targetEntity: reference_eduYearStatus::class, inversedBy: 'reference_eduYearStatus')]
+    #[ORM\ManyToOne(targetEntity: reference_eduYearStatus::class, inversedBy: 'spoEducationYear')]
     private ?reference_eduYearStatus $yearStatus;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -34,7 +34,7 @@ class reference_SpoEducationYear
 
     #[ORM\OneToOne(targetEntity: Admission::class)]
     private Admission $admisson;
-    #[ORM\ManyToOne(targetEntity: MosregVISCollege::class, inversedBy: 'college')]
+    #[ORM\ManyToOne(targetEntity: MosregVISCollege::class, inversedBy: 'referenceSpoEducationYear')]
     private ?MosregVISCollege $college;
 
     public function getId(): ?int

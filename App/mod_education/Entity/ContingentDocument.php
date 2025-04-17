@@ -4,7 +4,6 @@ namespace App\mod_education\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\MainApp\Entity\College;
-use App\mod_education\Controller\Api\ContingentDocument\PushGroupMemberShip;
 use App\mod_education\Repository\ContingentDocumentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,9 +11,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\Attribute\Groups;
-use ApiPlatform\Metadata\Post;
 
 #[ORM\Entity(repositoryClass: ContingentDocumentRepository::class)]
 
@@ -43,18 +40,17 @@ class ContingentDocument
     private ?bool $isActive = null;
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
-    #[ORM\ManyToOne(inversedBy: 'contingentDocuments')]
-    private ?College $College = null;
+    #[ORM\ManyToOne(targetEntity: College::class ,inversedBy: 'contingentDocuments')]
+    private ?College $college = null;
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $Reason = null;
-    #[ORM\OneToMany(mappedBy: 'ContingentDocument', targetEntity: GroupMembership::class)]
+    #[ORM\OneToMany(targetEntity: GroupMembership::class, mappedBy: 'contingentDocument')]
     #[Groups(['contingent_document:item'])]
-    private Collection $GroupMemberships;
+    private Collection $groupMemberships;
 
     public function __construct()
     {
-        $this->student = new ArrayCollection();
-        $this->GroupMemberships = new ArrayCollection();
+        $this->groupMemberships = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -124,12 +120,12 @@ class ContingentDocument
 
      public function getCollege(): ?College
      {
-         return $this->College;
+         return $this->college;
      }
 
-     public function setCollege(?College $College): self
+     public function setCollege(?College $college): self
      {
-         $this->College = $College;
+         $this->college = $college;
 
          return $this;
      }
@@ -156,25 +152,25 @@ class ContingentDocument
       */
     public function getGroupMemberships(): Collection
     {
-        return $this->GroupMemberships;
+        return $this->groupMemberships;
     }
 
-    public function addGroupMembership(GroupMembership $GroupMembership): static
+    public function addGroupMembership(GroupMembership $groupMembership): static
     {
-        if (!$this->GroupMemberships->contains($GroupMembership)) {
-            $this->GroupMemberships->add($GroupMembership);
-            $GroupMembership->setContingentDocument($this);
+        if (!$this->groupMemberships->contains($groupMembership)) {
+            $this->groupMemberships->add($groupMembership);
+            $groupMembership->setContingentDocument($this);
         }
 
         return $this;
     }
 
-    public function removeGroupMembership(GroupMembership $GroupMembership): static
+    public function removeGroupMembership(GroupMembership $groupMembership): static
     {
-        if ($this->GroupMemberships->removeElement($GroupMembership)) {
+        if ($this->groupMemberships->removeElement($groupMembership)) {
             // set the owning side to null (unless already changed)
-            if ($GroupMembership->getContingentDocument() === $this) {
-                $GroupMembership->setContingentDocument(null);
+            if ($groupMembership->getContingentDocument() === $this) {
+                $groupMembership->setContingentDocument(null);
             }
         }
 

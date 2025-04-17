@@ -1,13 +1,16 @@
 api_platform:
   eager_loading:
     max_joins: 100
-  title: Hello API Platform
-  version: 1.0.0
+  title: AIS API
+  version: 0.1.1
 
   mapping:
     paths: [
       '%kernel.project_dir%/App/mod_education/Entity',
-      '%kernel.project_dir%/App/MainApp/Entity'
+      '%kernel.project_dir%/App/MainApp/Entity',
+      '%kernel.project_dir%/App/mod_mosregvis/Entity',
+      '%kernel.project_dir%/App/mod_admission/Entity'
+
     ]
   patch_formats:
     json: [ 'application/merge-patch+json' ]

@@ -2,25 +2,25 @@
 
 namespace App\mod_mosregvis\Repository;
 
-use App\mod_mosregvis\Entity\ModMosregVis;
+use App\mod_mosregvis\Entity\ModMosregVis ;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends modMosregVisRepository<ServiceEntityRepository>
- * @method modMosregVis|null find($id, $lockMode = null, $lockVersion = null)
- * @method modMosregVis|null findOneBy(array $criteria, array $orderBy = null)
- * @method modMosregVis[]    findAll()
- * @method modMosregVis[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ModMosregVis Repository<ServiceEntityRepository>
+ * @method ModMosregVis |null find($id, $lockMode = null, $lockVersion = null)
+ * @method ModMosregVis |null findOneBy(array $criteria, array $orderBy = null)
+ * @method ModMosregVis []    findAll()
+ * @method ModMosregVis []    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class modMosregVisRepository extends ServiceEntityRepository
+class ModMosregVisRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, modMosregVis::class);
+        parent::__construct($registry, ModMosregVis ::class);
     }
 
-    public function save(modMosregVis $entity, bool $flush = false): void
+    public function save(ModMosregVis  $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -29,7 +29,7 @@ class modMosregVisRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(modMosregVis $entity, bool $flush = false): void
+    public function remove(ModMosregVis  $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -39,7 +39,7 @@ class modMosregVisRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return modMosregVis[] Returns an array of modMosregVis objects
+//     * @return ModMosregVis [] Returns an array of ModMosregVis  objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -53,7 +53,7 @@ class modMosregVisRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?modMosregVis
+//    public function findOneBySomeField($value): ?ModMosregVis 
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')

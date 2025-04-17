@@ -35,7 +35,7 @@ class GroupMembership
     private ?\DateTimeInterface $DateEnd = null;
 
     #[ORM\ManyToOne(targetEntity: ContingentDocument::class,inversedBy: 'groupMemberships')]
-    private ?ContingentDocument $ContingentDocument = null;
+    private ?ContingentDocument $contingentDocument = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $Active = null;
@@ -98,12 +98,12 @@ class GroupMembership
 
     public function getContingentDocument(): ?ContingentDocument
     {
-        return $this->ContingentDocument;
+        return $this->contingentDocument;
     }
 
-    public function setContingentDocument(?ContingentDocument $ContingentDocument): static
+    public function setContingentDocument(?ContingentDocument $contingentDocument): static
     {
-        $this->ContingentDocument = $ContingentDocument;
+        $this->contingentDocument = $contingentDocument;
         return $this;
     }
 

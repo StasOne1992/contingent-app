@@ -2,6 +2,7 @@
 
 namespace App\MainApp\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\MainApp\Repository\UserRepository;
 use App\mod_education\Entity\Student;
 use Doctrine\DBAL\Types\Types;
@@ -13,6 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[ApiResource]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -33,11 +35,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Student $Student = null;
+    #[ORM\OneToOne(targetEntity: Student::class, inversedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Student $student = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Staff $Staff = null;
+    #[ORM\OneToOne(targetEntity: Staff::class, inversedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Staff $staff = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $IsStudent = false;
@@ -101,10 +103,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getStudentProfileID(): int
     {
-        $StudentRole = in_array("ROLE_STUDENT", array_unique($this->roles));
+        $studentRole = in_array("ROLE_STUDENT", array_unique($this->roles));
 
 
-        if (!(is_Null($this->getStudent())) && ($StudentRole)) {
+        if (!(is_Null($this->getStudent())) && ($studentRole)) {
             $result = $this->getStudent()->getId();
             return $result;
         }
@@ -155,34 +157,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getStudent(): ?Student
     {
-        /*if (isNull($this->Student->getStudentGroup()))
+        /*if (isNull($this->student->getStudentGroup()))
         {
             $group = new StudentGroup();
             $group->setName("Группа не указана");
             $group->setCode("EMPTY");
             $group->setLetter("EMP");
-            $this->Student->setStudentGroup($group);
+            $this->student->setStudentGroup($group);
         }*/
 
-        return $this->Student;
+        return $this->student;
     }
 
-    public function setStudent(?Student $Student): self
+    public function setStudent(?Student $student): self
     {
-        $this->Student = $Student;
+        $this->student = $student;
 
         return $this;
     }
 
     public function getStaff(): ?Staff
     {
-        return $this->Staff;
+        return $this->staff;
     }
 
 
-    public function setStaff(?Staff $Staff): self
+    public function setStaff(?Staff $staff): self
     {
-        $this->Staff = $Staff;
+        $this->staff = $staff;
 
         return $this;
     }

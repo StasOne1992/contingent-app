@@ -2,43 +2,41 @@
 
 namespace App\mod_mosregvis\Controller;
 
-use App\mod_mosregvis\Entity\modMosregVis;
+use App\mod_mosregvis\Entity\ModMosregVis;
 use App\mod_mosregvis\Entity\mosregApiConnection;
+use App\mod_mosregvis\Entity\MosregVISCollege;
 use App\mod_mosregvis\Form\modmosregvisType;
-use App\mod_mosregvis\Repository\modMosregVisRepository;
+use App\mod_mosregvis\Repository\ModMosregVisRepository;
+use App\mod_mosregvis\Repository\MosregVISCollegeRepository;
 use App\mod_mosregvis\Service\ModMosregApiConnectionInterfaceService;
-use App\mod_mosregvis\Service\ModMosregApiOpenService;
 use App\mod_mosregvis\Service\ModMosregApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Serializer\SerializerInterface;
-use function PHPUnit\Framework\isEmpty;
 
 #[Route('/mod_mosregvis')]
 #[IsGranted("ROLE_USER")]
 class modmosregvisController extends AbstractController
 {
     #[Route('/index', name: 'mod_mosregvis_index', methods: ['GET'])]
-    public function index(modMosregVisRepository $modMosregVisRepository): Response
+    public function index(ModMosregVisRepository $ModMosregVisRepository): Response
     {
         return $this->render('@mod_mosregvis/index.html.twig',
             [
-                'modMosregVis' => $modMosregVisRepository->findAll()
+                'modMosregVis' => $ModMosregVisRepository->findAll()
             ]
         );
     }
 
     #[Route('/new', name: 'mod_mosregvis_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, modMosregVisRepository $modMosregVisRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, ModMosregVisRepository $ModMosregVisRepository): Response
     {
-        $modmosregvis = new modMosregVis();
+        $modmosregvis = new ModMosregVis();
         $form = $this->createForm(modmosregvisType::class, $modmosregvis);
         $form->handleRequest($request);
 
@@ -91,33 +89,33 @@ class modmosregvisController extends AbstractController
     #[Route('/init_from_api', name: 'mod_mosregvis_get_init_from_api', methods: ['GET', 'POST'])]
     public function mod_mosregvis_get_init_from_api(Request $request, HttpClientInterface $httpClient, EntityManagerInterface $entityManager, SerializerInterface $serializer): Response
     {
-        if ('json' !== $request->getContentTypeFormat()) {
-            throw new BadRequestException('Unsupported content format');
-        }
-        $jsonData = $request->getContent();
-        $apiConnection = $serializer->deserialize($jsonData, mosregApiConnection::class, 'json');
+        $headers = $request->headers->all();
+        $apiConnection = new mosregApiConnection($headers['x-token']['0']);
         $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection, $httpClient);
         $init_data = $apiConnectionService->init_from_api();
         return new Response($init_data->getContent(), $init_data->getStatusCode());
     }
 
 
-    #[Route('/get_org_info', name: 'mod_mosregvis_get_org_info_from_api', methods: ['GET', 'POST'])]
-    public function mod_mosregvis_get_org_info_from_api(Request $request, HttpClientInterface $httpClient, EntityManagerInterface $entityManager, SerializerInterface $serializer): Response
+    #[Route('/get_org_info', name: 'mod_mosregvis_get_org_info_from_api', methods: ['GET'])]
+    public function mod_mosregvis_get_org_info_from_api(Request $request, HttpClientInterface $httpClient, EntityManagerInterface $entityManager, SerializerInterface $serializer, MosregVISCollegeRepository $mosregVISCollegeRepository): Response
     {
-        if ('json' !== $request->getContentTypeFormat()) {
-            throw new BadRequestException('Unsupported content format');
-        }
-
-        $jsonData = json_decode($request->getContent());
-        $apiConnection = $serializer->deserialize($jsonData->connection, mosregApiConnection::class, 'json');
+        $headers = $request->headers->all();
+        $apiConnection = new mosregApiConnection($headers['x-token']['0']);
         $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection, $httpClient);
-
-        //$org_id = 'a58d08dc-8744-45f2-8f9e-b9b6015cda0e';
-        $org_id = $jsonData->org_id;
+        $org_id = $headers['x-org-id']['0'];
         $init_data = $apiConnectionService->get_org_info($org_id);
-        return new Response($init_data->getContent(), $init_data->getStatusCode());
-    }
+        $org = (array)json_decode($init_data->getContent(), true);
+        $org['guid'] = $org['id'];
+        unset($org['id']);
 
+        $mosregCollege = $serializer->deserialize(json_encode($org), MosregVISCollege::class, 'json');
+        $org['isExist'] = false;
+
+        if (count($mosregVISCollegeRepository->findBy(['guid' => $org['guid']])) > 0) {
+            $org['isExist'] = true;
+        }
+        return new Response(json_encode($org), $init_data->getStatusCode());
+    }
 
 }

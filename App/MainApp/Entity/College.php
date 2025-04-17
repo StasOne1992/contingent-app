@@ -2,8 +2,16 @@
 
 namespace App\MainApp\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\MainApp\Repository\CollegeRepository;
 use App\mod_admission\Entity\Admission;
+use App\mod_education\Entity\ContingentDocument;
 use App\mod_education\Entity\StudentGroup;
 use App\mod_mosregvis\Entity\ModMosregVis;
 use App\mod_mosregvis\Entity\MosregVISCollege;
@@ -14,58 +22,50 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CollegeRepository::class)]
+#[ApiResource
+()]
 class College
 {
     #[ORM\Id, ORM\GeneratedValue(strategy: 'SEQUENCE'), ORM\Column]
     private ?int $id = null;
-
     #[ORM\Column(type: Types::TEXT)]
     private ?string $name = null;
-
     #[ORM\Column(length: 255)]
     private ?string $shortName = null;
-
     #[ORM\Column(type: Types::TEXT)]
     private ?string $postalAddress = null;
-
     #[ORM\Column(type: Types::TEXT)]
     private ?string $registeredAddress = null;
-
     #[ORM\Column(length: 255)]
     private ?string $email = null;
-
     #[ORM\Column(length: 255)]
     private ?string $webSite = null;
-
     #[ORM\Column(type: Types::TEXT)]
     private ?string $logo = null;
-
     #[ORM\Column(length: 13)]
     private ?string $phone = null;
-
     #[ORM\Column(length: 13)]
     private ?string $fax = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $SettingsStaffDomain = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $SettingsStudentsDomain = null;
-
-    #[ORM\OneToMany(mappedBy: 'college', targetEntity: User::class)]
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'college')]
     private Collection $users;
-
-    #[ORM\OneToMany(mappedBy: 'college', targetEntity: Admission::class)]
+    #[ORM\OneToMany(targetEntity: Admission::class, mappedBy: 'college')]
     private Collection $admissions;
-    #[ORM\OneToOne(mappedBy: 'college', targetEntity: MosregVISCollege::class)]
+    #[ORM\OneToOne(targetEntity: MosregVISCollege::class, mappedBy: 'college')]
     private MosregVISCollege|null $mosregVISCollege;
     #[ORM\ManyToMany(targetEntity: Staff::class, mappedBy: 'College')]
     private Collection $staff;
-    #[ORM\OneToMany(mappedBy: 'college', targetEntity: StudentGroup::class)]
+    #[ORM\OneToMany(targetEntity: StudentGroup::class, mappedBy: 'college')]
     private Collection $studentGroup;
-    #[ORM\OneToMany(mappedBy: 'college', targetEntity: MosregVISCollege::class)]
+    #[ORM\OneToMany(targetEntity: MosregVISCollege::class, mappedBy: 'college')]
     private Collection $mosregVisCollege;
-
+    #[ORM\OneToMany(targetEntity: ContingentDocument::class, mappedBy: 'college')]
+    private Collection $contingentDocuments;
+    #[ORM\OneToMany(targetEntity: ModMosregVis::class, mappedBy: 'college')]
+    private Collection $modMosregVis;
 
 
     public function __construct()
@@ -75,6 +75,7 @@ class College
         $this->staff = new ArrayCollection();
         $this->studentGroup = new ArrayCollection();
         $this->mosregVisCollege = new ArrayCollection();
+        $this->contingentDocuments = new ArrayCollection();
     }
 
     public function getFullName(): ?string

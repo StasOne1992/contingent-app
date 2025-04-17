@@ -247,12 +247,13 @@ security:
   # Примечание: будет использоваться только *первый* соответствующий элемент управления доступом.
   access_control:
     - { path: ^/api/login, roles: PUBLIC_ACCESS }
+    - { path: ^/api/login/refresh, roles: PUBLIC_ACCESS }
+    - { path: ^/api/docs, roles: PUBLIC_ACCESS }
     - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
     - { path: ^/sign_in, role: PUBLIC_ACCESS }
     - { path: ^/accessDenied, role: PUBLIC_ACCESS }
     - { path: ^/student-app, roles: [ ROLE_STUDENT ] }
-    - { path: ^/contingent , roles: [ROLE_USER]}
-    - { path: ^/student , roles: [ ROLE_STUDENT ] }
+
 
 when@test:
   security:
