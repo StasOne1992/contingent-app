@@ -36,8 +36,10 @@
     <!-- Icons -->
     <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
     <link rel="shortcut icon" href="{{ asset('bundles/OneUI/assets/media/favicons/favicon.png') }}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('bundles/OneUI/assets/media/favicons/favicon-192x192.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('bundles/OneUI/assets/media/favicons/apple-touch-icon-180x180.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192"
+          href="{{ asset('bundles/OneUI/assets/media/favicons/favicon-192x192.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180"
+          href="{{ asset('bundles/OneUI/assets/media/favicons/apple-touch-icon-180x180.png') }}">
     {% include '@MainApp/base/_head_css.html.twig' %}
     {% include '@MainApp/base/_head_js.html.twig' %}
 
@@ -93,7 +95,6 @@
                 </div>
 
 
-
             </div>
         </div>
 
@@ -101,16 +102,16 @@
         {% if actions_menu %}
             <div class="">
                 <div class="block mb-0 block-themed ">
-                <div class="block-header bg-secondary">
-                    <h1> </h1>
-                    <div class="block-options">
-                        <a class="btn btn-primary disabled" disabled="true">SomeButtonTest</a>
-                        {% block topmenu_items %}
-                        {% endblock %}
+                    <div class="block-header bg-secondary">
+                        <h1></h1>
+                        <div class="block-options">
+                            <a class="btn btn-primary disabled" disabled="true">SomeButtonTest</a>
+                            {% block topmenu_items %}
+                            {% endblock %}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         {% endif %}
 
         <!-- Page Content -->
@@ -135,8 +136,10 @@
     <!-- END Main Container -->
 
 
-
     {% include '_footer.html.twig' %}
+
+</div>
+<div id="page-loader" class="show">
 
 </div>
 
@@ -184,11 +187,11 @@
              title: message.header,
              message: message.header + ' ' + message.message
          });*/
-        //console.log('width: '+12+Math.random()+'%');
-        //console.log(message.currentElement);
-        //console.log(message.countElement);
+    //console.log('width: '+12+Math.random()+'%');
+    //console.log(message.currentElement);
+    //console.log(message.countElement);
 
-        // console.log(JSON.parse(event.data));
+    // console.log(JSON.parse(event.data));
     /*     document.getElementById('pbmain_div').classList.remove('d-none');
          document.getElementById('pbmain_div').classList.add('d-block');
          let progressbar = document.getElementById('pbmain');

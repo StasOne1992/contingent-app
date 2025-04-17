@@ -20,8 +20,8 @@ class Staff
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(targetEntity: User::class, mappedBy: 'staff')]
-    private Collection $user;
+    #[ORM\OneToOne(mappedBy: 'staff', targetEntity: User::class)]
+    private User $user;
 
     #[ORM\Column(length: 255)]
     private ?string $FirstName = null;
@@ -252,12 +252,12 @@ class Staff
         return $this;
     }
 
-    public function getUser(): Collection
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function setUser(Collection $user): void
+    public function setUser(User $user): void
     {
         $this->user = $user;
     }
