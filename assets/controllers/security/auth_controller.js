@@ -10,7 +10,7 @@ export default class extends Controller {
         const formData = new FormData(form);
         One.loader('show');
         let promise = this.sign_in(formData.get("_username"), formData.get("_password"))
-            .then(d => form.submit())
+            .then(form.submit())
             .catch(e => {
                 alert(e);
                 console.log(e)
