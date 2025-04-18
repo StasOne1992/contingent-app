@@ -2,6 +2,7 @@
 
 namespace App\mod_events\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\mod_events\Repository\EventsPlacesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 //use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 #[ORM\Entity(repositoryClass: EventsPlacesRepository::class)]
+#[ApiResource]
 class EventsPlaces
 {
     #[ORM\Id]

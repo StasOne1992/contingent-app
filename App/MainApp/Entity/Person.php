@@ -34,8 +34,8 @@ class Person
 
     #[ORM\Column(length: 12, nullable: true)]
     private ?string $INN = null;
-    #[ORM\ManyToOne(inversedBy: 'Person')]
-    private ?Gender $Gender = null;
+    #[ORM\ManyToOne(targetEntity: Gender::class, inversedBy: 'persons')]
+    private ?Gender $gender = null;
 
     /**
      * @ORM\Column(type="snils", nullable=true, options={"unsigned": true, "comment": "СНИЛС"})
@@ -57,19 +57,19 @@ class Person
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?DateTimeInterface $MedicalDateIssue = null;
 
-    #[ORM\OneToMany(mappedBy: 'person', targetEntity: student::class)]
+    #[ORM\OneToMany(targetEntity: student::class, mappedBy: 'person')]
     private Collection $student;
 
-    #[ORM\OneToMany(mappedBy: 'person', targetEntity: staff::class)]
+    #[ORM\OneToMany(targetEntity: staff::class, mappedBy: 'person')]
     private Collection $staff;
 
-    #[ORM\OneToMany(mappedBy: 'person', targetEntity: AbiturientPetition::class)]
+    #[ORM\OneToMany(targetEntity: AbiturientPetition::class, mappedBy: 'person')]
     private Collection $abiturientPetition;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?DateTimeInterface $birthDate = null;
 
-    #[ORM\OneToMany(mappedBy:'PersonDocument', targetEntity: PersonDocument::class)]
+    #[ORM\OneToMany(targetEntity: PersonDocument::class, mappedBy: 'person')]
     private Collection $personDocument;
 
 
@@ -352,7 +352,7 @@ class Person
 
     public function removePersonDocument(PersonDocument $personDocument): static
     {
-        if ($this->PersonDocument->removeElement($personDocument)) {
+        if ($this->personDocument->removeElement($personDocument)) {
             // set the owning side to null (unless already changed)
             if ($personDocument->getPerson() === $this) {
                 $personDocument->setPerson(null);
@@ -363,12 +363,12 @@ class Person
 
     public function getGender(): ?Gender
     {
-        return $this->Gender;
+        return $this->gender;
     }
 
-    public function setGender(?Gender $Gender): void
+    public function setGender(?Gender $gender): void
     {
-        $this->Gender = $Gender;
+        $this->gender = $gender;
     }
 
 

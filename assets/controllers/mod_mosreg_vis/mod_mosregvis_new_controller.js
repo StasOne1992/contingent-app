@@ -11,7 +11,7 @@ export default class extends Controller {
     load_info_div = $('#info-loading-string').get(0);
     api_token = ''
     api_connection
-    console
+    password_hashed = false;
 
     connect() {
         toastr.info('Are you the 6 fingered man?')
@@ -28,6 +28,8 @@ export default class extends Controller {
             const hashArray = Array.from(new Uint8Array(hashBuffer));
             const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
             hash_value = hashHex;
+            this.modmosregvis_password = hashHex;
+            this.password_hashed = true;
             return hashHex;
         }).catch(e => console.error(e))
         Promise.all([hash]).then((d) => {
@@ -57,7 +59,7 @@ export default class extends Controller {
                             let isExist = organisation['isExist'];
                             console.debug('isExist:', isExist);
 
-                            $('#org-info').get(0).innerHTML =
+                            $("#org-info").get(0).innerHTML =
                                 `<p>Наименование: ${organisation.fullName}</p>
                                  <p>ИНН: ${organisation.inn}</p>
                                  <p>GUID: ${organisation.guid}</p>
@@ -106,9 +108,10 @@ export default class extends Controller {
         if (params.orgId !== organisation.guid) {
             organisation = this.get_org_info(params.orgId).then(d => this.add_org(JSON.parse(d)))
         }
-
-        if (!$('#modmosregvis_college').value > 0) {
+        let college_select = $('#modmosregvis_college').get(0);
+        if (!college_select.value > 0) {
             alert('Не выбран колледж')
+            console.debug(college_select.value);
             throw ('Не выбран колледж');
         }
         this.post_new_org(organisation).then(d => console.log(d)).catch(e => console.error(e))
@@ -116,10 +119,11 @@ export default class extends Controller {
 
 
     async post_new_org(organisation) {
-        let body = {
-            'college': $('#modmosregvis_college').value,
-            'context': '',
-        };
+        console.log(organisation)
+        organisation.college = `/api/colleges/${document.getElementById('modmosregvis_college').value}`;
+        let body = organisation;
+        console.log(body);
+
 
         return new Promise.resolve($.ajax({
 

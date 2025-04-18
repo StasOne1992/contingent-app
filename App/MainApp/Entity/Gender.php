@@ -20,8 +20,6 @@ class Gender
     #[ORM\Column(length: 255)]
     private ?string $Name = null;
 
-    #[ORM\OneToMany(mappedBy: 'gender', targetEntity: Student::class)]
-    private Collection $students;
     #[ORM\OneToMany(mappedBy: 'gender', targetEntity: Person::class)]
     private Collection $persons;
 
@@ -33,7 +31,6 @@ class Gender
 
     public function __construct()
     {
-        $this->students = new ArrayCollection();
         $this->abiturientPetitions = new ArrayCollection();
     }
 

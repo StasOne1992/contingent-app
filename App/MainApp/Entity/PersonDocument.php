@@ -19,7 +19,7 @@ class PersonDocument
     private ?PersonDocumentCategory $documentCategory = null;
     #[ORM\Column(nullable: true)]
     private ?string $name;
-    #[ORM\ManyToOne(inversedBy: 'Person')]
+    #[ORM\ManyToOne(inversedBy: 'personDocument')]
     private ?Person $person;
     #[ORM\Column(nullable: true)]
     private ?string $series;

@@ -2,10 +2,12 @@
 
 namespace App\mod_events\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\mod_events\Repository\EventsResultTypesRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EventsResultTypesRepository::class)]
+#[ApiResource]
 class EventsResultTypes
 {
     #[ORM\Id]

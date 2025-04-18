@@ -10,12 +10,11 @@ export default class extends Controller {
         const formData = new FormData(form);
         One.loader('show');
         let promise = this.sign_in(formData.get("_username"), formData.get("_password"))
-            .then(form.submit())
+            .then(d => d === 204 ? form.submit() : alert(d))
             .catch(e => {
-                alert(e);
-                console.log(e)
+                alert(e.detail);
+                One.loader('hide');
             })
-
     }
 
     async sign_in(username, password) {
@@ -35,12 +34,12 @@ export default class extends Controller {
                         }),
                     timeout: 20000
                 }).done(function (data, textStatus, jqXHR) {
-                    if (jqXHR.status !== 204) {
-                        reject(jqXHR.status)
+                    if (jqXHR.status === 204) {
+                        resolve(jqXHR.status);
                     }
-                    resolve(jqXHR.status);
-                }).fail(function (data) {
-                    reject(data.responseJSON.detail);
+                    reject(textStatus);
+                }).fail(function (xhr) {
+                    reject(JSON.parse(xhr.responseText).detail);
                 })
 
 

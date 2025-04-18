@@ -2,11 +2,13 @@
 
 namespace App\mod_events\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\mod_education\Entity\Student;
 use App\mod_events\Repository\EventsResultRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EventsResultRepository::class)]
+#[ApiResource]
 class EventsResult
 {
     #[ORM\Id]

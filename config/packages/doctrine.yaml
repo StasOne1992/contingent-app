@@ -51,7 +51,7 @@ doctrine:
             mod_prof_education:
                 is_bundle: false
                 dir: '%kernel.project_dir%/App/mod_prof_education/Entity'
-                prefix: 'App\mod_events\Entity'
+                prefix: 'App\mod_prof_education\Entity'
                 alias: mod_prof_education
             global:
                 is_bundle: false

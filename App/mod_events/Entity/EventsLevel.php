@@ -2,6 +2,7 @@
 
 namespace App\mod_events\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\mod_events\Repository\EventsLevelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 #[ORM\Entity(repositoryClass: EventsLevelRepository::class)]
+#[ApiResource]
 class EventsLevel
 {
     #[ORM\Id]

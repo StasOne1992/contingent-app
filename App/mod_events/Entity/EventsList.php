@@ -2,6 +2,7 @@
 
 namespace App\mod_events\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\MainApp\Entity\Staff;
 use App\mod_education\Entity\Student;
 use App\mod_events\Repository\EventsListRepository;
@@ -12,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 #[ORM\Entity(repositoryClass: EventsListRepository::class)]
+#[ApiResource]
 class EventsList
 {
     #[ORM\Id]
@@ -61,7 +63,7 @@ class EventsList
     #[ORM\Column(nullable: true)]
     private ?bool $IsArchived = null;
 
-    #[ORM\OneToMany(mappedBy: 'Event', targetEntity: EventsResult::class)]
+    #[ORM\OneToMany(targetEntity: EventsResult::class, mappedBy: 'Event')]
     private Collection $eventsResults;
 
 

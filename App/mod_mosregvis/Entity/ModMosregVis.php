@@ -3,12 +3,11 @@
 namespace App\mod_mosregvis\Entity;
 
 use App\MainApp\Entity\College;
-use App\mod_mosregvis\Repository\modMosregVisRepository;
+use App\mod_mosregvis\Repository\ModMosregVisRepository;
 use App\mod_mosregvis\Entity\MosregVISCollege;
 use Doctrine\ORM\Mapping as ORM;
-use FontLib\Table\Type\name;
 
-#[ORM\Entity(repositoryClass: modMosregVisRepository::class)]
+#[ORM\Entity(repositoryClass: ModMosregVisRepository::class)]
 class ModMosregVis
 {
     #[ORM\Id]

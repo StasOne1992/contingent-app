@@ -5,7 +5,6 @@ namespace App\mod_mosregvis\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\MainApp\Entity\College;
 use App\mod_mosregvis\Entity\reference_SpoEducationYear;
-use App\MainApp\Repository\CollegeRepository;
 use App\mod_mosregvis\Repository\MosregVISCollegeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -92,17 +91,17 @@ class MosregVISCollege
 
     public function __toString(): string
     {
-        return $this->visCollegeId;
+        return $this->getFullName();
     }
 
     public function getVisCollegeId(): ?string
     {
-        return $this->visCollegeId;
+        return $this->guid;
     }
 
     public function setVisCollegeId(?string $visCollegeId): void
     {
-        $this->visCollegeId = $visCollegeId;
+        $this->guid = $visCollegeId;
     }
 
     public function getCollege(): ?College
@@ -187,12 +186,12 @@ class MosregVISCollege
 
     public function getName(): ?string
     {
-        return $this->name;
+        return $this->getFullName();
     }
 
     public function setName(?string $name): void
     {
-        $this->name = $name;
+        $this->fullName = $name;
     }
 
     public function getInn(): ?string
@@ -263,5 +262,15 @@ class MosregVISCollege
     public function setIsSchool(bool $isSchool): void
     {
         $this->isSchool = $isSchool;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
     }
 }
