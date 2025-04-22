@@ -1,0 +1,17 @@
+{% extends '@MainApp/base/base.html.twig' %}
+{% set page_title = 'Интеграция с ВИС Московской области' %}
+{% set sub_page_title = 'Сведения о настроке модуля интеграции' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+{% set topmenu = true %}
+{% set actions_menu = true %}
+
+
+{% block topmenu_items %}
+{% endblock %}
+
+{% block body %}
+    {{ dump() }}
+{% endblock %}

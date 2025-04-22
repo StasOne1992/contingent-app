@@ -34,8 +34,8 @@ class reference_SpoEducationYear
 
     #[ORM\OneToOne(targetEntity: Admission::class)]
     private Admission $admisson;
-    #[ORM\ManyToOne(targetEntity: MosregVISCollege::class, inversedBy: 'referenceSpoEducationYear')]
-    private ?MosregVISCollege $college;
+    #[ORM\ManyToOne(targetEntity: ModMosregVis_College::class, inversedBy: 'referenceSpoEducationYear')]
+    private ?ModMosregVis_College $college;
 
     public function getId(): ?int
     {
@@ -62,12 +62,12 @@ class reference_SpoEducationYear
         $this->name = $name;
     }
 
-    public function getCollege(): MosregVISCollege
+    public function getCollege(): ModMosregVis_College
     {
         return $this->college;
     }
 
-    public function setCollege(MosregVISCollege $college): void
+    public function setCollege(ModMosregVis_College $college): void
     {
         $this->college = $college;
     }

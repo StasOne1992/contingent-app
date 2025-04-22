@@ -2,11 +2,19 @@
 
 namespace App\mod_mosregvis\Entity;
 
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Twig\Token;
 use function Symfony\Component\Translation\t;
 
-
+/***
+ * Создаёт объект соединение с API Зачисление в ПОО
+ *
+ *
+ *
+ * @version 0.1.0
+ *
+ */
 class mosregApiConnection
 {
     protected string $token;
@@ -17,14 +25,21 @@ class mosregApiConnection
     private string $password;
     private string $apiUrl;
     private string $apiLoginUrl;
+    private string $apiCheckAuthenticatedUrl;
     private string $apiAvailableUrl;
     private array $apiHeaders;
     private int $admissionId;
+
+    /**
+     * @param string $token - Токен доступа полученный ранее
+     * @param array $apiHeaders - Заголовки для HTTP запросов
+     */
 
     public function __construct(string $token = '', array $apiHeaders = [])
     {
         $this->setApiUrl("https://prof.mo.mosreg.ru/api");
         $this->setApiAvailableUrl("https://prof.mo.mosreg.ru");
+        $this->setApiCheckAuthenticatedUrl($this->getApiUrl() . '/check/authenticated');
         $this->setApiLoginUrl($this->getApiUrl().'/login');
         $this->setApiHeaders([
             'Accept: */*',
@@ -35,13 +50,21 @@ class mosregApiConnection
             $this->token = $token;
             $this->apiHeaders[] = "Authorization: {$token}";
         }
-        dump($this);
     }
 
+    public function getApiConfiguration(): array
+    {
+        $config = [];
+        $config['url']['base'] = $this->getApiUrl();
+        $config['url']['login'] = $this->getApiLoginUrl();
+        $config['url']['checkAuthenticated'] = $this->getApiCheckAuthenticatedUrl();
+        $config['url']['available'] = $this->getApiAvailableUrl();
+        $config['headers'] = $this->getApiHeaders();
+        return $config;
+    }
 
     public function getToken(): string
     {
-
         return $this->token;
     }
 
@@ -149,6 +172,16 @@ class mosregApiConnection
     public function setApiHeaders(array $apiHeaders): void
     {
         $this->apiHeaders = $apiHeaders;
+    }
+
+    public function getApiCheckAuthenticatedUrl(): string
+    {
+        return $this->apiCheckAuthenticatedUrl;
+    }
+
+    public function setApiCheckAuthenticatedUrl(string $apiCheckAuthenticatedUrl): void
+    {
+        $this->apiCheckAuthenticatedUrl = $apiCheckAuthenticatedUrl;
     }
 
 }

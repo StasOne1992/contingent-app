@@ -27,7 +27,7 @@ class ModMosregVisType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ModMosregVis::class,
+            'data_class' => ModMosregVis_Configuration::class,
         ]);
     }
 }

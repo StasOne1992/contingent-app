@@ -3,8 +3,8 @@
 namespace App\mod_mosregvis\Form;
 
 use App\MainApp\Entity\College;
-use App\mod_mosregvis\Entity\modMosregVis;
-use App\mod_mosregvis\Entity\MosregVISCollege;
+use App\mod_mosregvis\Entity\ModMosregVis_Configuration;
+use App\mod_mosregvis\Entity\ModMosregVis_College;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
-class modmosregvisType extends AbstractType
+class modMosregVis_ConfigurationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -31,13 +31,10 @@ class modmosregvisType extends AbstractType
             ->add('password', PasswordType::class,
                 [
                     'label' => 'Пароль для входа',
-                    'empty_data' => null,
-
                     'attr' => array_merge([],
                         [
                             'type' => 'password',
-                            'required' => true,
-                            'class' => TextType::class . ' form-control',
+                            'class' => ' form-control',
                             'placeholder' => 'Укажите пароль'
                         ]),
                 ])
@@ -49,7 +46,7 @@ class modmosregvisType extends AbstractType
                     'class' => 'form-select',
                 ]),
                 'required' => false,
-                'class' => MosregVISCollege::class
+                'class' => ModMosregVis_College::class
             ])
             ->add('college', EntityType::class, [
                 'label' => 'АИС: Учебное заведение',
@@ -77,7 +74,7 @@ class modmosregvisType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ModMosregVis::class,
+            'data_class' => ModMosregVis_Configuration::class,
         ]);
     }
 }

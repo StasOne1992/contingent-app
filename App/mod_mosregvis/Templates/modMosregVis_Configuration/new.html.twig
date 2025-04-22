@@ -9,7 +9,7 @@
 {% set actions_menu = 'true' %}
 {% block body %}
     <div {{ stimulus_controller('mod-mosreg-vis--mod-mosregvis-new') }}>
-    {{ include('@mod_mosregvis/_form.html.twig') }}
+    {{ include('@mod_mosregvis/modMosregVis_Configuration/_form.html.twig') }}
     </div>
     <a href="{{ path('mod_mosregvis_index') }}">back to list</a>
 {% endblock %}

@@ -3,12 +3,11 @@
 namespace App\mod_mosregvis\Entity;
 
 use App\MainApp\Entity\College;
-use App\mod_mosregvis\Repository\ModMosregVisRepository;
-use App\mod_mosregvis\Entity\MosregVISCollege;
+use App\mod_mosregvis\Repository\modMosregVis_ConfigurationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ModMosregVisRepository::class)]
-class ModMosregVis
+#[ORM\Entity(repositoryClass: modMosregVis_ConfigurationRepository::class)]
+class ModMosregVis_Configuration
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
@@ -23,8 +22,8 @@ class ModMosregVis
 
     #[ORM\Column(length: 255, nullable: true)]
     private string|null $orgId = null;
-    #[ORM\ManyToOne(targetEntity: MosregVISCollege::class, inversedBy: 'modMosregVis')]
-    private MosregVISCollege|null $mosregVISCollege = null;
+    #[ORM\ManyToOne(targetEntity: ModMosregVis_College::class, inversedBy: 'modMosregVis')]
+    private ModMosregVis_College|null $mosregVISCollege = null;
     #[ORM\ManyToOne(targetEntity: College::class, inversedBy: 'modMosregVis')]
     private College|null $college = null;
 
@@ -52,8 +51,9 @@ class ModMosregVis
 
     public function setPassword(string $password): static
     {
-        $this->password = $password;
-
+        $stringToHash = "{$this->getUsername()}:{$password}";
+        $hash = hash(algo: "sha256", data: $stringToHash);
+        $this->password = $hash;
         return $this;
     }
 
@@ -82,13 +82,14 @@ class ModMosregVis
         $this->college = $college;
     }
 
-    public function getMosregVISCollege(): ?\App\mod_mosregvis\Entity\MosregVISCollege
+    public function getMosregVISCollege(): ?ModMosregVis_College
     {
         return $this->mosregVISCollege;
     }
 
-    public function setMosregVISCollege(?\App\mod_mosregvis\Entity\MosregVISCollege $mosregVISCollege): void
+    public function setMosregVISCollege(?ModMosregVis_College $mosregVISCollege): void
     {
         $this->mosregVISCollege = $mosregVISCollege;
     }
+
 }

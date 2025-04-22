@@ -3,21 +3,14 @@
 namespace App\MainApp\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
 use App\MainApp\Repository\CollegeRepository;
 use App\mod_admission\Entity\Admission;
 use App\mod_education\Entity\ContingentDocument;
 use App\mod_education\Entity\StudentGroup;
-use App\mod_mosregvis\Entity\ModMosregVis;
-use App\mod_mosregvis\Entity\MosregVISCollege;
+use App\mod_mosregvis\Entity\ModMosregVis_Configuration;
+use App\mod_mosregvis\Entity\ModMosregVis_College;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -54,17 +47,17 @@ class College
     private Collection $users;
     #[ORM\OneToMany(targetEntity: Admission::class, mappedBy: 'college')]
     private Collection $admissions;
-    #[ORM\OneToOne(targetEntity: MosregVISCollege::class, mappedBy: 'college')]
-    private MosregVISCollege|null $mosregVISCollege;
+    #[ORM\OneToOne(targetEntity: ModMosregVis_College::class, mappedBy: 'college')]
+    private ModMosregVis_College|null $mosregVISCollege;
     #[ORM\ManyToMany(targetEntity: Staff::class, mappedBy: 'College')]
     private Collection $staff;
     #[ORM\OneToMany(targetEntity: StudentGroup::class, mappedBy: 'college')]
     private Collection $studentGroup;
-    #[ORM\OneToMany(targetEntity: MosregVISCollege::class, mappedBy: 'college')]
+    #[ORM\OneToMany(targetEntity: ModMosregVis_College::class, mappedBy: 'college')]
     private Collection $mosregVisCollege;
     #[ORM\OneToMany(targetEntity: ContingentDocument::class, mappedBy: 'college')]
     private Collection $contingentDocuments;
-    #[ORM\OneToMany(targetEntity: ModMosregVis::class, mappedBy: 'college')]
+    #[ORM\OneToMany(targetEntity: ModMosregVis_Configuration::class, mappedBy: 'college')]
     private Collection $modMosregVis;
 
 
@@ -351,12 +344,12 @@ class College
         return null;
     }
 
-    public function getMosregVISCollege(): ?MosregVISCollege
+    public function getMosregVISCollege(): ?ModMosregVis_College
     {
         return $this->mosregVISCollege;
     }
 
-    public function setMosregVISCollege(?MosregVISCollege $mosregVISCollege): void
+    public function setMosregVISCollege(?ModMosregVis_College $mosregVISCollege): void
     {
         $this->mosregVISCollege = $mosregVISCollege;
     }

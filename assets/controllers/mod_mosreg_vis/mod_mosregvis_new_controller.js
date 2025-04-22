@@ -3,20 +3,48 @@ import toastr from 'toastr';
 
 export default class extends Controller {
     guid_pattern = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
-
-
-    modmosregvis_username = $('#modmosregvis_username').get(0);
-
-    modmosregvis_password = $('#modmosregvis_password').get(0);
-    load_info_div = $('#info-loading-string').get(0);
+    object_class_name = 'mod_mosreg_vis_configuration';
+    modmosregvis_username = document.getElementById(`${this.object_class_name}_username`);
+    modmosregvis_password = document.getElementById(`${this.object_class_name}_password`);
+    common_column = document.getElementById('common-column');
+    load_info_div = document.getElementById('info-loading-string');
+    input_org_id = document.getElementById(`${this.object_class_name}_orgId`)
     api_token = ''
     api_connection
+    api_configuration
     password_hashed = false;
 
     connect() {
-        toastr.info('Are you the 6 fingered man?')
         this.modmosregvis_username.value = 'sergachovsv'
         this.modmosregvis_password.value = 'xL6pUpZkHNsl'
+        document.getElementById('auth-button').setAttribute('disabled', 'disabled')
+        this.load_info_div.innerHTML =
+            '<div class="d-flex align-items-center mt-2">' +
+            '<div class="spinner-grow spinner-grow-sm text-primary me-2" role="status">' +
+            '<span class="visually-hidden">Loading...</span>' +
+            '</div>' +
+            '<span class="justify-content-center align-items-center">Загрузка параметров доступа</span> ' +
+            '</div>'
+        this.api_getApiConfiguration().then(d => {
+                this.api_configuration = JSON.parse(d)
+                this.load_info_div.innerHTML = '';
+                document.getElementById('auth-button').removeAttribute('disabled')
+                console.debug(this)
+            }
+        ).catch(e => this.message_error(e))
+
+    }
+
+    async api_getApiConfiguration() {
+        return Promise.resolve($.ajax({
+                url: `/mod_mosregvis/api/getConfiguration`,
+                method: `GET`,
+                headers: {
+                    'accept': 'application/ld+json',
+                    'content-type': 'application/ld+json',
+                }
+            })
+        )
     }
 
     auth() {
@@ -31,34 +59,33 @@ export default class extends Controller {
             this.modmosregvis_password = hashHex;
             this.password_hashed = true;
             return hashHex;
-        }).catch(e => console.error(e))
+        }).catch(e => this.message_error(e))
         Promise.all([hash]).then((d) => {
                 let body = JSON.stringify({
                     'username': username,
                     'password': hash_value
                 })
-            this.load_info('Авторизация в API')
+            this.message_info('Авторизация в API')
                 this.auth_in_api(body).then(d => {
-                    this.load_info('Выполнена авторизация в API')
+                    this.message_info('Выполнена авторизация в API')
                     this.api_connection = JSON.parse(d);
-                    this.api_token = `Token ${JSON.parse(this.api_connection['token'])['token']}`;
+                    this.message_info('Получен ключ доступа к API')
+                    this.api_token = this.api_connection.token;
                     this.init_from_api().then(d => {
                         d = JSON.parse(d);
                         if (!d['orgId'].match(this.guid_pattern)) {
                             alert('OrgId is not GUID');
                             throw ('OrgId is not GUID');
                         }
-                        $('#modmosregvis_orgId').get(0).value = d['orgId'];
-                        this.load_info('Доступ к API получен')
 
-                        this.load_info('Запрос сведений об организации из ВИС')
+                        this.common_column.removeAttribute('hidden')
+                        this.input_org_id.value = d['orgId'];
+                        this.message_info('Доступ к API получен')
+                        this.message_info('Запрос сведений об организации из ВИС')
                         this.get_org_info(d['orgId']).then(d => {
                             let organisation = JSON.parse(d);
-                            console.debug('organisation:', organisation);
                             localStorage.setItem('organisation', JSON.stringify(organisation))
                             let isExist = organisation['isExist'];
-                            console.debug('isExist:', isExist);
-
                             $("#org-info").get(0).innerHTML =
                                 `<p>Наименование: ${organisation.fullName}</p>
                                  <p>ИНН: ${organisation.inn}</p>
@@ -73,12 +100,22 @@ export default class extends Controller {
                                 button.classList.add('btn-sm');
                                 button.setAttribute('data-mod-mosreg-vis--mod-mosregvis-new-org-id-param', organisation.guid);
                                 button.innerHTML = '<i class="fa fa-plus"></i>Добавить';
-                                $('#org-info').append(button)
+                                $('#org-info').append(button);
+                                this.clearLoadInfoDivContent();
                             }
-                        }).catch(e => console.error(e))
+                        }).catch(e => {
+                            this.message_error(e);
+                            this.message_info(e)
+                        })
 
-                    }).catch(e => console.log(e));
-                }).catch(e => console.error(e))
+                    }).catch(e => {
+                        this.message_error(e);
+                        this.message_info(e)
+                    });
+                }).catch(e => {
+                    this.message_error(e);
+                    this.message_info(e)
+                })
 
             }
         )
@@ -87,7 +124,7 @@ export default class extends Controller {
 
     async auth_in_api(body) {
         return Promise.resolve($.ajax({
-                url: `/mod_mosregvis/api_auth`,
+            url: this.api_configuration['url']['login'],
                 method: `POST`,
                 headers: {
                     'accept': 'application/ld+json',
@@ -101,47 +138,38 @@ export default class extends Controller {
 
     create_org(event) {
         const params = event.params;
-        console.debug(params);
         let organisation = JSON.parse(localStorage.getItem('organisation'));
-        this.load_info(organisation);
-
         if (params.orgId !== organisation.guid) {
             organisation = this.get_org_info(params.orgId).then(d => this.add_org(JSON.parse(d)))
         }
-        let college_select = $('#modmosregvis_college').get(0);
-        if (!college_select.value > 0) {
+        let college_select = document.getElementById(`${this.object_class_name}_college`);
+        if (!college_select.value > 0 || college_select.value == null) {
             alert('Не выбран колледж')
-            console.debug(college_select.value);
             throw ('Не выбран колледж');
         }
-        this.post_new_org(organisation).then(d => console.log(d)).catch(e => console.error(e))
+        this.post_new_org(organisation).then(d => console.log(d)).catch(e => this.message_error(e))
     }
 
 
     async post_new_org(organisation) {
-        console.log(organisation)
-        organisation.college = `/api/colleges/${document.getElementById('modmosregvis_college').value}`;
-        let body = organisation;
-        console.log(body);
-
-
+        organisation.college = `/api/colleges/${document.getElementById(`${this.object_class_name}_college`).value}`;
         return new Promise.resolve($.ajax({
-
-            url: '/api/mosreg_v_i_s_colleges',
+            url: '/api/mod_mosreg_vis__colleges',
             method: 'POST',
             headers: {
                 'accept': 'application/ld+json',
                 'content-type': 'application/ld+json',
             },
             dataType: '',
-            data: JSON.stringify(body)
+            data: JSON.stringify(organisation)
         }))
     }
 
 
     async init_from_api() {
+        console.debug(this)
         return Promise.resolve($.ajax({
-                url: `/mod_mosregvis/init_from_api`,
+            url: this.api_configuration['url']['initFromApi'],
             method: `GET`,
                 headers: {
                     'accept': 'application/json',
@@ -155,7 +183,7 @@ export default class extends Controller {
     async get_org_info(org_id, createOrg = false) {
         console.debug(org_id)
         return Promise.resolve($.ajax({
-                url: `/mod_mosregvis/get_org_info`,
+            url: this.api_configuration['url']['getOrgInfo'],
             method: `GET`,
                 headers: {
                     'accept': 'application/json',
@@ -173,8 +201,44 @@ export default class extends Controller {
     }
 
 
-    load_info(message) {
+    setInfoDivContent(message) {
+        this.load_info_div.innerHTML =
+            '<div class="d-flex align-items-center mt-2">' +
+            '<div class="spinner-grow spinner-grow-sm text-primary me-2" role="status">' +
+            '<span class="visually-hidden">Loading...</span>' +
+            '</div>' +
+            '<span class="justify-content-center align-items-center">' + message +
+            '</span> ' +
+            '</div>'
+    }
+
+    setErrorDivContent(message) {
+        this.load_info_div.innerHTML =
+            '<div className="alert alert-danger d-flex align-items-center justify-content-between" role="alert">' +
+            '<div className="flex-grow-1 me-3">' +
+            '<p className="mb-0">' +
+            message +
+            '</p>' +
+            '</div>' +
+            '<div className="flex-shrink-0">' +
+            '<i className="fa fa-fw fa-times-circle"></i>' +
+            '</div>' +
+            '</div>'
+    }
+
+    clearLoadInfoDivContent() {
+        this.load_info_div.innerHTML = '';
+    }
+
+    message_info(message) {
         toastr.info(message);
+        this.setInfoDivContent(message);
         console.info(message);
+    }
+
+    message_error(message) {
+        toastr.error(message);
+        this.setErrorDivContent(message);
+        console.error(message);
     }
 }

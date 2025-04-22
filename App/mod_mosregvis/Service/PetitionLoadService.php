@@ -68,7 +68,7 @@ class PetitionLoadService
     private Security $security;
     private UserRepository $userRepository;
     private RequestStack $requestStack;
-    private ModMosregApiService $mosregApiService;
+
     private mosregApiConnection $apiConnection;
     private CollegeRepository $collegeRepository;
 
@@ -78,7 +78,6 @@ class PetitionLoadService
      */
     public function __construct
     (
-        ModMosregApiService $mosregApiService,
         HttpClientInterface                $client,
         AbiturientPetitionRepository       $petitionRepository,
         GenderRepository                   $genderRepository,
@@ -103,7 +102,6 @@ class PetitionLoadService
     {
         $this->collegeRepository = $collegeRepository;
         $this->apiConnection = $apiConnection;
-        $this->mosregApiService = $mosregApiService;
         $this->requestStack = $requestStack;
         $this->userRepository = $userRepository;
         $this->security = $security;
@@ -125,7 +123,6 @@ class PetitionLoadService
         $encoders = [new XmlEncoder(), new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
         $this->serializer = new Serializer($normalizers, $encoders);
-        $this->apiConnection = $this->mosregApiService->ApiConnection();
         //$this->setAuthToken();
         //$this->checkAuth();
 
@@ -140,7 +137,7 @@ class PetitionLoadService
     private
     function getAuthToken(): string
     {
-        //return $this->mosregApiService->getAuthToken();
+
         return '';
     }
 

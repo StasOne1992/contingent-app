@@ -2,26 +2,26 @@
 
 namespace App\mod_mosregvis\Repository;
 
-use App\mod_mosregvis\Entity\MosregVISCollege;
+use App\mod_mosregvis\Entity\modMosregVis_College;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<MosregVISCollege>
+ * @extends ServiceEntityRepository<modMosregVis_College>
  *
- * @method MosregVISCollege|null find($id, $lockMode = null, $lockVersion = null)
- * @method MosregVISCollege|null findOneBy(array $criteria, array $orderBy = null)
- * @method MosregVISCollege[]    findAll()
- * @method MosregVISCollege[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method modMosregVis_College|null find($id, $lockMode = null, $lockVersion = null)
+ * @method modMosregVis_College|null findOneBy(array $criteria, array $orderBy = null)
+ * @method modMosregVis_College[]    findAll()
+ * @method modMosregVis_College[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MosregVISCollegeRepository extends ServiceEntityRepository
+class modMosregVis_CollegeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, MosregVISCollege::class);
+        parent::__construct($registry, modMosregVis_College::class);
     }
 
-    public function save(MosregVISCollege $entity, bool $flush = false): void
+    public function save(modMosregVis_College $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class MosregVISCollegeRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(MosregVISCollege $entity, bool $flush = false): void
+    public function remove(modMosregVis_College $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class MosregVISCollegeRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return MosregVISCollege[] Returns an array of MosregVISCollege objects
+//     * @return modMosregVis_College[] Returns an array of modMosregVis_College objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class MosregVISCollegeRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?MosregVISCollege
+//    public function findOneBySomeField($value): ?modMosregVis_College
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')

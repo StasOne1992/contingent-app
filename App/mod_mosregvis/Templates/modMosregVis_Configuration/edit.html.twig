@@ -5,6 +5,9 @@
 {% block title %}
     {% if page_title is defined %} {{ page_title }} {% endif %}
 {% endblock %}
+{% set topmenu = true %}
+{% set actions_menu = true %}
+
 
 {% block topmenu_items %}
     <button type="submit" form="mod_mosregvis_editform"
@@ -18,8 +21,10 @@
 {% endblock %}
 
 {% block body %}
+    {{ dump() }}
+    <div {{ stimulus_controller('mod-mosreg-vis--mod-mosregvis-edit') }}>
+        {{ include('@mod_mosregvis/$modMosregVis_Configuration/_edit_form.html.twig') }}
 
-    {{ include('@mod_mosregvis/_edit_form.html.twig') }}
-
-    {{ include('@mod_mosregvis/_delete_form.html.twig') }}
+        {{ include('@mod_mosregvis/$modMosregVis_Configuration/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

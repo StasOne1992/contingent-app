@@ -6,7 +6,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\MainApp\Entity\College;
 use App\MainApp\Form\CollegeType;
 use App\MainApp\Repository\CollegeRepository;
-use App\mod_mosregvis\Repository\modMosregVisRepository;
+use App\mod_mosregvis\Repository\modMosregVisConfigurationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +19,7 @@ class CollegeController extends AbstractController
 {
 
     #[Route('/', name: 'app_college_index', methods: ['GET'])]
-    public function index(CollegeRepository $collegeRepository, modmosregvisRepository $modmosregvisRepository): Response
+    public function index(CollegeRepository $collegeRepository, modMosregVisConfigurationRepository $modmosregvisRepository): Response
     {
         return $this->render('college/index.html.twig', [
             'colleges' => $collegeRepository->findAll(),

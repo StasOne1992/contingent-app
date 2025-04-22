@@ -2,29 +2,30 @@
 
 namespace App\mod_mosregvis\Service;
 
+use App\mod_mosregvis\Entity\ModMosregVis_College;
 use App\mod_mosregvis\Entity\mosregApiConnection;
-use App\mod_mosregvis\Entity\MosregVISCollege;
 use App\mod_mosregvis\Entity\reference_eduYearStatus;
 use App\mod_mosregvis\Entity\reference_SpoEducationYear;
 use App\mod_mosregvis\Entity\reference_spoSpecialityDictionary;
 use App\mod_mosregvis\Entity\reference_studyDiscipline;
 use App\mod_mosregvis\Entity\reference_trainingProgramGradation;
 use App\mod_mosregvis\Entity\reference_ufttDocumentType;
+use App\mod_mosregvis\Repository\modMosregVis_CollegeRepository;
 use App\mod_mosregvis\Repository\reference_SpoEducationYearRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\NotSupported;
 use Exception;
-use JetBrains\PhpStorm\NoReturn;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class ModMosregReferenceService extends ModMosregApiProvider
+class ModMosregReferenceService
 {
     private EntityManagerInterface $entityManager;
-
+    private mosregApiConnection $apiConnection;
+    private HttpClientInterface $client;
     /**
      * @param mosregApiConnection $apiConnection
      * @param HttpClientInterface $client
@@ -37,7 +38,8 @@ class ModMosregReferenceService extends ModMosregApiProvider
     )
     {
         $this->entityManager = $entityManager;
-        parent::__construct($apiConnection, $client);
+        $this->apiConnection = $apiConnection;
+        $this->client = $client;
     }
 
     public function updateReference(string $name = ''): void
@@ -51,15 +53,14 @@ class ModMosregReferenceService extends ModMosregApiProvider
         }
     }
 
-    #[NoReturn] private function updateSpoEducationYear(array $SpoEducationYear): void
+    private function updateSpoEducationYear(array $SpoEducationYear): void
     {
-
         /**
          * @var reference_SpoEducationYearRepository $repository ;
          */
         $repository = $this->entityManager->getRepository(reference_SpoEducationYear::class);
         $yearStatusRepository = $this->entityManager->getRepository(reference_eduYearStatus::class);
-        $collegeRepository = $this->entityManager->getRepository(MosregVISCollege::class);
+        $collegeRepository = $this->entityManager->getRepository(ModMosregVis_College::class);
         $i=2;
         foreach ($SpoEducationYear as $item) {
             if (count($findItem = $repository->findBy(['guid' => $item['id']])) == 0) {
@@ -77,7 +78,7 @@ class ModMosregReferenceService extends ModMosregApiProvider
             if ($currentYearStatus = $yearStatusRepository->findBy(['code' => $item['educationYearStatus']['code']])) {
                 $reference->setYearStatus($currentYearStatus[0]);
             }
-            $reference->setCollege($collegeRepository->findBy(['visCollegeId' => $this->apiConnection->getCollegeId()])[0]);
+            $reference->setCollege($collegeRepository->findBy(['guid' => $this->apiConnection->getCollegeId()])[0]);
 
             $reference->setStartDate(date_create($item['educationYearDictionary']['startDate']));
             $reference->setEndDate(date_create($item['educationYearDictionary']['endDate']));
@@ -132,6 +133,7 @@ class ModMosregReferenceService extends ModMosregApiProvider
     {
         $repository = $this->entityManager->getRepository(reference_spoSpecialityDictionary::class);
         $trainingProgramGradationRepository = $this->entityManager->getRepository(reference_trainingProgramGradation::class);
+
         $PPKRS = $trainingProgramGradationRepository->findBy(['name' => 'PPKRS'])[0];
         $PPSSZ = $trainingProgramGradationRepository->findBy(['name' => 'PPSSZ'])[0];
         foreach ($spoSpecialityDictionary as $item) {
@@ -205,7 +207,6 @@ class ModMosregReferenceService extends ModMosregApiProvider
                 return $this->getStudyDiscipline();
                 break;
             case 'full':
-                dump(' getReference full else');
                 $result['ReferenceDocumentType'] = $this->getReferenceDocumentType();
                 $result['eduYearStatus'] = $this->geteduYearStatus();
                 $result['SpoEducationYear'] = $this->getSpoEducationYear();
@@ -230,16 +231,16 @@ class ModMosregReferenceService extends ModMosregApiProvider
     private
     function getReferenceDocumentType(): array
     {
-        if ($this->isApiAvailable()) {
-            $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . '/reference/ufttDocumentType',
+
+        $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . '/reference/ufttDocumentType',
                 [
-                    'headers' => array_merge($this->apiConnection->getApiHeaders(), ['Authorization' => 'Token ' . $this->apiConnection->getToken()])
+                    'headers' => array_merge($this->apiConnection->getApiHeaders())
                 ]);
-        }
+
         if ($response->getStatusCode() != 200) {
             new Exception(sprintf("Ошибка получения данных организации из API. Код ошибки:%s", $response->getStatusCode()));
         } elseif ($response->getStatusCode() == 401) {
-            new Exception(sprintf("Ошибка авторизации API. Код ошибки: 401 Unauthorized"));
+            throw new Exception(sprintf("Ошибка авторизации API. Код ошибки: 401 Unauthorized"));
         }
         return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
     }
@@ -247,12 +248,12 @@ class ModMosregReferenceService extends ModMosregApiProvider
     private
     function geteduYearStatus(): array
     {
-        if ($this->isApiAvailable()) {
-            $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . '/spo/reference/eduYearStatus',
+
+        $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . '/spo/reference/eduYearStatus',
                 [
-                    'headers' => array_merge($this->apiConnection->getApiHeaders(), ['Authorization' => 'Token ' . $this->apiConnection->getToken()])
+                    'headers' => array_merge($this->apiConnection->getApiHeaders())
                 ]);
-        }
+
         if ($response->getStatusCode() != 200) {
             throw new Exception(sprintf("Ошибка получения данных организации из API. Код ошибки:%s", $response->getStatusCode()));
         } elseif ($response->getStatusCode() == 401) {
@@ -264,12 +265,11 @@ class ModMosregReferenceService extends ModMosregApiProvider
     private
     function getSpoEducationYear(): array
     {
-        if ($this->isApiAvailable()) {
             $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . '/spoEducationYear/search/byOrg?page=0&size=5000&organization=' . $this->apiConnection->getCollegeId() . '&projection=grid',
                 [
-                    'headers' => array_merge($this->apiConnection->getApiHeaders(), ['Authorization' => 'Token ' . $this->apiConnection->getToken()])
+                    'headers' => array_merge($this->apiConnection->getApiHeaders())
                 ]);
-        }
+
         if ($response->getStatusCode() != 200) {
             new Exception(sprintf("Ошибка получения данных организации из API. Код ошибки:%s", $response->getStatusCode()));
         } elseif ($response->getStatusCode() == 401) {
@@ -281,12 +281,12 @@ class ModMosregReferenceService extends ModMosregApiProvider
     private
     function getSpoSpecialityDictionary(): array
     {
-        if ($this->isApiAvailable()) {
-            $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . '/spoSpecialityDictionary?size=5000&sort=name&order=asc',
+
+        $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . '/spoSpecialityDictionary?size=5000&sort=name&order=asc',
                 [
-                    'headers' => array_merge($this->apiConnection->getApiHeaders(), ['Authorization' => 'Token ' . $this->apiConnection->getToken()])
+                    'headers' => array_merge($this->apiConnection->getApiHeaders())
                 ]);
-        }
+
         if ($response->getStatusCode() != 200) {
             new Exception(sprintf("Ошибка получения данных организации из API. Код ошибки:%s", $response->getStatusCode()));
         } elseif ($response->getStatusCode() == 401) {
@@ -298,12 +298,11 @@ class ModMosregReferenceService extends ModMosregApiProvider
     private
     function getStudyDiscipline(): array
     {
-        if ($this->isApiAvailable()) {
             $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . '/studyDiscipline/search/forSpo?page=0&size=5000&sort=name&order=asc',
                 [
-                    'headers' => array_merge($this->apiConnection->getApiHeaders(), ['Authorization' => 'Token ' . $this->apiConnection->getToken()])
+                    'headers' => array_merge($this->apiConnection->getApiHeaders())
                 ]);
-        }
+
         if ($response->getStatusCode() != 200) {
             new Exception(sprintf("Ошибка получения данных организации из API. Код ошибки:%s", $response->getStatusCode()));
         } elseif ($response->getStatusCode() == 401) {

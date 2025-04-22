@@ -25,7 +25,7 @@ class reference_trainingProgramGradation
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\OneToMany(mappedBy: 'trainingProgramGradation', targetEntity: reference_spoSpecialityDictionary::class)]
+    #[ORM\OneToMany(targetEntity: reference_spoSpecialityDictionary::class, mappedBy: 'trainingProgramGradation')]
     private Collection $spoSpeciality;
 
     public function __construct()

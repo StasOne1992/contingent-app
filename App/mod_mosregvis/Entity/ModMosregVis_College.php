@@ -5,14 +5,14 @@ namespace App\mod_mosregvis\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\MainApp\Entity\College;
 use App\mod_mosregvis\Entity\reference_SpoEducationYear;
-use App\mod_mosregvis\Repository\MosregVISCollegeRepository;
+use App\mod_mosregvis\Repository\modMosregVis_CollegeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: MosregVISCollegeRepository::class)]
+#[ORM\Entity(repositoryClass: modMosregVis_CollegeRepository::class)]
 #[ApiResource]
-class MosregVISCollege
+class ModMosregVis_College
 {
     #[ORM\Id, ORM\GeneratedValue(strategy: 'SEQUENCE'), ORM\Column]
     private int|null $id = null;
@@ -20,7 +20,7 @@ class MosregVISCollege
     #[ORM\OneToOne(targetEntity: College::class)]
     private College|null $college;
 
-    #[ORM\OneToMany(targetEntity: ModMosregVis::class, mappedBy: 'mosregVISCollege')]
+    #[ORM\OneToMany(targetEntity: ModMosregVis_Configuration::class, mappedBy: 'mosregVISCollege')]
     private Collection $modMosregVis;
     #[ORM\OneToMany(targetEntity: reference_SpoEducationYear::class, mappedBy: 'college')]
     private Collection $referenceSpoEducationYear;
@@ -53,9 +53,6 @@ class MosregVISCollege
     private string|null $ogrn = '';
     #[ORM\Column(nullable: true)]
     private string|null $okpo = '';
-
-
-
 
 
     public function __construct()

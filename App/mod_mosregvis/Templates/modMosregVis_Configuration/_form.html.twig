@@ -4,19 +4,23 @@
         <div class="block block-rounded block-bordered ">
 
             <div class="block-header block-header-default">
-                <div class="block-title">Необходимо выполнить подключение</div>
+                <div class="block-title">Необходимо выполнить вход в систему</div>
             </div>
             <div class="block-content pb-4">
                 {{ form_row(form.username) }}
                 {{ form_row(form.password) }}
                 <div id="info-loading-string"></div>
             </div>
-            <div class="block-header block-header-default">
-                <button type="button" data-action="mod-mosreg-vis--mod-mosregvis-new#auth" class="btn btn-primary btn-sm "><i class="fa fa-key me-1"></i> Авторизоваться</button>
+            <div class="block-header block-header-default justify-content-end">
+                <button type="button" data-action="mod-mosreg-vis--mod-mosregvis-new#auth"
+                        class="btn btn-primary btn-sm" id="auth-button" disabled="disabled"><i
+                            class="fa fa-key me-1"></i>
+                    Авторизоваться
+                </button>
             </div>
         </div>
     </div>
-    <div class="col">
+    <div class="col" id="common-column" hidden="hidden">
         <div class="block block-rounded block-bordered ">
 
             <div class="block-header block-header-default">
