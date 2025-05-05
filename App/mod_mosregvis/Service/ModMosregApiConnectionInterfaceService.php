@@ -2,6 +2,7 @@
 
 namespace App\mod_mosregvis\Service;
 
+use App\mod_education\Repository\FinancialTypeRepository;
 use App\mod_mosregvis\Entity\mosregApiConnection;
 use Exception;
 use Symfony\Component\HttpClient\Exception\JsonException;
@@ -102,11 +103,91 @@ class ModMosregApiConnectionInterfaceService
     }
     public function get_org_info($org_id): Response
     {
+    }
+
+
+    public function getSpoPetitionsList(): Response
+    {
+        $pageCount = 0;
+        $pageSize = 100;
         try {
-            $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . "/spoOrganization/{$org_id}",
+            $responseParams = ['page' => 1, 'projection' => 'grid', 'size' => $pageSize];
+            $response = $this->client->request('GET', $this->apiConnection->getApiSpoPetitionListUrl(),
+                [
+                    'headers' => array_merge($this->apiConnection->getApiHeaders(), $responseParams),
+
+                ]);
+            $responseContent = json_decode($response->getContent());
+            $pageCount = $responseContent->page->totalPages;
+
+
+        } catch (TransportExceptionInterface $e) {
+            return new Response($e, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        $petitionList = [];
+        dump('pageCount:', $pageCount);
+
+        try {
+            for ($i = 1; $i <= $pageCount; $i++) {
+                $responseParams = ['page' => $i, 'projection' => 'grid', 'size' => $pageSize];
+                $response = $this->client->request('GET', $this->apiConnection->getApiSpoPetitionListUrl(),
+                    [
+                        'headers' => array_merge($this->apiConnection->getApiHeaders(), $responseParams),
+                    ]);
+                dump($response->getHeaders());
+                $responseData = json_decode($response->getContent());
+                //dump($responseData->_embedded->spoPetitions[0]);
+                $petitionList = array_merge($petitionList, $responseData->_embedded->spoPetitions);
+            }
+        } catch (TransportExceptionInterface $e) {
+            return new Response($e, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        dump('PetitionCount:' . count($petitionList));
+
+
+        $temp = [];
+        foreach ($petitionList as $petition) {
+            $temp[] = $petition->id;
+        }
+        dump($this->findDuplicates($temp));
+
+        dd();
+    }
+
+    public function findDuplicates($array): array
+    {
+        $elementCount = [];
+        $duplicates = [];
+
+        // Count occurrences of each element
+        foreach ($array as $element) {
+            if (isset($elementCount[$element])) {
+                $elementCount[$element]++;
+            } else {
+                $elementCount[$element] = 1;
+            }
+        }
+
+        // Extract elements with count greater than one
+        foreach ($elementCount as $element => $count) {
+            if ($count > 1) {
+                $duplicates[] = $element;
+            }
+        }
+
+        return $duplicates;
+    }
+
+
+    public function getSpoPetition($PetitionId): Response
+    {
+        try {
+            $response = $this->client->request('GET', $this->apiConnection->getApiSpoPetitionListUrl($PetitionId),
                 [
                     'headers' => $this->apiConnection->getApiHeaders(),
                 ]);
+
             return new Response($response->getContent(), $response->getStatusCode());
         } catch (TransportExceptionInterface $e) {
             return new Response($e, Response::HTTP_INTERNAL_SERVER_ERROR);

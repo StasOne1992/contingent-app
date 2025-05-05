@@ -27,6 +27,8 @@ class mosregApiConnection
     private string $apiLoginUrl;
     private string $apiCheckAuthenticatedUrl;
     private string $apiAvailableUrl;
+    private string $apiSpoPetitionListUrl;
+    private string $apiSpoPetitionUrl;
     private array $apiHeaders;
     private int $admissionId;
 
@@ -41,6 +43,8 @@ class mosregApiConnection
         $this->setApiAvailableUrl("https://prof.mo.mosreg.ru");
         $this->setApiCheckAuthenticatedUrl($this->getApiUrl() . '/check/authenticated');
         $this->setApiLoginUrl($this->getApiUrl().'/login');
+        $this->setApiSpoPetitionListUrl($this->getApiUrl() . '/spoPetition/search/advancedSearch');
+        $this->setApiSpoPetitionUrl($this->getApiUrl() . '/spoPetition/');
         $this->setApiHeaders([
             'Accept: */*',
             'Content-Type: application/json',
@@ -182,6 +186,45 @@ class mosregApiConnection
     public function setApiCheckAuthenticatedUrl(string $apiCheckAuthenticatedUrl): void
     {
         $this->apiCheckAuthenticatedUrl = $apiCheckAuthenticatedUrl;
+    }
+
+    public function getApiSpoPetitionListUrl($params = []): string
+    {
+
+        return $this->apiSpoPetitionListUrl . $this->generateUrlParamsString($params);
+    }
+
+    public function setApiSpoPetitionListUrl(string $apiSpoPetitionListUrl): void
+    {
+        $this->apiSpoPetitionListUrl = $apiSpoPetitionListUrl;
+    }
+
+    public function getApiSpoPetitionUrl($id, $projection = 'detailed'): string
+    {
+        return $this->apiSpoPetitionUrl . '/' . $id . '?projection=' . $projection;
+    }
+
+    public function setApiSpoPetitionUrl(string $apiSpoPetitionUrl): void
+    {
+        $this->apiSpoPetitionUrl = $apiSpoPetitionUrl;
+    }
+
+    public function generateUrlParamsString($params = []): string
+    {
+        $additionalString = '';
+
+        if ($params) {
+            foreach ($params as $key => $value) {
+                if ($key === array_key_first($params)) {
+                    $additionalString .= "?{$key}={$value}";
+                } else if ($key === array_key_last($params)) {
+                    $additionalString .= "{$key}={$value}";
+                } else {
+                    $additionalString .= "{$key}={$value}&";
+                }
+            }
+        }
+        return $additionalString;
     }
 
 }

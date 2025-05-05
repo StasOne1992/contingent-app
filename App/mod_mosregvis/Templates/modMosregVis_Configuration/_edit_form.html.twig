@@ -19,8 +19,7 @@
                     <label class="form-label" for="modmosregvis_orgId">{{ form_label(form.orgId) }}</label>
                     <div class="input-group">
                         {{ form_widget(form.orgId) }}
-                        <button class="btn btn-outline-primary" type="button"
-                                onclick="getOrgIdFromVIS({{ modMosregVis.mosregVISCollege.id }})">
+                        <button class="btn btn-outline-primary" type="button">
                             <i class="fa fa-cloud-download"></i>Получить из ВИС
                         </button>
                     </div>
@@ -44,60 +43,8 @@
     </div>
 </div>
 
-<script>
-    function isUUID(uuid) {
-        let regex = /^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-4[0-9a-fA-F]{3}\-(8|9|a|b)[0-9a-fA-F]{3}\-[0-9a-fA-F]{12}$/i;
-        return regex.test(uuid);
-    }
-
-    function getOrgIdFromVIS(collegeid) {
-        let username = document.querySelector('#modmosregvis_username');
-        let password = document.querySelector('#modmosregvis_password');
-        let modmosregvis_orgId = document.querySelector('#modmosregvis_orgId');
-        if (username.value && password.value) {
-            let user = {
-                username: username.value,
-                password: password.value
-            };
-            let resp = fetch('{{ path('mod_mosregvis_get_init_from_api') }}',
-                {
-                    method: 'POST',
-                    body: JSON.stringify(user),
-                })
-                .then(response => {
-                    if (!response.ok){
-                        alert(`Ошибка получения данных из ВИС. Код ошибки ${response.status} ${response.statusText}`)
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    if (isUUID(data)){
-                    modmosregvis_orgId.value=data;
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-            if (resp)
-            {
-                resp.then(resp=>resp)
-            }
-
-        }
-        else {
-            alert('Не заполнены поля логин и пароль');
-        }
-
-
-    }
-
-</script>
 {{ form_widget(form) }}
-    {{ form_end(form) }}
-
-
+{{ form_end(form) }}
 
 {% block customjs %}
-
-
 {% endblock %}

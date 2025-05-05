@@ -1,0 +1,22 @@
+{% extends '@MainApp/base/base.html.twig' %}
+{% set page_title = 'Интеграция с ВИС Московской области' %}
+{% set sub_page_title = 'Образовательные учреждения' %}
+
+{% block title %}
+    {% if page_title is defined %} {{ page_title }} {% endif %}
+{% endblock %}
+
+{% set actions_menu = 'true' %}
+{% block topmenu_items %}
+    <a href="{{ path('mod_mosregvis_new') }}" type="button"
+       class="btn btn-light btn-sm w-100 js-bs-popover-enabled"
+       data-bs-toggle="popover"
+       data-bs-placement="top" title=""
+       data-bs-content="Добавить"
+       data-bs-original-title="Добавить новую группу">
+        <i class="far fa-fw fa-plus"></i> Добавить ПОО
+    </a>
+{% endblock %}
+{% block body %}
+    {{ dump(college_list) }}
+{% endblock %}

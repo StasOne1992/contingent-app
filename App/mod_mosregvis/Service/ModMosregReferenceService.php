@@ -290,7 +290,7 @@ class ModMosregReferenceService
         if ($response->getStatusCode() != 200) {
             new Exception(sprintf("Ошибка получения данных организации из API. Код ошибки:%s", $response->getStatusCode()));
         } elseif ($response->getStatusCode() == 401) {
-            new Exception(sprintf("Ошибка авторизации API. Код ошибки: 401 Unauthorized "));
+            throw new Exception(sprintf("Ошибка авторизации API. Код ошибки: 401 Unauthorized "));
         }
         return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR)['_embedded']['spoSpecialityDictionaries'];
     }

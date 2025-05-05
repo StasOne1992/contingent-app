@@ -92,4 +92,26 @@ class ApiController extends AbstractController
         }
         return new Response(json_encode($org), $init_data->getStatusCode());
     }
+
+    #[Route('/getSpoPetitions', 'mod_mosregvis_api_get_spo_petitions', methods: ['GET'])]
+    public function getSpoPetitions(Request $request, HttpClientInterface $httpClient,): Response
+    {
+        $headers = $request->headers->all();
+        //$token=$headers['x-token']['0'];
+        $token = 'Token bFZZRVBjQnhxZlFUYnlwcmtSTHd0RFp5emlmcGNaVVRkbXB3ckdTRThtbmVhMnlWTEYyOFNrK3FMTTdVSldUdmNPMjVrcVgzSHFnaXFIUkRNOUgrbHc9PQ';
+        $apiConnection = new mosregApiConnection($token);
+        $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection, $httpClient);
+        $init_data = $apiConnectionService->getSpoPetitionsList();
+        dump(json_decode($init_data));
+        //$org_id = $headers['x-org-id']['0'];
+        dd();
+        return new Response(' ', Response::HTTP_NO_CONTENT);
+    }
+
+    #[Route('/getSpoPetition/{id}', 'mod_mosregvis_api_get_spo_petition', methods: ['GET'])]
+    public function getSpoPetition(Request $request, HttpClientInterface $httpClient,): Response
+    {
+
+        return new Response(' ', Response::HTTP_NO_CONTENT);
+    }
 }

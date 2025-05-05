@@ -40,7 +40,7 @@ class Builder
             $admission_reports->addChild('Выполнение плана', ['route' => 'app_abiturient_petition_index']);
             $priem = $menu->addChild('Модуль "Зачисление в ПОО"', ['uri' => '/', 'attributes' => ['dropdown' => true]]);
             $priem->addChild('Заявления ВИС', ['route' => 'app_abiturient_petition_index']);
-            $priem->addChild('К', ['route' => 'app_abiturient_petition_index']);
+            $priem->addChild('Учебные заведения', ['route' => 'mod_mosregvis_college_index']);
             $priem->addChild('2', ['route' => 'app_abiturient_petition_index']);
             $priem->addChild('3', ['route' => 'app_abiturient_petition_index']);
             $priem->addChild('Настройки', ['route' => 'mod_mosregvis_index']);
