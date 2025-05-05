@@ -79,16 +79,14 @@ class ApiController extends AbstractController
         $apiConnection = new mosregApiConnection($headers['x-token']['0']);
         $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection, $httpClient);
         $org_id = $headers['x-org-id']['0'];
-        $init_data = $apiConnectionService->get_org_info($org_id);
+        $init_data = $apiConnectionService->getOrgInfo($org_id);
         $org = (array)json_decode($init_data->getContent(), true);
         $org['guid'] = $org['id'];
         unset($org['id']);
-
-        $mosregCollege = $serializer->deserialize(json_encode($org), ModMosregVis_College::class, 'json');
         $org['isExist'] = false;
-
-        if (count($mosregVISCollegeRepository->findBy(['guid' => $org['guid']])) > 0) {
+        if (count($current_id=$mosregVISCollegeRepository->findBy(['guid' => $org['guid']])) > 0) {
             $org['isExist'] = true;
+            $org['existId']= $current_id['0']->getId();
         }
         return new Response(json_encode($org), $init_data->getStatusCode());
     }
@@ -98,7 +96,7 @@ class ApiController extends AbstractController
     {
         $headers = $request->headers->all();
         //$token=$headers['x-token']['0'];
-        $token = 'Token bFZZRVBjQnhxZlFUYnlwcmtSTHd0RFp5emlmcGNaVVRkbXB3ckdTRThtbmVhMnlWTEYyOFNrK3FMTTdVSldUdmNPMjVrcVgzSHFnaXFIUkRNOUgrbHc9PQ';
+        $token = 'Token am9oMkpaUk4rVHJTQndJOERpbWRHL3NkU3pjdzNhTGVhMVgxOEhYbkNGcERML1JtK01jVjh1U3dlWk5NR04rc0JWMUhnMTBsVG42WTI2enNpNDdKR2c9PQ';
         $apiConnection = new mosregApiConnection($token);
         $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection, $httpClient);
         $init_data = $apiConnectionService->getSpoPetitionsList();

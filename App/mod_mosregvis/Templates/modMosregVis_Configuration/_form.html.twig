@@ -7,8 +7,8 @@
                 <div class="block-title">Необходимо выполнить вход в систему</div>
             </div>
             <div class="block-content pb-4">
-                {{ form_row(form.username) }}
-                {{ form_row(form.password) }}
+                {{ form_row(form.username, {'attr':{'data-mod-mosreg-vis--mod-mosregvis-new-target':"username"}}) }}
+                {{ form_row(form.password, {'attr':{'data-mod-mosreg-vis--mod-mosregvis-new-target':"password"}}) }}
                 <div id="info-loading-string"></div>
             </div>
             <div class="block-header block-header-default justify-content-end">

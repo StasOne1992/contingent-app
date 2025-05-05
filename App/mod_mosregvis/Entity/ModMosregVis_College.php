@@ -54,7 +54,6 @@ class ModMosregVis_College
     #[ORM\Column(nullable: true)]
     private string|null $okpo = '';
 
-
     public function __construct()
     {
         $this->modMosregVis = new ArrayCollection();

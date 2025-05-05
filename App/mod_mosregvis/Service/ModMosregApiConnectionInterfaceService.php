@@ -28,6 +28,7 @@ class ModMosregApiConnectionInterfaceService
         $this->apiConnection = $connection;
         $this->client = $client;
     }
+
     public function auth(): void
     {
         try {
@@ -40,12 +41,13 @@ class ModMosregApiConnectionInterfaceService
         }
         $responseContent = json_decode($auth->getContent());
         $token = 'Token ' . $responseContent->token;
-            $headers = $this->apiConnection->getApiHeaders();
+        $headers = $this->apiConnection->getApiHeaders();
         $headers['Authorization'] = $token;
-            $this->apiConnection->setApiHeaders($headers);
+        $this->apiConnection->setApiHeaders($headers);
         $this->apiConnection->setToken($token);
 
     }
+
     private function api_auth(): Response
     {
         try {
@@ -67,6 +69,7 @@ class ModMosregApiConnectionInterfaceService
 
 
     }
+
     public function check_api_auth(): Response
     {
         $response = $this->client->request('GET', $this->apiConnection->getApiCheckAuthenticatedUrl(), [
@@ -89,6 +92,7 @@ class ModMosregApiConnectionInterfaceService
             return new Response($e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
     public function init_from_api(): Response
     {
         try {
@@ -101,8 +105,16 @@ class ModMosregApiConnectionInterfaceService
             return new Response($e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    public function get_org_info($org_id): Response
+
+    public function getOrgInfo($org_id): Response
     {
+        $link = $this->apiConnection->getApiSpoOrganisationUrl() . $org_id;
+        try {
+            $response = $this->client->request('GET', $link, ['headers' => $this->apiConnection->getApiHeaders()]);
+            return new Response($response->getContent(), $response->getStatusCode());
+        } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface|TransportExceptionInterface $e) {
+            return new Response($e, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
 
@@ -112,7 +124,7 @@ class ModMosregApiConnectionInterfaceService
         $pageSize = 100;
         try {
             $responseParams = ['page' => 1, 'projection' => 'grid', 'size' => $pageSize];
-            $response = $this->client->request('GET', $this->apiConnection->getApiSpoPetitionListUrl(),
+            $response = $this->client->request('GET', $this->apiConnection->getApiSpoPetitionListUrl($responseParams),
                 [
                     'headers' => array_merge($this->apiConnection->getApiHeaders(), $responseParams),
 
@@ -129,12 +141,14 @@ class ModMosregApiConnectionInterfaceService
 
         try {
             for ($i = 1; $i <= $pageCount; $i++) {
+                dump("page:{$i}");
                 $responseParams = ['page' => $i, 'projection' => 'grid', 'size' => $pageSize];
-                $response = $this->client->request('GET', $this->apiConnection->getApiSpoPetitionListUrl(),
+                $response = $this->client->request('GET', $link = $this->apiConnection->getApiSpoPetitionListUrl($responseParams),
                     [
-                        'headers' => array_merge($this->apiConnection->getApiHeaders(), $responseParams),
+                        'headers' => array_merge($this->apiConnection->getApiHeaders()),
                     ]);
-                dump($response->getHeaders());
+                dump($link);
+                dump(json_decode($response->getContent()));
                 $responseData = json_decode($response->getContent());
                 //dump($responseData->_embedded->spoPetitions[0]);
                 $petitionList = array_merge($petitionList, $responseData->_embedded->spoPetitions);
@@ -179,6 +193,10 @@ class ModMosregApiConnectionInterfaceService
         return $duplicates;
     }
 
+    public function getEducationYearDictionaryInfo($org_id = null)
+    {
+
+    }
 
     public function getSpoPetition($PetitionId): Response
     {

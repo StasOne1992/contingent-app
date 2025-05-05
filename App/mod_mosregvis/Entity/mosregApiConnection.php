@@ -25,6 +25,7 @@ class mosregApiConnection
     private string $password;
     private string $apiUrl;
     private string $apiLoginUrl;
+    private string $apiSpoOrganisationUrl;
     private string $apiCheckAuthenticatedUrl;
     private string $apiAvailableUrl;
     private string $apiSpoPetitionListUrl;
@@ -45,6 +46,7 @@ class mosregApiConnection
         $this->setApiLoginUrl($this->getApiUrl().'/login');
         $this->setApiSpoPetitionListUrl($this->getApiUrl() . '/spoPetition/search/advancedSearch');
         $this->setApiSpoPetitionUrl($this->getApiUrl() . '/spoPetition/');
+        $this->setApiSpoOrganisationUrl("{$this->getApiUrl()}/spoOrganization/");
         $this->setApiHeaders([
             'Accept: */*',
             'Content-Type: application/json',
@@ -226,5 +228,17 @@ class mosregApiConnection
         }
         return $additionalString;
     }
+
+    public function getApiSpoOrganisationUrl(): string
+    {
+        return $this->apiSpoOrganisationUrl;
+    }
+
+    public function setApiSpoOrganisationUrl(string $apiSpoOrganisationUrl): void
+    {
+        $this->apiSpoOrganisationUrl = $apiSpoOrganisationUrl;
+    }
+
+
 
 }

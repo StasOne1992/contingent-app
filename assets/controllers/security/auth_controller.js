@@ -1,6 +1,8 @@
 import {Controller} from '@hotwired/stimulus';
 
 export default class extends Controller {
+    static targets = ["_username", "_password"]
+
     connect() {
     }
 
@@ -9,12 +11,20 @@ export default class extends Controller {
         const form = $("#auth-form").get(0);
         const formData = new FormData(form);
         One.loader('show');
-        let promise = this.sign_in(formData.get("_username"), formData.get("_password"))
+        let promise = this.sign_in(this.username, this.password)
             .then(d => d === 204 ? form.submit() : alert(d))
             .catch(e => {
                 alert(e.detail);
                 One.loader('hide');
             })
+    }
+
+    get username() {
+        return this["_usernameTarget"].value;
+    }
+
+    get password() {
+        return this["_passwordTarget"].value;
     }
 
     async sign_in(username, password) {
@@ -41,8 +51,6 @@ export default class extends Controller {
                 }).fail(function (xhr) {
                     reject(JSON.parse(xhr.responseText).detail);
                 })
-
-
             )
         })
     }

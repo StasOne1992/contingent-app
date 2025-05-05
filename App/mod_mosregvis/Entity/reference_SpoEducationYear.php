@@ -37,6 +37,10 @@ class reference_SpoEducationYear
     #[ORM\ManyToOne(targetEntity: ModMosregVis_College::class, inversedBy: 'referenceSpoEducationYear')]
     private ?ModMosregVis_College $college;
 
+    #[ORM\Column(nullable: false)]
+    private int $educationYearDictionary_id = 0;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -112,6 +116,16 @@ class reference_SpoEducationYear
     public function setOrderId(?int $orderId): void
     {
         $this->orderId = $orderId;
+    }
+
+    public function getEducationYearDictionaryId(): int
+    {
+        return $this->educationYearDictionary_id;
+    }
+
+    public function setEducationYearDictionaryId(int $educationYearDictionary_id): void
+    {
+        $this->educationYearDictionary_id = $educationYearDictionary_id;
     }
 
 }
