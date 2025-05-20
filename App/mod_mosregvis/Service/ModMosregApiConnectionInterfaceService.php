@@ -2,8 +2,11 @@
 
 namespace App\mod_mosregvis\Service;
 
+use App\mod_admission\Entity\AbiturientPetition;
 use App\mod_education\Repository\FinancialTypeRepository;
 use App\mod_mosregvis\Entity\mosregApiConnection;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\HttpClient\Exception\JsonException;
 use Symfony\Component\HttpFoundation\Response;
@@ -118,16 +121,23 @@ class ModMosregApiConnectionInterfaceService
     }
 
 
-    public function getSpoPetitionsList(): Response
+    public function getSpoPetitionsList(EntityManagerInterface $entityManager): Response
     {
         $pageCount = 0;
-        $pageSize = 100;
+        $pageSize = 25;
+        $year = '6';
         try {
-            $responseParams = ['page' => 1, 'projection' => 'grid', 'size' => $pageSize];
-            $response = $this->client->request('GET', $this->apiConnection->getApiSpoPetitionListUrl($responseParams),
+            $response = $this->client->request('GET', $this->apiConnection->getApiSpoPetitionListUrl([]),
                 [
-                    'headers' => array_merge($this->apiConnection->getApiHeaders(), $responseParams),
-
+                    'headers' => array_merge($this->apiConnection->getApiHeaders()),
+                    'query' => [
+                        'page' => 0,
+                        'size' => $pageSize,
+                        'sort' => 'createdTs,desc',
+                        'order' => 'desc',
+                        'q' => json_encode(["spoEducationYear" => $year]),
+                        'projection' => 'grid',
+                    ],
                 ]);
             $responseContent = json_decode($response->getContent());
             $pageCount = $responseContent->page->totalPages;
@@ -137,38 +147,45 @@ class ModMosregApiConnectionInterfaceService
             return new Response($e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         $petitionList = [];
-        dump('pageCount:', $pageCount);
 
         try {
-            for ($i = 1; $i <= $pageCount; $i++) {
-                dump("page:{$i}");
-                $responseParams = ['page' => $i, 'projection' => 'grid', 'size' => $pageSize];
-                $response = $this->client->request('GET', $link = $this->apiConnection->getApiSpoPetitionListUrl($responseParams),
+            for ($i = 0; $i <= $pageCount; $i++) {
+                $responseParams = [];
+                $response = $this->client->request('GET', $link = $this->apiConnection->getApiSpoPetitionListUrl([]),
                     [
                         'headers' => array_merge($this->apiConnection->getApiHeaders()),
+                        'query' => [
+                            'page' => $i,
+                            'size' => $pageSize,
+                            'sort' => 'createdTs,desc',
+                            'order' => 'desc',
+                            'q' => json_encode(["spoEducationYear" => $year]),
+                            'projection' => 'grid',
+                        ],
                     ]);
-                dump($link);
-                dump(json_decode($response->getContent()));
                 $responseData = json_decode($response->getContent());
-                //dump($responseData->_embedded->spoPetitions[0]);
                 $petitionList = array_merge($petitionList, $responseData->_embedded->spoPetitions);
             }
         } catch (TransportExceptionInterface $e) {
             return new Response($e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        dump('PetitionCount:' . count($petitionList));
-
-
         $temp = [];
         foreach ($petitionList as $petition) {
             $temp[] = $petition->id;
         }
-        dump($this->findDuplicates($temp));
-
-        dd();
+        $unloadPetitionList = $this->getUnloadPetitionList(petitionList: $temp, entityManager: $entityManager);
+        return new Response(json_encode($unloadPetitionList), Response::HTTP_OK);
     }
 
+    private function getUnloadPetitionList(array $petitionList, $entityManager)
+    {
+        $em = $entityManager;
+        $repository = $em->getRepository(AbiturientPetition::class);
+        $dbGuidList = $repository->getAllGUID();
+        return array_diff($petitionList, $dbGuidList);
+
+    }
     public function findDuplicates($array): array
     {
         $elementCount = [];
@@ -201,11 +218,10 @@ class ModMosregApiConnectionInterfaceService
     public function getSpoPetition($PetitionId): Response
     {
         try {
-            $response = $this->client->request('GET', $this->apiConnection->getApiSpoPetitionListUrl($PetitionId),
+            $response = $this->client->request('GET', $this->apiConnection->getApiSpoPetitionUrl($PetitionId),
                 [
                     'headers' => $this->apiConnection->getApiHeaders(),
                 ]);
-
             return new Response($response->getContent(), $response->getStatusCode());
         } catch (TransportExceptionInterface $e) {
             return new Response($e, Response::HTTP_INTERNAL_SERVER_ERROR);

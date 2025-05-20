@@ -9,16 +9,17 @@ use App\mod_mosregvis\Service\ModMosregApiConnectionInterfaceService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[Route('/mod_mosregvis/api')]
 class ApiController extends AbstractController
 {
-    private array $config;
-
+    private $config;
     public function __construct()
     {
         $baseUrl = '/mod_mosregvis/api/';
@@ -26,8 +27,6 @@ class ApiController extends AbstractController
         $this->config['url']['checkAuthenticated'] = $baseUrl . 'checkAuthenticated';
         $this->config['url']['initFromApi'] = $baseUrl . 'init_from_api';
         $this->config['url']['getOrgInfo'] = $baseUrl . 'get_org_info';
-
-
         return new Response(json_encode($this->config), Response::HTTP_OK);
     }
 
@@ -92,24 +91,43 @@ class ApiController extends AbstractController
     }
 
     #[Route('/getSpoPetitions', 'mod_mosregvis_api_get_spo_petitions', methods: ['GET'])]
-    public function getSpoPetitions(Request $request, HttpClientInterface $httpClient,): Response
+    public function getSpoPetitions(Request $request, HttpClientInterface $httpClient, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager): Response
     {
         $headers = $request->headers->all();
-        //$token=$headers['x-token']['0'];
-        $token = 'Token am9oMkpaUk4rVHJTQndJOERpbWRHL3NkU3pjdzNhTGVhMVgxOEhYbkNGcERML1JtK01jVjh1U3dlWk5NR04rc0JWMUhnMTBsVG42WTI2enNpNDdKR2c9PQ';
-        $apiConnection = new mosregApiConnection($token);
-        $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection, $httpClient);
-        $init_data = $apiConnectionService->getSpoPetitionsList();
-        dump(json_decode($init_data));
-        //$org_id = $headers['x-org-id']['0'];
-        dd();
-        return new Response(' ', Response::HTTP_NO_CONTENT);
+
+        $apiConnectionService = new ModMosregApiConnectionInterfaceService($this->getApiConnection($request, $httpClient), $httpClient);
+        $init_data = $apiConnectionService->getSpoPetitionsList($entityManager);
+        return new Response($init_data->getContent(), Response::HTTP_NO_CONTENT);
     }
 
     #[Route('/getSpoPetition/{id}', 'mod_mosregvis_api_get_spo_petition', methods: ['GET'])]
-    public function getSpoPetition(Request $request, HttpClientInterface $httpClient,): Response
+    public function getSpoPetition($id, Request $request, HttpClientInterface $httpClient): Response
     {
+        $apiConnectionService = new ModMosregApiConnectionInterfaceService($this->getApiConnection($request, $httpClient), $httpClient);
 
-        return new Response(' ', Response::HTTP_NO_CONTENT);
+        return $apiConnectionService->getSpoPetition($id);
+    }
+
+    private function getApiConnection(Request $request, HttpClientInterface $httpClient): mosregApiConnection
+    {
+        $session = $request->getSession();
+        $token = $request->getSession()->get('mosreg_vis_token');
+
+        $apiConnection = new mosregApiConnection();
+        if ($token != null) {
+            $apiConnection->setToken($token);
+        }
+        if ($vis_configuration = $session->get('mosreg_vis_configuration')) {
+            $apiConnection->setUsername($vis_configuration->getUsername());
+            $apiConnection->setPassword($vis_configuration->getPassword());
+        }
+        $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection, $httpClient);
+
+        if ($apiConnectionService->check_api_auth()->getStatusCode() == 401) {
+            $apiConnectionService->auth();
+            $session->set('mosreg_vis_token', $apiConnection->getToken());
+        }
+        return $apiConnection;
+
     }
 }

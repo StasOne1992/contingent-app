@@ -2,8 +2,10 @@
 
 namespace App\Security;
 
+use App\MainApp\Entity\College;
 use App\MainApp\Repository\CollegeRepository;
 
+use App\mod_mosregvis\Entity\ModMosregVis_College;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,8 +61,14 @@ class SecurityController extends AbstractController
     #[Route(path: '/secure', name: 'app_secure')]
     public function indexAction()
     {
+        /**
+         * @var College $college
+         */
+        $college = $this->getUser()->getCollege();
         $session = $this->requestStack->getSession();
-        $session->set('college', $this->getUser()->getCollege());
+        $session->set('college', $college);
+
+        $this->setMosregVisSessionParams($session);
         if ($this->isGranted('ROLE_ROOT')) {
             return $this->redirectToRoute('app_dashboard_index');
         }
@@ -73,4 +81,23 @@ class SecurityController extends AbstractController
         throw new \Exception(AccessDeniedException::class);
     }
 
+    private function setMosregVisSessionParams($session): void
+    {
+        $college = $this->getUser()->getCollege();
+        if ($this->isGranted('ROLE_STAFF_AB_PETITIONS_VIS')) {
+            $session->set('mosreg_vis_configuration', null);
+            $session->set('mosreg_vis_college', null);
+            $session->set('mosreg_vis_token', null);
+
+            /**
+             * @var ModMosregVis_College $mosregVisCollege
+             */
+            if (($mosregVisCollege = $college->getMosregVISCollege()) != null) {
+                $session->set('mosreg_vis_college', $mosregVisCollege);
+                if (($mosregVis = $mosregVisCollege->getModMosregVIS()->getValues()) != null) {
+                    $session->set('mosreg_vis_configuration', $mosregVis[0]);
+                }
+            }
+        }
+    }
 }

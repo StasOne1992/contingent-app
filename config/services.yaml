@@ -26,6 +26,8 @@ services:
   #App\mod_mosregvis\Service\ModMosregReferenceService:
   #  bind:
   #    $entityManager: '@doctrine.orm.entity_manager'
+  #App\mod_mosregvis\Service\ModMosregApiConnectionInterfaceService:
+
 
   on_request_listener:
     class: App\MainApp\Listener\OnRequestListener

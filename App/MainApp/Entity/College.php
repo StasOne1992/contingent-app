@@ -15,8 +15,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CollegeRepository::class)]
-#[ApiResource
-()]
+#[ApiResource()]
 class College
 {
     #[ORM\Id, ORM\GeneratedValue(strategy: 'SEQUENCE'), ORM\Column]
@@ -73,7 +72,7 @@ class College
 
     public function getFullName(): ?string
     {
-        return $this->getname();
+        return $this->getName();
     }
 
     public function getId(): ?int
@@ -81,12 +80,12 @@ class College
         return $this->id;
     }
 
-    public function getname(): ?string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setname(string $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
         return $this;
@@ -116,12 +115,12 @@ class College
         return $this;
     }
 
-    public function getregisteredAddress(): ?string
+    public function getRegisteredAddress(): ?string
     {
         return $this->registeredAddress;
     }
 
-    public function setregisteredAddress(string $registeredAddress): self
+    public function setRegisteredAddress(string $registeredAddress): self
     {
         $this->registeredAddress = $registeredAddress;
 

@@ -34,11 +34,11 @@ class mosregApiConnection
     private int $admissionId;
 
     /**
-     * @param string $token - Токен доступа полученный ранее
+     * @param ?string $token - Токен доступа полученный ранее
      * @param array $apiHeaders - Заголовки для HTTP запросов
      */
 
-    public function __construct(string $token = '', array $apiHeaders = [])
+    public function __construct(?string $token = '' ?? "", array $apiHeaders = [])
     {
         $this->setApiUrl("https://prof.mo.mosreg.ru/api");
         $this->setApiAvailableUrl("https://prof.mo.mosreg.ru");
@@ -201,7 +201,7 @@ class mosregApiConnection
         $this->apiSpoPetitionListUrl = $apiSpoPetitionListUrl;
     }
 
-    public function getApiSpoPetitionUrl($id, $projection = 'detailed'): string
+    public function getApiSpoPetitionUrl($id, $projection = 'detail'): string
     {
         return $this->apiSpoPetitionUrl . '/' . $id . '?projection=' . $projection;
     }

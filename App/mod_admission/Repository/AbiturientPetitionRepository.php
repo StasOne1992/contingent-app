@@ -105,6 +105,8 @@ class AbiturientPetitionRepository extends ServiceEntityRepository
         $resultSet = $connection->executeQuery($query);
         return $resultSet->fetchAllAssociative();
     }
+
+
 //    /**
 //     * @return AbiturientPetition[] Returns an array of AbiturientPetition objects
 //     */
