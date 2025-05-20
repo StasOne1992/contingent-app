@@ -12,10 +12,14 @@ use App\mod_mosregvis\Entity\reference_trainingProgramGradation;
 use App\mod_mosregvis\Entity\reference_ufttDocumentType;
 use App\mod_mosregvis\Repository\modMosregVis_CollegeRepository;
 use App\mod_mosregvis\Repository\reference_SpoEducationYearRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\NotSupported;
 use Exception;
+use JsonException;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -26,25 +30,27 @@ class ModMosregReferenceService
     private EntityManagerInterface $entityManager;
     private mosregApiConnection $apiConnection;
     private HttpClientInterface $client;
+
     /**
      * @param mosregApiConnection $apiConnection
-     * @param HttpClientInterface $client
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(
         mosregApiConnection    $apiConnection,
-        HttpClientInterface    $client,
         EntityManagerInterface $entityManager
     )
     {
         $this->entityManager = $entityManager;
         $this->apiConnection = $apiConnection;
-        $this->client = $client;
+        $this->client = HttpClient::create();
+        dd($apiConnection);
     }
 
     public function updateReference(string $name = ''): void
     {
-        if ($name != '' && $name != 'full') {
+        if (($name != '') && ($name != 'full')) {
+
+
         } elseif ($name == '' or $name == 'full') {
             foreach ($this->getReference("full") as $key => $value) {
                 $func = 'update' . $key;
@@ -52,6 +58,44 @@ class ModMosregReferenceService
             }
         }
     }
+
+    /**
+     * @param string $name *Опционально. Имя сущности для обновления
+     * @return ?array
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface|JsonException
+     */
+    public function getReference(string $name = ""): ?array
+    {
+        $result = array();
+        switch ($name) {
+            case 'ReferenceDocumentType':
+                return $this->getReferenceDocumentType();
+            case 'getSpoEducationYear':
+                return $this->getSpoEducationYear();
+            case 'eduYearStatus':
+                return $this->geteduYearStatus();
+            case 'getSpoSpecialityDictionary':
+                return $this->getSpoSpecialityDictionary();
+            case 'getStudyDiscipline':
+                return $this->getStudyDiscipline();
+            case 'full':
+                $result['ReferenceDocumentType'] = $this->getReferenceDocumentType();
+                $result['eduYearStatus'] = $this->geteduYearStatus();
+                $result['SpoEducationYear'] = $this->getSpoEducationYear();
+                $result['SpoSpecialityDictionary'] = $this->getSpoSpecialityDictionary();
+                $result['StudyDiscipline'] = $this->getStudyDiscipline();
+                break;
+            default:
+                break;
+        }
+        dump($result);
+        return $result;
+    }
+
 
     private function updateSpoEducationYear(array $SpoEducationYear): void
     {
@@ -61,7 +105,7 @@ class ModMosregReferenceService
         $repository = $this->entityManager->getRepository(reference_SpoEducationYear::class);
         $yearStatusRepository = $this->entityManager->getRepository(reference_eduYearStatus::class);
         $collegeRepository = $this->entityManager->getRepository(ModMosregVis_College::class);
-        $i=2;
+        $i = 2;
         foreach ($SpoEducationYear as $item) {
             if (count($findItem = $repository->findBy(['guid' => $item['id']])) == 0) {
                 $reference = new reference_SpoEducationYear();
@@ -173,7 +217,7 @@ class ModMosregReferenceService
             }
             $reference->setIdVis($item['id']);
             $reference->setName($item['name']);
-            $reference->setDisciplineGroup(is_null($item['disciplineGroup']) ?  null : $item['disciplineGroup']['title']);
+            $reference->setDisciplineGroup(is_null($item['disciplineGroup']) ? null : $item['disciplineGroup']['title']);
             $reference->setIsSpo($item['isSpo']);
             $reference->setIsOdo($item['isOdo']);
             $reference->setIsSchool($item['isSchool']);
@@ -182,60 +226,22 @@ class ModMosregReferenceService
         }
     }
 
-    /**
-     * @param string $name *Опционально. Имя сущности для обновления
-     * @return ?array
-     * @throws \JsonException
-     */
-    public
-    function getReference(string $name = ""): ?array
-    {
-        switch ($name) {
-            case 'ReferenceDocumentType':
-                return $this->getReferenceDocumentType();
-                break;
-            case 'getSpoEducationYear':
-                return $this->getSpoEducationYear();
-                break;
-            case 'eduYearStatus':
-                return $this->geteduYearStatus();
-                break;
-            case 'getSpoSpecialityDictionary':
-                return $this->getSpoSpecialityDictionary();
-                break;
-            case 'getStudyDiscipline':
-                return $this->getStudyDiscipline();
-                break;
-            case 'full':
-                $result['ReferenceDocumentType'] = $this->getReferenceDocumentType();
-                $result['eduYearStatus'] = $this->geteduYearStatus();
-                $result['SpoEducationYear'] = $this->getSpoEducationYear();
-                $result['SpoSpecialityDictionary'] = $this->getSpoSpecialityDictionary();
-                $result['StudyDiscipline'] = $this->getStudyDiscipline();
-                break;
-            default:
-                $result = array();
-                break;
-        }
-        dump($result);
-        return $result;
-    }
 
     /**
      * @throws TransportExceptionInterface
      * @throws ServerExceptionInterface
      * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
      * @throws ClientExceptionInterface
-     * @throws Exception
      */
     private
     function getReferenceDocumentType(): array
     {
 
         $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . '/reference/ufttDocumentType',
-                [
-                    'headers' => array_merge($this->apiConnection->getApiHeaders())
-                ]);
+            [
+                'headers' => array_merge($this->apiConnection->getApiHeaders())
+            ]);
 
         if ($response->getStatusCode() != 200) {
             new Exception(sprintf("Ошибка получения данных организации из API. Код ошибки:%s", $response->getStatusCode()));
@@ -245,14 +251,21 @@ class ModMosregReferenceService
         return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
     private
     function geteduYearStatus(): array
     {
 
         $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . '/spo/reference/eduYearStatus',
-                [
-                    'headers' => array_merge($this->apiConnection->getApiHeaders())
-                ]);
+            [
+                'headers' => array_merge($this->apiConnection->getApiHeaders())
+            ]);
 
         if ($response->getStatusCode() != 200) {
             throw new Exception(sprintf("Ошибка получения данных организации из API. Код ошибки:%s", $response->getStatusCode()));
@@ -262,13 +275,20 @@ class ModMosregReferenceService
         return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
     private
     function getSpoEducationYear(): array
     {
-            $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . '/spoEducationYear/search/byOrg?page=0&size=5000&organization=' . $this->apiConnection->getCollegeId() . '&projection=grid',
-                [
-                    'headers' => array_merge($this->apiConnection->getApiHeaders())
-                ]);
+        $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . '/spoEducationYear/search/byOrg?page=0&size=5000&organization=' . $this->apiConnection->getCollegeId() . '&projection=grid',
+            [
+                'headers' => array_merge($this->apiConnection->getApiHeaders())
+            ]);
 
         if ($response->getStatusCode() != 200) {
             new Exception(sprintf("Ошибка получения данных организации из API. Код ошибки:%s", $response->getStatusCode()));
@@ -283,10 +303,9 @@ class ModMosregReferenceService
     {
 
         $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . '/spoSpecialityDictionary?size=5000&sort=name&order=asc',
-                [
-                    'headers' => array_merge($this->apiConnection->getApiHeaders())
-                ]);
-
+            [
+                'headers' => array_merge($this->apiConnection->getApiHeaders())
+            ]);
         if ($response->getStatusCode() != 200) {
             new Exception(sprintf("Ошибка получения данных организации из API. Код ошибки:%s", $response->getStatusCode()));
         } elseif ($response->getStatusCode() == 401) {
@@ -295,13 +314,20 @@ class ModMosregReferenceService
         return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR)['_embedded']['spoSpecialityDictionaries'];
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
     private
     function getStudyDiscipline(): array
     {
-            $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . '/studyDiscipline/search/forSpo?page=0&size=5000&sort=name&order=asc',
-                [
-                    'headers' => array_merge($this->apiConnection->getApiHeaders())
-                ]);
+        $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . '/studyDiscipline/search/forSpo?page=0&size=5000&sort=name&order=asc',
+            [
+                'headers' => array_merge($this->apiConnection->getApiHeaders())
+            ]);
 
         if ($response->getStatusCode() != 200) {
             new Exception(sprintf("Ошибка получения данных организации из API. Код ошибки:%s", $response->getStatusCode()));

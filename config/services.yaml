@@ -6,7 +6,7 @@
 parameters:
   student_photo_directory: "%kernel.project_dir/public/uploads/student_photos"
   student_import_directory: '%kernel.project_dir%/public/upload/tmp/import/student'
-
+  mod_mosreg_api_host: '%env(MOD_MOSREG_API_HOST)%'
 
 
   router.request_context.scheme: 'https'
@@ -19,6 +19,7 @@ services:
     autowire: true      # Automatically injects dependencies in your services.
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+
   App\MainApp\EventListener\ExceptionListener:
     tags:
       - { name: kernel.event_listener, event: kernel.exception }
@@ -27,14 +28,13 @@ services:
   #  bind:
   #    $entityManager: '@doctrine.orm.entity_manager'
   #App\mod_mosregvis\Service\ModMosregApiConnectionInterfaceService:
-
+  ### php bin/console debug:container
 
   on_request_listener:
     class: App\MainApp\Listener\OnRequestListener
-    arguments: ["@doctrine.orm.entity_manager", "@security.token_storage"]
+    arguments: [ "@doctrine.orm.entity_manager", "@security.token_storage" ]
     tags:
-      -
-        name: kernel.event_listener
+      - name: kernel.event_listener
         event: kernel.request
         method: onKernelRequest
 
@@ -61,6 +61,6 @@ services:
   # please note that last definitions always *replace* previous ones
 
   App\MainApp\Service\FileUploader:
-      arguments:
-        $targetDirectory: '%student_import_directory%'
+    arguments:
+      $targetDirectory: '%student_import_directory%'
 

@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\HttpClient\Exception\JsonException;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -26,10 +27,15 @@ class ModMosregApiConnectionInterfaceService
     private mosregApiConnection $apiConnection;
     private HttpClientInterface $client;
 
-    public function __construct(mosregApiConnection $connection, HttpClientInterface $client)
+    public function __construct(mosregApiConnection $connection)
     {
         $this->apiConnection = $connection;
-        $this->client = $client;
+        $this->client = HttpClient::create();
+    }
+
+    public function init_connection()
+    {
+
     }
 
     public function auth(): void
@@ -186,6 +192,7 @@ class ModMosregApiConnectionInterfaceService
         return array_diff($petitionList, $dbGuidList);
 
     }
+
     public function findDuplicates($array): array
     {
         $elementCount = [];

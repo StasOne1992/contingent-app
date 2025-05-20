@@ -12,3 +12,7 @@ api_login_check:
     path: /api/login/check
 api_login_refresh:
     path: /api/login/refresh
+
+mosreg_vis_api:
+    resource: 'routes/mod_mosreg_vis.yaml'
+    name_prefix: 'mod_mosreg_vis'

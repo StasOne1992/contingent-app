@@ -1,0 +1,8 @@
+auth:
+  path: /mod_mosregvis/api/
+  methods: [ POST ]
+  host: '%mod_mosreg_api_host%'
+  schemes: [ https ]
+  requirements:
+    username: \*
+    password: \*
