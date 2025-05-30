@@ -1,20 +1,17 @@
 twig:
-    default_path: '%kernel.project_dir%/App/templates'
-    paths:
-        '%kernel.project_dir%/App/MainApp/Templates': 'MainApp'
-        '%kernel.project_dir%/App/mod_student_app/Templates': 'mod_student_app'
-        '%kernel.project_dir%/App/mod_admission/Templates': 'mod_admission'
-
-        '%kernel.project_dir%/App/mod_mosregvis/Templates': 'mod_mosregvis'
-        '%kernel.project_dir%/App/mod_education/Templates': 'mod_education'
-        '%kernel.project_dir%/App/mod_events/Templates': 'mod_events'
-        '%kernel.project_dir%/App/mod_prof_education/Templates': 'mod_prof_education'
-        '%kernel.project_dir%/App/Security/Templates': 'Security'
-
-
-        ##'assets/media/avatars': 'noavatar'
-    globals:
-        env: '%env(APP_ENV)%'
+  default_path: '%kernel.project_dir%/App/templates'
+  paths:
+    '%kernel.project_dir%/App/MainApp/Templates': 'MainApp'
+    '%kernel.project_dir%/App/mod_student_app/Templates': 'mod_student_app'
+    '%kernel.project_dir%/App/mod_admission/Templates': 'mod_admission'
+    '%kernel.project_dir%/App/mod_mosregvis/Templates': 'mod_mosregvis'
+    '%kernel.project_dir%/App/mod_education/Templates': 'mod_education'
+    '%kernel.project_dir%/App/mod_events/Templates': 'mod_events'
+    '%kernel.project_dir%/App/mod_prof_education/Templates': 'mod_prof_education'
+    '%kernel.project_dir%/App/Security/Templates': 'Security'
+    ##'assets/media/avatars': 'noavatar'
+  globals:
+    env: '%env(APP_ENV)%'
 when@test:
-    twig:
-        strict_variables: true
+  twig:
+    strict_variables: true
