@@ -23,8 +23,8 @@ class SecurityController extends AbstractController
 
 
     public function __construct(
-        RequestStack             $requestStack,
-        CollegeRepository        $collegeRepository,
+        RequestStack      $requestStack,
+        CollegeRepository $collegeRepository,
 
     )
     {
@@ -99,5 +99,6 @@ class SecurityController extends AbstractController
                 }
             }
         }
+        dump($session);
     }
 }

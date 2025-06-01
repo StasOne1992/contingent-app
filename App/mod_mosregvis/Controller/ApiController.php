@@ -8,6 +8,7 @@ use App\mod_mosregvis\Repository\modMosregVis_CollegeRepository;
 use App\mod_mosregvis\Service\ModMosregApiConnectionInterfaceService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +21,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class ApiController extends AbstractController
 {
     private $config;
-    public function __construct()
+
+    public function __construct(private readonly RequestStack $requestStack)
     {
         $baseUrl = '/mod_mosregvis/api/';
         $this->config['url']['login'] = $baseUrl . 'auth';
@@ -83,9 +85,9 @@ class ApiController extends AbstractController
         $org['guid'] = $org['id'];
         unset($org['id']);
         $org['isExist'] = false;
-        if (count($current_id=$mosregVISCollegeRepository->findBy(['guid' => $org['guid']])) > 0) {
+        if (count($current_id = $mosregVISCollegeRepository->findBy(['guid' => $org['guid']])) > 0) {
             $org['isExist'] = true;
-            $org['existId']= $current_id['0']->getId();
+            $org['existId'] = $current_id['0']->getId();
         }
         return new Response(json_encode($org), $init_data->getStatusCode());
     }
@@ -93,35 +95,34 @@ class ApiController extends AbstractController
     #[Route('/getSpoPetitions', 'mod_mosregvis_api_get_spo_petitions', methods: ['GET'])]
     public function getSpoPetitions(Request $request, HttpClientInterface $httpClient, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager): Response
     {
-        $headers = $request->headers->all();
-
-        $apiConnectionService = new ModMosregApiConnectionInterfaceService($this->getApiConnection($request, $httpClient), $httpClient);
+        $apiConnectionService = new ModMosregApiConnectionInterfaceService($this->getApiConnection($request));
         $init_data = $apiConnectionService->getSpoPetitionsList($entityManager);
-        return new Response($init_data->getContent(), Response::HTTP_NO_CONTENT);
+        return new Response($init_data->getContent(), $init_data->getStatusCode());
     }
 
     #[Route('/getSpoPetition/{id}', 'mod_mosregvis_api_get_spo_petition', methods: ['GET'])]
     public function getSpoPetition($id, Request $request, HttpClientInterface $httpClient): Response
     {
-        $apiConnectionService = new ModMosregApiConnectionInterfaceService($this->getApiConnection($request, $httpClient), $httpClient);
+        $apiConnectionService = new ModMosregApiConnectionInterfaceService($this->getApiConnection($request));
 
         return $apiConnectionService->getSpoPetition($id);
     }
 
-    private function getApiConnection(Request $request, HttpClientInterface $httpClient): mosregApiConnection
+    private function getApiConnection(Request $request): mosregApiConnection
     {
+        $httpClient = HttpClient::create();
         $session = $request->getSession();
         $token = $request->getSession()->get('mosreg_vis_token');
-
+        $vis_configuration = $session->get('mosreg_vis_configuration');
         $apiConnection = new mosregApiConnection();
         if ($token != null) {
             $apiConnection->setToken($token);
         }
-        if ($vis_configuration = $session->get('mosreg_vis_configuration')) {
+        if ($vis_configuration) {
             $apiConnection->setUsername($vis_configuration->getUsername());
             $apiConnection->setPassword($vis_configuration->getPassword());
         }
-        $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection, $httpClient);
+        $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection);
 
         if ($apiConnectionService->check_api_auth()->getStatusCode() == 401) {
             $apiConnectionService->auth();

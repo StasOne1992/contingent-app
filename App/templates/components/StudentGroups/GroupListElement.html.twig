@@ -1,3 +1,33 @@
-<div class="alert alert-{{ type }}">
-    {{ message }}
+<div class="col-xs-12 col-md-6">
+    <div class="block block-bordered  block-rounded">
+        <div class="block-header">
+            <b>Мои группы</b>
+        </div>
+        <div class="block-content">
+            <div class="row row-xs-1 row-cols-lg-2 push">
+                {% if (groups|length)>=1 and (groups|length)<=2 %}
+                    {{ dump(groups) }}
+                    {% for group in groups %}
+                        {{ dump(group) }}
+                        <twig:StudentGroups:GroupCardSmall
+                                groupId="{{ group.id }}"
+                                groupName="{{ group.name }}"
+                                groupMembersCount="10"
+                        ></twig:StudentGroups:GroupCardSmall>
+                    {% endfor %}
+
+                {% endif %}
+                {% if (groups|length)>2 %}
+                    {% for group in groups %}
+                        <twig:StudentGroups:GroupCardSmall
+                                groupId="{{ group.id }}"
+                                groupName="{{ group.name }}"
+                                groupMembersCount="{{ group.groupMemberships|length }}"
+                        ></twig:StudentGroups:GroupCardSmall>
+
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
 </div>

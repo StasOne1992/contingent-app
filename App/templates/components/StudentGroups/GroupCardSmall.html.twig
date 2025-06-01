@@ -1,0 +1,27 @@
+<div class="col">
+    <div class="block block-rounded h-100 mb-0">
+        <div class="block-content block-content-full d-flex align-items-center justify-content-between bg-primary-dark">
+            <div class="me-3">
+                <p class="text-white fw-bold mb-0">Группа {{ groupName }}</p>
+                <p class="fs-sm fw-medium text-white-75 mb-0">
+                    Студентов: {{ groupMembersCount }}
+                </p>
+            </div>
+            <img class="img-avatar img-avatar48 img-avatar-thumb"
+                 src="{{ groupAvatarLink }}" alt="Изображение группы">
+        </div>
+        <div class="block-content border-top bg-secondary-subtle block-content-full">
+            <a class="btn btn-secondary btn-sm d-flex mb-2 align-items-center justify-content-between"
+               href="{{ path('app_student_groups_show_students',{'id':groupId}) }}">
+                <span>Открыть список группы</span>
+                <i class="fa fa-arrow-alt-circle-right ms-1 opacity-50 fs-base"></i>
+            </a>
+            <a class="btn btn-secondary btn-sm d-flex align-items-center justify-content-between"
+               href="{{ path('app_student_groups_show_students',{'id':groupId}) }}">
+                <span>Сводка по группе</span>
+                <i class="fa fa-arrow-alt-circle-right ms-1 opacity-50 fs-base"></i>
+            </a>
+
+        </div>
+    </div>
+</div>

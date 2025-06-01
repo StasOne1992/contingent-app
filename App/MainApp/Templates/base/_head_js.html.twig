@@ -1,3 +1,9 @@
 {% block javascripts %}
-    {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {{ encore_entry_script_tags('app') }}
+    <script>
+        const eventSource = new EventSource("{{ mercure('/test')|escape('js') }}");
+        eventSource.onmessage = event => {
+            console.log(JSON.parse(event.data));
+        }
+    </script>
 {% endblock %}

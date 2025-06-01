@@ -49,77 +49,7 @@
         </div>
     </div>
     {% if  groups is defined %}
-        <div class="col-xs-12 col-md-6">
-            <div class="block block-bordered  block-rounded">
-                <div class="block-header">
-                    <b>Мои группы</b>
-                </div>
-                <div class="block-content">
-                    <div class="row row-xs-1 row-cols-lg-2 push">
-
-                        <div data-controller="main-app--dashboard--dashboard-components--group-list--group-list">
-                            <div data-main-app--dashboard--dashboard-components--group-list--group-list-target="results"></div>
-                        </div>
-                        {% if (groups|length)>=1 and (groups|length)<=2 %}
-
-
-                            {% for group in groups %}
-                                <div class="col">
-                                    <div class="block block-rounded h-100 mb-0">
-                                        <div class="block-content block-content-full d-flex align-items-center justify-content-between bg-primary-dark">
-                                            <div class="me-3">
-                                                <p class="text-white fw-bold mb-0">Группа {{ group.getName() }}</p>
-                                                <p class="fs-sm fw-medium text-white-75 mb-0">
-                                                    Студентов: {{ group.getStudents.count }}
-                                                </p>
-                                            </div>
-                                            <img class="img-avatar img-avatar48 img-avatar-thumb"
-                                                 src="/assets/media/avatars/avatar15.jpg" alt="">
-                                        </div>
-                                        <div class="block-content border-top bg-secondary-subtle block-content-full">
-                                            <a class="btn btn-secondary btn-sm d-flex mb-2 align-items-center justify-content-between"
-                                               href="{{ path('app_student_groups_show_students',{'id':group.getid()}) }}">
-                                                <span>Открыть список группы</span>
-                                                <i class="fa fa-arrow-alt-circle-right ms-1 opacity-50 fs-base"></i>
-                                            </a>
-                                            <a class="btn btn-secondary btn-sm d-flex align-items-center justify-content-between"
-                                               href="{{ path('app_student_groups_show_students',{'id':group.getid()}) }}">
-                                                <span>Сводка по группе</span>
-                                                <i class="fa fa-arrow-alt-circle-right ms-1 opacity-50 fs-base"></i>
-                                            </a>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-
-                        {% endif %}
-                        {% if (groups|length)>2 %}
-                            {% for group in groups %}
-                                <div class="col">
-                                    <a class="block block-bordered block-rounded block-link-shadow"
-                                       href="{{ path('app_student_groups_show',{'id':group.getid()}) }}">
-                                        <div class="block-content block-content-full d-flex align-items-center justify-content-between">
-                                            <div>
-                                                <i class="fa fa-2x fa-people-group text-muted"></i>
-                                            </div>
-                                            <dl class="ms-3 text-end mb-0">
-                                                <dt class="h4 fw-extrabold mb-0">
-                                                    Группа {{ group.getName() }}
-                                                </dt>
-                                                <dd class="fs-sm fw-medium text-muted mb-0">
-                                                    Студентов: {{ group.getStudents.count }}
-                                                </dd>
-                                            </dl>
-                                        </div>
-                                    </a>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
+        <twig:StudentGroups:GroupListElement></twig:StudentGroups:GroupListElement>
     {% endif %}
     {% if is_granted('ROLE_ROOT') %}
     {% endif %}
