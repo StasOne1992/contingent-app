@@ -6,6 +6,7 @@ use App\mod_admission\Entity\Admission;
 use App\mod_mosregvis\Repository\reference_SpoEducationYearRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 
 #[ORM\Entity(repositoryClass: reference_SpoEducationYearRepository::class)]
 class reference_SpoEducationYear
@@ -33,12 +34,12 @@ class reference_SpoEducationYear
     private ?int $orderId = null;
 
     #[ORM\OneToOne(targetEntity: Admission::class)]
-    private Admission $admisson;
+    private ?Admission $admisson;
     #[ORM\ManyToOne(targetEntity: ModMosregVis_College::class, inversedBy: 'referenceSpoEducationYear')]
     private ?ModMosregVis_College $college;
 
-    #[ORM\Column(nullable: false)]
-    private int $educationYearDictionary_id = 0;
+    #[ORM\Column(type: "integer", nullable: true)]
+    private ?int $educationYearDictionaryId;
 
 
     public function getId(): ?int
@@ -120,12 +121,22 @@ class reference_SpoEducationYear
 
     public function getEducationYearDictionaryId(): int
     {
-        return $this->educationYearDictionary_id;
+        return $this->educationYearDictionaryId;
     }
 
-    public function setEducationYearDictionaryId(int $educationYearDictionary_id): void
+    public function setEducationYearDictionaryId(int $educationYearDictionaryId): void
     {
-        $this->educationYearDictionary_id = $educationYearDictionary_id;
+        $this->educationYearDictionaryId = $educationYearDictionaryId;
+    }
+
+    public function getAdmisson(): ?Admission
+    {
+        return $this->admisson;
+    }
+
+    public function setAdmisson(?Admission $admisson): void
+    {
+        $this->admisson = $admisson;
     }
 
 }

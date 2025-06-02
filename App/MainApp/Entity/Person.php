@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use App\MainApp\Repository\PersonRepository;
 use App\mod_admission\Entity\AbiturientPetition;
 use App\mod_education\Entity\Student;
+use App\mod_mosregvis\Entity\SpoPetition;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -72,6 +73,8 @@ class Person
     #[ORM\OneToMany(targetEntity: PersonDocument::class, mappedBy: 'person')]
     private Collection $personDocument;
 
+    #[ORM\OneToMany(targetEntity: SpoPetition::class, mappedBy: 'Person')]
+    private Collection $spoPetition;
 
     public function __construct()
     {
@@ -79,6 +82,8 @@ class Person
         $this->staff = new ArrayCollection();
         $this->abiturientPetition = new ArrayCollection();
         $this->personDocument = new ArrayCollection();
+        $this->spoPetition = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -369,6 +374,16 @@ class Person
     public function setGender(?Gender $gender): void
     {
         $this->gender = $gender;
+    }
+
+    public function getSpoPetition(): Collection
+    {
+        return $this->spoPetition;
+    }
+
+    public function setSpoPetition(Collection $spoPetition): void
+    {
+        $this->spoPetition = $spoPetition;
     }
 
 
