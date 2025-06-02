@@ -21,6 +21,7 @@
       <sourceFolder url="file://$MODULE_DIR$/App/mod_education" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/App/mod_events" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/App/mod_mosregvis" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/assets/controllers" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/App/mod_prof_education" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/behat/transliterator" />
@@ -171,7 +172,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/twig/intl-extra" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/twig/twig" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
-      <excludeFolder url="file://$MODULE_DIR$/public/bundles" />
       <excludeFolder url="file://$MODULE_DIR$/var" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/data-fixtures" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/doctrine-fixtures-bundle" />
@@ -209,6 +209,10 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/npub/gos" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php84" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/ux-twig-component" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dictionaries" />
+      <excludeFolder url="file://$MODULE_DIR$/public/bundles/apiplatform" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

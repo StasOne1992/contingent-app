@@ -1,7 +1,0 @@
-/**
- * Bundled by jsDelivr using Rollup v2.79.2 and Terser v5.39.0.
- * Original file: /npm/locutus@2.0.32/php/math/max.js
- *
- * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
- */
-var r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(r){return typeof r}:function(r){return r&&"function"==typeof Symbol&&r.constructor===Symbol&&r!==Symbol.prototype?"symbol":typeof r},t=function(){var t,e=void 0,o=void 0,n=0,i=arguments,f=i.length,u=function(r){if("[object Array]"===Object.prototype.toString.call(r))return r;var t=[];for(var e in r)r.hasOwnProperty(e)&&t.push(r[e]);return t},a=function t(e,o){var n=0,i=0,f=0,a=0,l=0;if(e===o)return 0;if("object"===(void 0===e?"undefined":r(e))){if("object"===(void 0===o?"undefined":r(o))){if(e=u(e),o=u(o),l=e.length,(a=o.length)>l)return 1;if(a<l)return-1;for(n=0,i=l;n<i;++n){if(1===(f=t(e[n],o[n])))return 1;if(-1===f)return-1}return 0}return-1}return"object"===(void 0===o?"undefined":r(o))?1:isNaN(o)&&!isNaN(e)?0===e?0:e<0?1:-1:isNaN(e)&&!isNaN(o)?0===o?0:o>0?1:-1:o===e?0:o>e?1:-1};if(0===f)throw new Error("At least one value should be passed to max()");if(1===f){if("object"!==r(i[0]))throw new Error("Wrong parameter count for max()");if(0===(e=u(i[0])).length)throw new Error("Array must contain at least one element for max()")}else e=i;for(o=e[0],n=1,t=e.length;n<t;++n)1===a(o,e[n])&&(o=e[n]);return o};export{t as default};
