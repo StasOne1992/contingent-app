@@ -18,21 +18,13 @@ global.$ = global.jQuery = $;
 
 import 'jquery-mask-plugin'
 
-
-import { promises as fsPromises } from 'fs'
-import * as path from 'path'
-
-import '/assets/bundles/oneui_webpack/app.js'
-import '/assets/bundles/oneui_webpack/oneui/app'
-window.One = new App({ darkMode: "system" }); // Default darkMode preference: "on" or "off" or "system"
-
+import "./bundles/oneui_webpack/app";
+import "./bundles/oneui_webpack/oneui/app";
 
 
 /**
  * CSS import
  */
 
-import '/assets/bundles/OneUI/assets/css/oneui.min.css'
+import '/assets/bundles/OneUI/assets/css/oneui.css'
 
-
-/*console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');*/

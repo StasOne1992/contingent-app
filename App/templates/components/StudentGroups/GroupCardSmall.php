@@ -11,5 +11,5 @@ class GroupCardSmall
     public string $groupName;
     public string $groupId;
     public int $groupMembersCount;
-    public string $groupAvatarLink="/assets/media/avatars/avatar15.jpg";
+    public string $groupAvatarLink="/bundles/OneUI/assets/media/avatars/avatar10.jpg";
 }

@@ -45,10 +45,9 @@ class ApiController extends AbstractController
         $apiConnection = new mosregApiConnection();
         $apiConnection->setUsername($auth->username);
         $apiConnection->setPassword($auth->password);
-        $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection, $httpClient);
+        $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection);
         $apiConnectionService->auth();
         $jsonContent = $serializer->serialize($apiConnection, 'json');
-        dump($jsonContent);
         return new Response(json_encode($jsonContent), Response::HTTP_OK);
     }
 

@@ -16,6 +16,7 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function PHPUnit\Framework\returnArgument;
 
 
 /****
@@ -38,15 +39,19 @@ class ModMosregApiConnectionInterfaceService
 
     }
 
-    public function auth(): void
+    public function auth(): Response
     {
         try {
             $auth = $this->api_auth();
         } catch (\JsonException $e) {
-            dd($e->getMessage());
+            dump($e->getMessage());
+
         }
         if ($auth->getStatusCode() != 200) {
-            throw new Exception('Ошибка авторизации в API "Зачисление в ПОО"');
+            return new Response('Ошибка авторизации в API "Зачисление в ПОО"', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        if ($auth->getStatusCode() === 500) {
+            return new Response($auth->getContent(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         $responseContent = json_decode($auth->getContent());
         $token = 'Token ' . $responseContent->token;
@@ -54,6 +59,8 @@ class ModMosregApiConnectionInterfaceService
         $headers['Authorization'] = $token;
         $this->apiConnection->setApiHeaders($headers);
         $this->apiConnection->setToken($token);
+
+        return new Response('Авторизация выполнена', Response::HTTP_OK);
 
     }
 
@@ -73,7 +80,6 @@ class ModMosregApiConnectionInterfaceService
             return new Response($request->getContent(), $request->getStatusCode());
         } catch (JsonException|TransportExceptionInterface|ClientExceptionInterface|ServerExceptionInterface|RedirectionExceptionInterface $e) {
             return new Response($e, Response::HTTP_INTERNAL_SERVER_ERROR);
-
         }
 
 

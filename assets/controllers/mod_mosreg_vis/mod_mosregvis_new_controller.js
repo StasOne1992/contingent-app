@@ -79,19 +79,24 @@ export default class extends Controller {
             this.modmosregvis_password = hashHex;
             this.password_hashed = true;
             return hashHex;
-        }).catch(e => this.message_error(e))
+        }).catch(e => {
+            this.message_error(e)
+        })
         Promise.all([hash]).then((d) => {
                 let body = JSON.stringify({
                     'username': username,
                     'password': hash_value
                 })
-                this.message_info('Авторизация в API')
-                this.auth_in_api(body).then(d => {
-                    this.message_info('Выполнена авторизация в API')
+            this.message_info('Авторизация в API')
+            this.auth_in_api(body)
+                .then(d => {
+                    this.message_info('Попытка авторизации в API')
                     this.api_connection = JSON.parse(d);
-                    this.message_info('Получен ключ доступа к API')
                     this.api_token = this.api_connection.token;
-                    this.init_from_api().then(d => {
+                    if (this.api_token) {
+                        this.message_info('Получен ключ доступа к API')
+                        this.init_from_api()
+                            .then(d => {
                         d = JSON.parse(d);
                         if (!d['orgId'].match(this.guid_pattern)) {
                             alert('OrgId is not GUID');
@@ -130,11 +135,16 @@ export default class extends Controller {
                             this.message_error(e);
                             this.message_info(e)
                         })
-                    }).catch(e => {
-                        this.message_error(e);
-                        this.message_info(e)
-                    });
-                }).catch(e => {
+                            })
+                            .catch(e => {
+                                this.message_error(e);
+                            });
+                    } else {
+                        this.message_error('Ошибка получения ключа доступа к API');
+                    }
+                })
+                .catch(e => {
+                    console.debug(e);
                     this.message_error(e);
                     this.message_info(e)
                 })
@@ -250,10 +260,15 @@ export default class extends Controller {
         this.load_info_div.innerHTML = '';
     }
 
-    message_info(message) {
+    message_info(message, type = 'default') {
+        if (type === 'default') {
         toastr.info(message);
         this.setInfoDivContent(message);
-        console.info(message);
+            console.info(message);
+        }
+        if (type === 'error') {
+            this.message_error(message);
+        }
     }
 
     message_error(message) {
