@@ -1,7 +1,7 @@
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
     <script>
-        const eventSource = new EventSource("{{ mercure('/test')|escape('js') }}");
+        const eventSource = new EventSource("{{ mercure('popup-notify')|escape('js') }}");
         eventSource.onmessage = event => {
             console.log(JSON.parse(event.data));
         }

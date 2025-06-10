@@ -345,8 +345,6 @@ class PetitionLoadService
         } else {
             $petition = $PetitionData;
         }
-
-
         $this->fillPetition($petition, $PetitionData);
         $petition->setLastUpdateTS(new DateTime(date("Y-m-d H:i:s")));
         if (!$petition->isLockUpdateFormVIS()) {
@@ -359,7 +357,6 @@ class PetitionLoadService
 
     public function pubCreatePetition($PetitionData): void
     {
-        //dd($PetitionData);
         $petition = $this->createPetition($PetitionData);
         $this->push('popup-notify', 'success', ' fa fa-check me-1 ', 'Создано заявление', $petition->getNumber());
     }
@@ -367,7 +364,6 @@ class PetitionLoadService
     public
     function pubCreatePetitionWithNotify($PetitionData): void
     {
-        //dd($PetitionData);
         $petition = $this->createPetition($PetitionData);
         $this->push('popup-notify', 'success', ' fa fa-check me-1 ', 'Создано заявление', $petition->getNumber());
     }
