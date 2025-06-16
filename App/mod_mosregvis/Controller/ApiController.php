@@ -2,23 +2,21 @@
 
 namespace App\mod_mosregvis\Controller;
 
-use App\mod_mosregvis\Entity\ModMosregVis_College;
 use App\mod_mosregvis\Entity\ModMosregVis_Configuration;
 use App\mod_mosregvis\Entity\mosregApiConnection;
 use App\mod_mosregvis\Repository\modMosregVis_CollegeRepository;
 use App\mod_mosregvis\Service\ModMosregApiConnectionInterfaceService;
 use Doctrine\ORM\EntityManagerInterface;
-use mysql_xdevapi\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use App\mod_admission\Entity\Admission;
+
 
 #[Route('/mod_mosregvis/api')]
 class ApiController extends AbstractController
@@ -138,11 +136,8 @@ class ApiController extends AbstractController
                 $apiConnection->setUsername($vis_configuration->getUsername());
                 $apiConnection->setPassword($vis_configuration->getPassword());
                 $college = $vis_configuration->getMosregVISCollege()->getCollege();
-                $admissions = $college->getAdmissions()->getValues();
-                foreach ($admissions as $admission) {
-                    dump($admission);
-                }
-                dd($college, $college->getStudentGroups()->getValues(), $admissions);
+                dump($college->getAdmissions());
+                dd($college);
                 $apiConnection->setCollegeId($vis_configuration->getOrgId());
             }
             $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection);

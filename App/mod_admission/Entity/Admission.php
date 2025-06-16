@@ -38,7 +38,7 @@ class Admission
     #[ORM\OneToMany(targetEntity: AbiturientPetition::class, mappedBy: 'admission')]
     private Collection $abiturientPetitions;
 
-    #[ORM\ManyToOne(inversedBy: 'admissions')]
+    #[ORM\ManyToOne(targetEntity: College::class, inversedBy: 'admissions')]
     private ?College $college = null;
 
     #[ORM\Column (nullable: true)]

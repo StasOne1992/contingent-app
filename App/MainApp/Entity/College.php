@@ -46,14 +46,12 @@ class College
     private Collection $users;
     #[ORM\OneToMany(targetEntity: Admission::class, mappedBy: 'college')]
     private Collection $admissions;
-    #[ORM\OneToOne(targetEntity: ModMosregVis_College::class, mappedBy: 'college')]
-    private ModMosregVis_College|null $mosregVISCollege;
+    #[ORM\OneToOne(targetEntity: ModMosregVis_College::class, inversedBy: 'college')]
+    private ?ModMosregVis_College $mosregVISCollege;
     #[ORM\ManyToMany(targetEntity: Staff::class, mappedBy: 'College')]
     private Collection $staff;
     #[ORM\OneToMany(targetEntity: StudentGroup::class, mappedBy: 'college')]
     private Collection $studentGroup;
-    #[ORM\OneToMany(targetEntity: ModMosregVis_College::class, mappedBy: 'college')]
-    private Collection $mosregVisCollege;
     #[ORM\OneToMany(targetEntity: ContingentDocument::class, mappedBy: 'college')]
     private Collection $contingentDocuments;
     #[ORM\OneToMany(targetEntity: ModMosregVis_Configuration::class, mappedBy: 'college')]
@@ -66,7 +64,6 @@ class College
         $this->admissions = new ArrayCollection();
         $this->staff = new ArrayCollection();
         $this->studentGroup = new ArrayCollection();
-        $this->mosregVisCollege = new ArrayCollection();
         $this->contingentDocuments = new ArrayCollection();
     }
 
@@ -251,6 +248,7 @@ class College
      */
     public function getAdmissions(): Collection
     {
+        dump($this->admissions);
         return $this->admissions;
     }
 
@@ -351,6 +349,16 @@ class College
     public function setMosregVISCollege(?ModMosregVis_College $mosregVISCollege): void
     {
         $this->mosregVISCollege = $mosregVISCollege;
+    }
+
+    public function getContingentDocuments(): Collection
+    {
+        return $this->contingentDocuments;
+    }
+
+    public function setContingentDocuments(Collection $contingentDocuments): void
+    {
+        $this->contingentDocuments = $contingentDocuments;
     }
 
 }

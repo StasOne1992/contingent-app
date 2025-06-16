@@ -83,6 +83,12 @@ class SecurityController extends AbstractController
 
     private function setMosregVisSessionParams($session): void
     {
+
+        /**
+         * @var College              $college
+         * @var ModMosregVis_College $mosregVisCollege
+         */
+
         $college = $this->getUser()->getCollege();
         if ($this->isGranted('ROLE_STAFF_AB_PETITIONS_VIS')) {
             $session->set('mosreg_vis_configuration', null);
@@ -99,6 +105,5 @@ class SecurityController extends AbstractController
                 }
             }
         }
-        dump($session);
     }
 }
