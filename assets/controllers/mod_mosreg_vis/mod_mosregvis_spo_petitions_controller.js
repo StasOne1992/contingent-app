@@ -21,13 +21,11 @@ export default class extends Controller {
         this.getSpoPetitionFromApi()
             .then(d => {
                 d = JSON.parse(d);
-
-                petitionLoadModalBody.innerHTML = `Доступно для загрузки ${d.length}`;
-
+                petitionLoadModalBody.innerHTML = `<p>Доступно для загрузки ${d.length}</p>`;
                 console.log(d);
             })
             .catch(e => {
-                    petitionLoadModalBody.innerText = "Ошибка загрузки из ВИС." + e
+                petitionLoadModalBody.innerText = "Ошибка загрузки из ВИС: " + e.responseText;
                 }
             )
 
@@ -35,9 +33,8 @@ export default class extends Controller {
 
     showLoader(elementId = "") {
         let element = document.getElementById('petitionLoadModalBody')
-        let spinner = "<div id=\"petitionLoadModalBodySpinner\" class=\"spinner-grow text-primary\" role=\"status\">\n" +
-            "                    <span class=\"visually-hidden\">Loading...</span>\n" +
-            "                  </div>"
+        let spinner = '<div class="spinner-grow spinner-grow-sm text-secondary" role="status">' +
+            '                  </div>  <span class="">Загрузка сведений...</span>'
         element.innerHTML = spinner;
     }
 

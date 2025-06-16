@@ -336,7 +336,7 @@ class College
     public function getActiveAdmission(): ?Admission
     {
         foreach ($this->getAdmissions() as $item) {
-            if ($item->isIsActive()) {
+            if ($item->isActive()) {
                 return $item;
             }
         }

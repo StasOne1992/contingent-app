@@ -19,7 +19,7 @@ class CollegeController extends AbstractController
 {
 
     #[Route('/', name: 'app_college_index', methods: ['GET'])]
-    public function index(CollegeRepository $collegeRepository, modMosregVisConfigurationRepository $modmosregvisRepository): Response
+    public function index(CollegeRepository $collegeRepository): Response
     {
         return $this->render('college/index.html.twig', [
             'colleges' => $collegeRepository->findAll(),
@@ -61,7 +61,6 @@ class CollegeController extends AbstractController
     {
         $form = $this->createForm(CollegeType::class, $college);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $collegeRepository->save($college, true);
 
@@ -70,6 +69,8 @@ class CollegeController extends AbstractController
 
         return $this->render('college/edit.html.twig', [
             'college' => $college,
+            'college_admissions'=>$college->getAdmissions()->getValues(),
+            'college_active_admission'=>$college->getActiveAdmission(),
             'form' => $form,
         ]);
     }

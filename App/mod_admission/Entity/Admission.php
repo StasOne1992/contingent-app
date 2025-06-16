@@ -5,6 +5,7 @@ namespace App\mod_admission\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\MainApp\Entity\College;
 use App\mod_admission\Repository\AdmissionRepository;
+use App\mod_mosregvis\Entity\reference_SpoEducationYear;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -28,13 +29,13 @@ class Admission
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateEnd = null;
 
-    #[ORM\OneToMany(mappedBy: 'admission', targetEntity: AdmissionPlan::class)]
+    #[ORM\OneToMany(targetEntity: AdmissionPlan::class, mappedBy: 'admission')]
     private Collection $admissionPlans;
 
     #[ORM\Column(type: 'enum', enumType: AdmissionStatus::class)]
     private AdmissionStatus|null $status = AdmissionStatus::draft;
 
-    #[ORM\OneToMany(mappedBy: 'admission', targetEntity: AbiturientPetition::class)]
+    #[ORM\OneToMany(targetEntity: AbiturientPetition::class, mappedBy: 'admission')]
     private Collection $abiturientPetitions;
 
     #[ORM\ManyToOne(inversedBy: 'admissions')]
@@ -42,6 +43,9 @@ class Admission
 
     #[ORM\Column (nullable: true)]
     private ?bool $active = false;
+
+    #[ORM\OneToOne(targetEntity: reference_SpoEducationYear::class)]
+    private ?reference_SpoEducationYear $spoEducationYear;
 
     public function __construct()
     {
@@ -190,5 +194,15 @@ class Admission
         $this->active = $active;
 
         return $this;
+    }
+
+    public function getSpoEducationYear(): ?reference_SpoEducationYear
+    {
+        return $this->spoEducationYear;
+    }
+
+    public function setSpoEducationYear(?reference_SpoEducationYear $spoEducationYear): void
+    {
+        $this->spoEducationYear = $spoEducationYear;
     }
 }

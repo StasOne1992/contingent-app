@@ -16,6 +16,7 @@ class AdmissionPlanType extends AbstractType
             ->add('admission')
             ->add('faculty')
             ->add('HaveAdmissionExamination')
+
         ;
     }
 

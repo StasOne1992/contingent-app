@@ -43,7 +43,6 @@ export default class extends Controller {
         this['passwordTarget'].value = 'xL6pUpZkHNsl'
     }
 
-
     get username() {
         return this['usernameTarget'].value;
     }

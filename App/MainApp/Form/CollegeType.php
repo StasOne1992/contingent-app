@@ -3,6 +3,8 @@
 namespace App\MainApp\Form;
 
 use App\MainApp\Entity\College;
+use App\mod_admission\Entity\Admission;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

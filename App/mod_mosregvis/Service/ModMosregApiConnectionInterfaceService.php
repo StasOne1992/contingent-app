@@ -87,6 +87,7 @@ class ModMosregApiConnectionInterfaceService
 
     public function check_api_auth(): Response
     {
+        dump($this->apiConnection);
         $response = $this->client->request('GET', $this->apiConnection->getApiCheckAuthenticatedUrl(), [
             'headers' => $this->apiConnection->getApiHeaders()
         ]);
@@ -137,6 +138,7 @@ class ModMosregApiConnectionInterfaceService
     {
         $pageCount = 0;
         $pageSize = 25;
+        dd($this->apiConnection);
         $year = '6';
         try {
             $response = $this->client->request('GET', $this->apiConnection->getApiSpoPetitionListUrl([]),

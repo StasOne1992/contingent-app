@@ -139,4 +139,9 @@ class reference_SpoEducationYear
         $this->admisson = $admisson;
     }
 
+    public function __toString(): string
+    {
+        return $this->getName();
+    }
+
 }

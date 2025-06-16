@@ -46,18 +46,21 @@ class ReferenceController extends AbstractController
         $mosreg_vis_college = $session->get('mosreg_vis_college');
         $mosreg_vis_configuration = $session->get('mosreg_vis_configuration');
         $mosreg_vis_token = $session->get('mosreg_vis_token');
-
+        dump($session);
         if ($mosreg_vis_token == null && $mosreg_vis_college == null && $mosreg_vis_configuration = null) {
             dump($mosreg_vis_token == null, $mosreg_vis_college == null, $mosreg_vis_configuration = null);
             return new Response('Данные для авторизации в ВИС отсутствуют', status: Response::HTTP_UNAUTHORIZED);
         }
         if ($mosreg_vis_token != null) {
-
             $mosregApiConnection->setToken($mosreg_vis_token);
         }
-        if ($mosreg_vis_college != null && $mosreg_vis_configuration != null && $mosreg_vis_token == null) {
+        if ($mosreg_vis_college != null) {
+            $mosregApiConnection->setCollegeId($mosreg_vis_college->getVisCollegeId());
+        }
+        if ($mosreg_vis_configuration != null) {
             $mosregApiConnection->setUsername($mosreg_vis_configuration->getUsername());
             $mosregApiConnection->setPassword($mosreg_vis_configuration->getPassword());
+
         }
         if ($mosreg_vis_configuration->getMosregVISCollege() == null) {
             return new Response('Не задан колледж', Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -70,7 +73,6 @@ class ReferenceController extends AbstractController
 
         $modMosregApiProvider = new ModMosregReferenceService($mosregApiConnection, $entityManager);
         $modMosregApiProvider->updateReference("full");
-        dd('');
         return $this->render('@mod_mosregvis/index.html.twig',
             [
                 'modMosregVis' => array()

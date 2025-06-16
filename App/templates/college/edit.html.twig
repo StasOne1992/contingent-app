@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Edit College</h1>
-
+    {{ dump() }}
     {{ include('college/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_college_index') }}">back to list</a>

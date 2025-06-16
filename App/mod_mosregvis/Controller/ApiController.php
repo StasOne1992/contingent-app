@@ -3,15 +3,18 @@
 namespace App\mod_mosregvis\Controller;
 
 use App\mod_mosregvis\Entity\ModMosregVis_College;
+use App\mod_mosregvis\Entity\ModMosregVis_Configuration;
 use App\mod_mosregvis\Entity\mosregApiConnection;
 use App\mod_mosregvis\Repository\modMosregVis_CollegeRepository;
 use App\mod_mosregvis\Service\ModMosregApiConnectionInterfaceService;
 use Doctrine\ORM\EntityManagerInterface;
+use mysql_xdevapi\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -92,42 +95,64 @@ class ApiController extends AbstractController
     }
 
     #[Route('/getSpoPetitions', 'mod_mosregvis_api_get_spo_petitions', methods: ['GET'])]
-    public function getSpoPetitions(Request $request, HttpClientInterface $httpClient, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager): Response
+    public function getSpoPetitions(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $apiConnectionService = new ModMosregApiConnectionInterfaceService($this->getApiConnection($request));
-        $init_data = $apiConnectionService->getSpoPetitionsList($entityManager);
-        return new Response($init_data->getContent(), $init_data->getStatusCode());
+        try {
+            $apiConnection = $this->getApiConnection($request);
+            if ($apiConnection == null) {
+                throw new \Exception("Ошибка получения данных для авторизации в API. Выполните повторный вход в профиль АИС");
+            }
+            $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection);
+            $init_data = $apiConnectionService->getSpoPetitionsList($entityManager);
+            return new Response($init_data->getContent(), $init_data->getStatusCode());
+        } catch (\Exception $e) {
+            return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
+        }
+        return new Response("Данные не получены", Response::HTTP_NO_CONTENT);
+
     }
 
     #[Route('/getSpoPetition/{id}', 'mod_mosregvis_api_get_spo_petition', methods: ['GET'])]
     public function getSpoPetition($id, Request $request, HttpClientInterface $httpClient): Response
     {
-        $apiConnectionService = new ModMosregApiConnectionInterfaceService($this->getApiConnection($request));
 
+        $apiConnectionService = new ModMosregApiConnectionInterfaceService($this->getApiConnection($request));
         return $apiConnectionService->getSpoPetition($id);
     }
 
-    private function getApiConnection(Request $request): mosregApiConnection
+    private function getApiConnection(Request $request): mosregApiConnection|null
     {
+        /***
+         * @var ModMosregVis_Configuration $vis_configuration
+         */
         $httpClient = HttpClient::create();
         $session = $request->getSession();
         $token = $request->getSession()->get('mosreg_vis_token');
         $vis_configuration = $session->get('mosreg_vis_configuration');
-        $apiConnection = new mosregApiConnection();
-        if ($token != null) {
-            $apiConnection->setToken($token);
-        }
-        if ($vis_configuration) {
-            $apiConnection->setUsername($vis_configuration->getUsername());
-            $apiConnection->setPassword($vis_configuration->getPassword());
-        }
-        $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection);
+        if ($token !== null || $vis_configuration !== null) {
+            $apiConnection = new mosregApiConnection();
+            if ($token != null) {
+                $apiConnection->setToken($token);
+            }
+            if ($vis_configuration !== null) {
+                $apiConnection->setUsername($vis_configuration->getUsername());
+                $apiConnection->setPassword($vis_configuration->getPassword());
+                $college = $vis_configuration->getMosregVISCollege()->getCollege();
+                $admissions = $college->getAdmissions()->getValues();
+                foreach ($admissions as $admission) {
+                    dump($admission);
+                }
+                dd($college, $college->getStudentGroups()->getValues(), $admissions);
+                $apiConnection->setCollegeId($vis_configuration->getOrgId());
+            }
+            $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection);
 
-        if ($apiConnectionService->check_api_auth()->getStatusCode() == 401) {
-            $apiConnectionService->auth();
-            $session->set('mosreg_vis_token', $apiConnection->getToken());
+            if ($apiConnectionService->check_api_auth()->getStatusCode() == 401) {
+                $apiConnectionService->auth();
+                $session->set('mosreg_vis_token', $apiConnection->getToken());
+            }
+            return $apiConnection;
         }
-        return $apiConnection;
-
+        return null;
     }
 }

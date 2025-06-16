@@ -18,6 +18,7 @@ use Doctrine\ORM\Exception\NotSupported;
 use Exception;
 use JsonException;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -30,7 +31,6 @@ class ModMosregReferenceService
     private EntityManagerInterface $entityManager;
     private mosregApiConnection $apiConnection;
     private HttpClientInterface $client;
-
     /**
      * @param mosregApiConnection $apiConnection
      * @param EntityManagerInterface $entityManager
@@ -43,14 +43,12 @@ class ModMosregReferenceService
         $this->entityManager = $entityManager;
         $this->apiConnection = $apiConnection;
         $this->client = HttpClient::create();
-        dd($apiConnection);
     }
 
     public function updateReference(string $name = ''): void
     {
+
         if (($name != '') && ($name != 'full')) {
-
-
         } elseif ($name == '' or $name == 'full') {
             foreach ($this->getReference("full") as $key => $value) {
                 $func = 'update' . $key;
@@ -177,7 +175,6 @@ class ModMosregReferenceService
     {
         $repository = $this->entityManager->getRepository(reference_spoSpecialityDictionary::class);
         $trainingProgramGradationRepository = $this->entityManager->getRepository(reference_trainingProgramGradation::class);
-
         $PPKRS = $trainingProgramGradationRepository->findBy(['name' => 'PPKRS'])[0];
         $PPSSZ = $trainingProgramGradationRepository->findBy(['name' => 'PPSSZ'])[0];
         foreach ($spoSpecialityDictionary as $item) {
