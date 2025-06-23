@@ -114,7 +114,7 @@ class Student
     private ?bool $isActive = null;
 
     #[ORM\OneToOne(targetEntity: User::class, mappedBy: 'student')]
-    private Collection $user;
+    private ?User $user = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $Photo = null;
@@ -122,6 +122,7 @@ class Student
     #[ORM\ManyToOne(inversedBy: 'students')]
     private ?StudentGroup $studentGroup = null;
 
+    private ?int $StudentGroup = null;
     #[ORM\Column(nullable: true)]
     private ?bool $IsOrphan = null;
 
@@ -199,7 +200,6 @@ class Student
         $this->socialNetworks = new ArrayCollection();
         $this->personalDocuments = new ArrayCollection();
         $this->personalDocuments->getValues();
-        $this->user = new ArrayCollection();
         $this->characteristics = new ArrayCollection();
         $this->accessSystemControls = new ArrayCollection();
         $this->loginValues = new ArrayCollection();
@@ -382,18 +382,6 @@ class Student
         return $this;
     }
 
-    public function getHealthGroupID(): ?HealthGroup
-    {
-        return $this->healthGroupID;
-    }
-
-    public function setHealthGroupID(?HealthGroup $healthGroupID): self
-    {
-        $this->healthGroupID = $healthGroupID;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, LegalRepresentative>
      */
@@ -512,35 +500,7 @@ class Student
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUser(): Collection
-    {
-        return $this->user;
-    }
 
-    public function addUser(User $user): self
-    {
-        if (!$this->user->contains($user)) {
-            $this->user->add($user);
-            $user->setStudentID($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->user->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getStudentID() === $this) {
-                $user->setStudentID(null);
-            }
-        }
-
-        return $this;
-    }
 
 
     public function getPhoto(): ?string
@@ -947,5 +907,25 @@ class Student
     public function setGroupMembership(Collection $groupMembership): void
     {
         $this->groupMembership = $groupMembership;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
+    }
+
+    public function getHealthGroupID(): ?HealthGroup
+    {
+        return $this->healthGroupID;
+    }
+
+    public function setHealthGroupID(?HealthGroup $healthGroupID): void
+    {
+        $this->healthGroupID = $healthGroupID;
     }
 }

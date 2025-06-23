@@ -87,7 +87,7 @@
                                 {% elseif (student.studentGroup.faculty is null)  %}
                                     <div class="alert alert-danger"><small>Специальность не назначена</small></div>
                             {% else %}
-                                <small>{{  student.studentGroup.faculty.specialization.code~" "~student.studentGroup.faculty.specialization.name }}</small>
+                                <small>{{  student.getStudentGroup.faculty.specialization.code~" "~student.getStudentGroup.faculty.specialization.name }}</small>
                             {% endif %}
                         </td>
                         <td class="d-none d-xl-table-cell">
@@ -98,8 +98,6 @@
                             {% endif %}</td>
                         <td class="d-none d-xl-table-cell">{{ student.NumberZachetka }}
                             / {{ student.NumberStudBilet }}</td>
-
-
                         <td class="d-xl-none d-table-cell col-5 fs-sm">
                             <div class="row"> {% if not ( student.studentGroup is null) %}
                                     <span> <b>Группа:</b> {{ student.studentGroup.name }}</span>

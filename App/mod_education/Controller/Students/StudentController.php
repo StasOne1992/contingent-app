@@ -241,7 +241,7 @@ class StudentController extends AbstractController
                             $user->setCollege($studentGroup->getCollege());
                             $user->setRoles(["ROLE_STUDENT"]);
                             $user->setPassword('default');
-                            $student->addUser($user);
+                            $student->setUser($user);
                             $student->setPhoneNumber($row['phone_number']);
                             $student->setIsActive(true);
                             $this->em->persist($student);
