@@ -81,6 +81,7 @@ class ModMosregReferenceService
             case 'getStudyDiscipline':
                 return $this->getStudyDiscipline();
             case 'full':
+
                 $result['ReferenceDocumentType'] = $this->getReferenceDocumentType();
                 $result['eduYearStatus'] = $this->geteduYearStatus();
                 $result['SpoEducationYear'] = $this->getSpoEducationYear();

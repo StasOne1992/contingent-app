@@ -17,7 +17,7 @@ class ModMosregVis_College
     #[ORM\Id, ORM\GeneratedValue(strategy: 'SEQUENCE'), ORM\Column]
     private int|null $id = null;
 
-    #[ORM\OneToOne(targetEntity: College::class)]
+    #[ORM\OneToOne(targetEntity: College::class, mappedBy: 'mosregVISCollege')]
     private College|null $college;
 
     #[ORM\OneToMany(targetEntity: ModMosregVis_Configuration::class, mappedBy: 'mosregVISCollege')]
