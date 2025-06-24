@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\MainApp\Entity\College;
+use App\MainApp\Entity\User;
 use App\MainApp\Repository\CollegeRepository;
 
 use App\mod_mosregvis\Entity\ModMosregVis_College;
