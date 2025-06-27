@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 
 #[Route('/person')]
+#[IsGranted("ROLE_USER")]
 class PersonController extends AbstractController
 {
     private EntityManagerInterface $em;

@@ -127,6 +127,18 @@ class Staff
         return $this->studentGroup;
     }
 
+    public function getStudentGroupsId(): array
+    {
+        /***
+         * @var StudentGroup $item
+         */
+        $groupList = array();
+        foreach ($this->studentGroup as $item) {
+            $groupList[] = $item->getId();
+        }
+        return $groupList;
+    }
+
     public function addStudentGroup(StudentGroup $studentGroup): self
     {
         if (!$this->studentGroup->contains($studentGroup)) {

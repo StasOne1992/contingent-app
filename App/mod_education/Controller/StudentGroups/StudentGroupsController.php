@@ -90,9 +90,9 @@ class StudentGroupsController extends AbstractController
 
     #[Route('/{id}/student-list', name: 'app_student_groups_show_students', methods: ['GET'])]
     #[IsGranted('ROLE_STAFF_STUDENT_GROUP_R')]
-    public function show_students(StudentGroups $studentGroup): Response
+    public function show_students(StudentGroup $studentGroup, StudentGroupsService $StudentGroupsService, StudentGroupsRepository $StudentGroupsRepository): Response
     {
-        $students=$studentGroup->getStudents();
+        $students = $studentGroup->getGroupMembershipsStudents();
 
         return $this->render('student/index.html.twig', [
             'students' => $students,

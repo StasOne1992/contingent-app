@@ -69,7 +69,7 @@ class SecurityController extends AbstractController
         $session = $this->requestStack->getSession();
         $session->set('college', $college);
 
-        $this->setMosregVisSessionParams($session);
+        //$this->setMosregVisSessionParams($session);
         if ($this->isGranted('ROLE_ROOT')) {
             return $this->redirectToRoute('app_dashboard_index');
         }

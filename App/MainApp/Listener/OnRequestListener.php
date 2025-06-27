@@ -2,7 +2,9 @@
 
 namespace App\MainApp\Listener;
 
+use App\MainApp\Entity\Staff;
 use App\MainApp\Entity\User;
+use App\mod_education\Entity\GroupMembership;
 use App\mod_education\Entity\StudentGroup;
 use App\mod_education\Repository\StudentGroupsRepository;
 use Doctrine\ORM\EntityManager;
@@ -26,51 +28,52 @@ class OnRequestListener
     {
         if ($this->tokenStorage->getToken()) {
             /***
-             * @var User $user
+             * @var      $studentGroup StudentGroup
+             * @var      $user         User
              */
+
             $user = $this->tokenStorage->getToken()->getUser();
-            $roles = $user->getRoles();
-            $groups = array();
-            if (in_array('ROLE_ROOT', $roles) || in_array('ROLE_ADMIN', $roles)) {
-                dump('RootGroupList');
-                foreach ($this->em->getRepository(StudentGroup::class)->findAll() as $group) {
-                    $groups[] = $group->getId();
+            $studentGroupList = $user->getStaff()->getStudentGroups();
+            $studentGroupIdList = $user->getStaff()->getStudentGroupsId();
+
+            $userRoles = $user->getRoles();
+
+            if (!in_array('ROLE_ROOT', $userRoles) && in_array('ROLE_USER', $userRoles)) {
+                if (in_array('ROLE_CL', $userRoles)) {
+                    $studentGroupFilter = $this->em->getFilters()->enable('studentGroupFilter');
+                    $studentGroupFilter->setParameter('userGroup', implode(',', $studentGroupIdList));
+
+                    $studentFilter = $this->em->getFilters()->enable('studentFilter');
+                    $studentFilter->setParameter('userRole', json_encode($userRoles), 'json');
+                    $studentFilter->setParameter('userGroup', json_encode($studentGroupIdList), 'json');
+                    dump('role_cl');
                 }
-            } else if (in_array('ROLE_USER', $roles)) {
-                if ($user->getStaff()) {
-                    foreach ($user->getStaff()->getStudentGroups()->getValues() as $group) {
-                        $groups[] = (int)$group->getId();
-                    }
+                if (in_array('ROLE_ADMIN', $userRoles)) {
+                    dump('role_admin');
                 }
-                //$groups[] = 5;
+            }
+            /*    $studentFilter = $this->em->getFilters()->enable('studentFilter');
+                $studentFilter->setParameter('userRole', json_encode($userRoles), 'json');
+                $studentFilter->setParameter('userGroup', json_encode($studentGroupIdList), 'json');*/
 
-                $studentFilter = $this->em->getFilters()->enable('studentFilter');
-                $studentFilter->setParameter('userRole', json_encode($roles), 'json');
-                $studentFilter->setParameter('userGroup', json_encode($groups), 'json');
-
-
-                $studentGroupFilter = $this->em->getFilters()->enable('studentGroupFilter');
-                $studentGroupFilter->setParameter('userRole', implode(',', $user->getRoles()));
-                $studentGroupFilter->setParameter('userGroup', implode(",", $groups));
+            /*  $studentGroupFilter = $this->em->getFilters()->enable('studentGroupFilter');
+              $studentGroupFilter->setParameter('userRole', implode(',', $user->getRoles()));
+              $studentGroupFilter->setParameter('userGroup', implode(",", $groups));*/
 
 
                 /***
                  * @var StudentGroup $group
                  */
-                $studentID = [];
-                if ($groups = $user->getStaff()->getStudentGroups()) {
-                    foreach ($groups as $group) {
-                        foreach ($group->getStudents() as $student) {
-                            $studentID[] = $student->getId();
-                        }
-                    }
-                    if (count($studentID) > 0) {
-                        $EventsResultFilter = $this->em->getFilters()->enable('EventsResultFilter');
-                        $EventsResultFilter->setParameter('userRole', implode(',', $user->getRoles()));
-                        $EventsResultFilter->setParameter('studentId', implode(",", $studentID));
-                    }
-                }
-            }
+            /* $studentID = [];
+             if (count($studentList) > 0) {
+                 foreach ($studentList as $student) {
+                         $studentID[] = $student->getId();
+                     }
+                 $EventsResultFilter = $this->em->getFilters()->enable('EventsResultFilter');
+                 $EventsResultFilter->setParameter('userRole', implode(',', $user->getRoles()));
+                 $EventsResultFilter->setParameter('studentId', implode(",", $studentID));
+             }*/
+
         }
     }
 }

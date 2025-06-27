@@ -12,24 +12,11 @@ class StudentFilter extends SQLFilter
 
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias,): string
     {
-        if ($this->hasParameter('userRole') && $this->hasParameter('userGroup')) {
 
-            $userRoles = str_replace("'", "", $this->getParameter('userRole'));
-            $userRoles = explode(',', $userRoles);
-            $userGroup = str_replace("'", "", $this->getParameter('userGroup'));
-            $filterString = "";
-            if ($targetEntity->getReflectionClass()->name == Student::class) {
-                if (!(in_array('ROLE_ROOT', $userRoles) || in_array('ROLE_ADMIN', $userRoles)) && !($userGroup == "" || $userGroup == null)) {
-                    $filterString = $targetTableAlias . '.student_group_id in (' . $userGroup . ')';
-                } elseif ($userGroup == "" || $userGroup == null) {
-                    $filterString = $targetTableAlias . '.student_group_id in (0)';
-                } else {
-                    $filterString = '';
-                }
-            }
-            return $filterString;
+        if ($this->hasParameter('userGroup')) {
+            $filterString = $targetTableAlias . '.student_group_id in (' . $userGroup . ')';
         }
-        return '';
+        return $filterString;
     }
 
 }

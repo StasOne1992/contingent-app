@@ -58,7 +58,7 @@ class Student
         'contingent_document:item'
         ]
     )]
-    private ?string $FirstName = null;
+    private ?string $FirstName = "";
     #[Groups(
         [
             'student:list',
@@ -66,7 +66,7 @@ class Student
             'contingent_document:item'
         ]
     )]
-    private ?string $LastName = null;
+    private ?string $LastName = '';
     #[Groups(
         [
             'student:list',
@@ -74,7 +74,7 @@ class Student
             'contingent_document:item'
         ]
     )]
-    private ?string $MiddleName = null;
+    private ?string $MiddleName = '';
     #[Groups(
         [
             'student:list',

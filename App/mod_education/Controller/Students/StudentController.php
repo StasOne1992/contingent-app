@@ -53,9 +53,11 @@ class StudentController extends AbstractController
     #[IsGranted("ROLE_STAFF_STUDENT_R")]
     public function index(Request $request, StudentRepository $studentRepository, StudentGroupsRepository $studentGroupRepository): Response
     {
+
         //$studentGroupArray = $studentGroupRepository->findAll();
         //$students = $studentRepository->findBy(['StudentGroup' => $studentGroupArray, 'isActive' => true]);
         $students = $studentRepository->findAll();
+        dd($students[0]->getFirstName());
         usort($students, function ($a, $b) {
             /***
              * @var Student $a
@@ -279,6 +281,9 @@ class StudentController extends AbstractController
 
         return $this->redirectToRoute('app_access_denied', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
 
     #[Route('/{id}/edit', name: 'app_student_edit', methods: ['GET', 'POST'])]
     #[IsGranted("ROLE_STAFF_STUDENT_U")]

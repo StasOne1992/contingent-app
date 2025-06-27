@@ -433,6 +433,14 @@ class StudentGroup
         return $this->groupMemberships;
     }
 
+    public function getGroupMembershipsStudents(): Collection
+    {
+        $students = new ArrayCollection();
+        foreach ($this->groupMemberships as $groupMembership) {
+            $students->add($groupMembership->getStudent());
+        }
+        return $students;
+    }
     public function setGroupMemberships(Collection $groupMemberships): void
     {
         $this->groupMemberships = $groupMemberships;

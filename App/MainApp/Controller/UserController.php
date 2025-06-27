@@ -17,6 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
  * @method getDoctrine()
  */
 #[Route('/user')]
+#[IsGranted("ROLE_USER")]
 class UserController extends AbstractController
 {
 
