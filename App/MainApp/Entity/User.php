@@ -5,6 +5,7 @@ namespace App\MainApp\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\MainApp\Repository\UserRepository;
 use App\mod_education\Entity\Student;
+use App\mod_mosregvis\Entity\ModMosregVis_Configuration;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -53,10 +54,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?College $college = null;
 
-    public function __construct()
-    {
+    #[ORM\ManyToOne(targetEntity: ModMosregVis_Configuration::class, inversedBy: "users")]
+    private ?ModMosregVis_Configuration $modMosregVis_Configuration = null;
 
-    }
 
     public function getId(): ?int
     {
@@ -240,5 +240,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->college = $college;
 
         return $this;
+    }
+
+    public function getModMosregVisConfiguration(): ?ModMosregVis_Configuration
+    {
+        return $this->modMosregVis_Configuration;
+    }
+
+    public function setModMosregVisConfiguration(?ModMosregVis_Configuration $modMosregVis_Configuration): void
+    {
+        $this->modMosregVis_Configuration = $modMosregVis_Configuration;
     }
 }

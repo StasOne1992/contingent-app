@@ -1,6 +1,6 @@
 {% if (app.user.staff is defined and app.user.staff is not null) %}
 {% if (app.user.staff.photo=='') %}
-{% set userphoto = "/bundles/OneUI/assets/media/avatars/avatar10.jpg" %}
+{% set userphoto = "/bundles/app/media/avatars/avatar10.jpg" %}
 {% else %}
     {% set userphoto=app.user.staff.photo %}
 {% endif %}

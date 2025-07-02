@@ -3,7 +3,6 @@ doctrine:
         types:
             snils: Npub\Gos\Doctrine\Type\SnilsType
             snils_canonical: Npub\Gos\Doctrine\Type\SnilsCanonicalType
-
         url: '%env(resolve:DATABASE_URL)%'
 
 

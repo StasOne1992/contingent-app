@@ -1,30 +1,29 @@
 import './bootstrap.js';
 
-/*
- * Welcome to your app's main JavaScript file!
- *
- * This file will be included onto the page via the importmap() Twig function,
- * which should already be in your base.html.twig.
- */
-
 /**
  * JS import
  */
 
-const $ = require('jquery');
-
-// create global $ and jQuery variables
-global.$ = global.jQuery = $;
-
 import 'jquery-mask-plugin'
-
 import "./bundles/oneui_webpack/app";
 import "./bundles/oneui_webpack/oneui/app";
+//import "./bundles/oneui_webpack/oneui/oneui.app.min.js";
+import 'bootstrap-toaster';
 
 
 /**
  * CSS import
  */
 
-import '/assets/bundles/OneUI/assets/css/oneui.css'
 
+import './bundles/oneui_webpack/css/oneui.css';
+import '/node_modules/bootstrap-toaster/dist/css/bootstrap-toaster.css';
+
+/**
+ * bootstrap-toaster config
+ */
+Toast.setPlacement(TOAST_PLACEMENT.BOTTOM_RIGHT);
+Toast.setMaxCount(6);
+Toast.enableQueue(true);
+Toast.enableTimers(TOAST_TIMERS.COUNTDOWN);
+Toast.setTheme(TOAST_THEME.DARK);

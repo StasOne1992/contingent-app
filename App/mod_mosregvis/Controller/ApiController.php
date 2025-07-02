@@ -2,6 +2,7 @@
 
 namespace App\mod_mosregvis\Controller;
 
+use App\MainApp\Entity\College;
 use App\mod_mosregvis\Entity\ModMosregVis_Configuration;
 use App\mod_mosregvis\Entity\mosregApiConnection;
 use App\mod_mosregvis\Repository\modMosregVis_CollegeRepository;
@@ -96,9 +97,9 @@ class ApiController extends AbstractController
     public function getSpoPetitions(Request $request, EntityManagerInterface $entityManager): Response
     {
         try {
-            $apiConnection = $this->getApiConnection($request);
+            $apiConnection = $this->getApiConnection($request, $entityManager);
             if ($apiConnection == null) {
-                throw new \Exception("Ошибка получения данных для авторизации в API. Выполните повторный вход в профиль АИС");
+                throw new \Exception("Ошибка получения данных для авторизации в API. Выполните повторный вход в профиль АИС. Если ошибка повторяется более одного раза обратитесь к администратору системы.");
             }
             $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection);
             $init_data = $apiConnectionService->getSpoPetitionsList($entityManager);
@@ -118,7 +119,7 @@ class ApiController extends AbstractController
         return $apiConnectionService->getSpoPetition($id);
     }
 
-    private function getApiConnection(Request $request): mosregApiConnection|null
+    private function getApiConnection(Request $request, EntityManagerInterface $entityManager): mosregApiConnection|null
     {
         /***
          * @var ModMosregVis_Configuration $vis_configuration
@@ -127,6 +128,7 @@ class ApiController extends AbstractController
         $session = $request->getSession();
         $token = $request->getSession()->get('mosreg_vis_token');
         $vis_configuration = $session->get('mosreg_vis_configuration');
+
         if ($token !== null || $vis_configuration !== null) {
             $apiConnection = new mosregApiConnection();
             if ($token != null) {
@@ -135,9 +137,6 @@ class ApiController extends AbstractController
             if ($vis_configuration !== null) {
                 $apiConnection->setUsername($vis_configuration->getUsername());
                 $apiConnection->setPassword($vis_configuration->getPassword());
-                $college = $vis_configuration->getMosregVISCollege()->getCollege();
-                dump($college->getAdmissions());
-                dd($college);
                 $apiConnection->setCollegeId($vis_configuration->getOrgId());
             }
             $apiConnectionService = new ModMosregApiConnectionInterfaceService($apiConnection);

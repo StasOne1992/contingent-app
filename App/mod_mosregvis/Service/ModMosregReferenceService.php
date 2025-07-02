@@ -80,9 +80,11 @@ class ModMosregReferenceService
                 return $this->getSpoSpecialityDictionary();
             case 'getStudyDiscipline':
                 return $this->getStudyDiscipline();
+            case 'getTrainingProgramGradation':
+                return $this->getTrainingProgramGradation();
             case 'full':
-
                 $result['ReferenceDocumentType'] = $this->getReferenceDocumentType();
+                $result['TrainingProgramGradation'] = $this->getTrainingProgramGradation();
                 $result['eduYearStatus'] = $this->geteduYearStatus();
                 $result['SpoEducationYear'] = $this->getSpoEducationYear();
                 $result['SpoSpecialityDictionary'] = $this->getSpoSpecialityDictionary();
@@ -121,7 +123,8 @@ class ModMosregReferenceService
             if ($currentYearStatus = $yearStatusRepository->findBy(['code' => $item['educationYearStatus']['code']])) {
                 $reference->setYearStatus($currentYearStatus[0]);
             }
-            $reference->setCollege($collegeRepository->findBy(['guid' => $this->apiConnection->getCollegeId()])[0]);
+            dd($this->apiConnection);
+            $reference->setCollege($collegeRepository->findBy(['guid' => $this->apiConnection()])[0]);
 
             $reference->setStartDate(date_create($item['educationYearDictionary']['startDate']));
             $reference->setEndDate(date_create($item['educationYearDictionary']['endDate']));
@@ -145,6 +148,27 @@ class ModMosregReferenceService
             }
             $reference->setName($item['name']);
             $reference->setCode($item['code']);
+            $reference->setTitle($item['title']);
+            $this->entityManager->persist($reference);
+            $this->entityManager->flush();
+        }
+    }
+
+    private function updateTrainingProgramGradation(array $trainingProgramGradation): void
+    {
+        $repository = $this->entityManager->getRepository(reference_trainingProgramGradation::class);
+        foreach ($trainingProgramGradation as $item) {
+            if (count($repository->findBy(['code' => $item['code']])) == 0) {
+                $reference = new reference_trainingProgramGradation();
+
+            } else {
+                try {
+                    $reference = $repository->findBy(['code' => $item['code']])[0];
+                } catch (NotSupported $e) {
+                }
+            }
+            $reference->setName($item['name']);
+            $reference->setAbbr($item['abbr']);
             $reference->setTitle($item['title']);
             $this->entityManager->persist($reference);
             $this->entityManager->flush();
@@ -283,7 +307,7 @@ class ModMosregReferenceService
     private
     function getSpoEducationYear(): array
     {
-        $response = $this->client->request('GET', $this->apiConnection->getApiUrl() . '/spoEducationYear/search/byOrg?page=0&size=5000&organization=' . $this->apiConnection->getCollegeId() . '&projection=grid',
+        $response = $this->client->request('GET', $this->apiConnection->getApispoEducationYearDict(),
             [
                 'headers' => array_merge($this->apiConnection->getApiHeaders())
             ]);
@@ -294,6 +318,22 @@ class ModMosregReferenceService
             new Exception(sprintf("Ошибка авторизации API. Код ошибки: 401 Unauthorized "));
         }
         return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR)['_embedded']['spoEducationYears'];
+    }
+
+    private
+    function getTrainingProgramGradation(): array
+    {
+        $response = $this->client->request('GET', $this->apiConnection->getApiTrainingProgramGradationUrl(),
+            [
+                'headers' => array_merge($this->apiConnection->getApiHeaders())
+            ]);
+
+        if ($response->getStatusCode() != 200) {
+            new Exception(sprintf("Ошибка получения данных организации из API. Код ошибки:%s", $response->getStatusCode()));
+        } elseif ($response->getStatusCode() == 401) {
+            new Exception(sprintf("Ошибка авторизации API. Код ошибки: 401 Unauthorized "));
+        }
+        return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
     }
 
     private

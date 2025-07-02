@@ -21,10 +21,11 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@stimulus-components/notification": "^3.0.0",
         "@types/node": "^22.15.29",
         "axios": "^1.9.0",
         "bootstrap": "^5.3.6",
-        "bootstrap-toaster": "^5.2.0-beta1.1",
+        "bootstrap-toaster": "^5.1.0",
         "datatables.net-autofill-bs5": "^2.7.0",
         "datatables.net-bs5": "^2.3.1",
         "datatables.net-buttons-bs5": "^3.2.3",

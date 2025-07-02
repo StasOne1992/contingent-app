@@ -3,9 +3,11 @@
 namespace App\mod_mosregvis\Entity;
 
 use App\MainApp\Entity\College;
+use App\MainApp\Entity\User;
 use App\mod_mosregvis\Repository\modMosregVis_ConfigurationRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 #[ORM\Entity(repositoryClass: modMosregVis_ConfigurationRepository::class)]
 class ModMosregVis_Configuration
 {
@@ -26,6 +28,14 @@ class ModMosregVis_Configuration
     private ModMosregVis_College|null $mosregVISCollege = null;
     #[ORM\ManyToOne(targetEntity: College::class, inversedBy: 'modMosregVis')]
     private College|null $college = null;
+
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: "modMosregVis_Configuration")]
+    private Collection $users;
+
+    public function __construct()
+    {
+        $this->users=new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -59,7 +69,7 @@ class ModMosregVis_Configuration
 
     public function __toString(): string
     {
-        return $this->username;
+        return "{$this->username} - {$this->mosregVISCollege->getInn()}";
     }
 
     public function getOrgId(): ?string
@@ -91,5 +101,7 @@ class ModMosregVis_Configuration
     {
         $this->mosregVISCollege = $mosregVISCollege;
     }
+
+
 
 }

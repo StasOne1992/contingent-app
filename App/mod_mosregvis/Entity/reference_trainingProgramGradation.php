@@ -22,6 +22,8 @@ class reference_trainingProgramGradation
     #[ORM\Column(length: 255)]
     private ?string $abbr = null;
 
+    #[ORM\Column(type: 'integer',nullable: true)]
+    private int $code = 0;
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
@@ -61,5 +63,15 @@ class reference_trainingProgramGradation
     public function setTitle(?string $title): void
     {
         $this->title = $title;
+    }
+
+    public function getCode(): int
+    {
+        return $this->code;
+    }
+
+    public function setCode(int $code): void
+    {
+        $this->code = $code;
     }
 }

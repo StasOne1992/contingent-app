@@ -7,6 +7,8 @@ use App\MainApp\Entity\User;
 use App\MainApp\Repository\RolesRepository;
 use App\MainApp\Repository\UserRepository;
 use App\mod_education\Entity\Student;
+use App\mod_mosregvis\Entity\ModMosregVis_Configuration;
+use App\mod_mosregvis\Form\modMosregVis_ConfigurationType;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -68,6 +70,11 @@ class UserType extends AbstractType
                 'empty_data' => null,
                 'required' => $isstudent,
                 'class' => staff::class))
+            ->add('modMosregVisConfiguration', EntityType::class, array(
+                'label' => 'Конфигурация модуля ВИС',
+                'placeholder' => 'Укажите конфигурацию',
+                'empty_data' => null,
+                'class' => modMosregVis_Configuration::class))
             ->add('roles', TextType::class)
             ->add('systemroles', ChoiceType::class, [
                     'attr' => ['id' => 'systemroles'],

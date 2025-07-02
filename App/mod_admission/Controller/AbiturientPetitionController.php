@@ -84,7 +84,7 @@ class AbiturientPetitionController extends AbstractController
 
     )
     {
-        $this->cllegeRepository = $collegeRepository;
+        $this->collegeRepository = $collegeRepository;
         $this->admissionExaminationResultRepository = $admissionExaminationResultRepository;
         $this->security = $security;
         $this->personalDocTypeListRepository = $personalDocTypeListRepository;

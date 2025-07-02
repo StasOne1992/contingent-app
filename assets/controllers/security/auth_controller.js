@@ -1,5 +1,8 @@
 import {Controller} from '@hotwired/stimulus';
 
+
+//TODO: Сделать реакцию на нажатие на кнопку Enter
+
 export default class extends Controller {
     static targets = ["_username", "_password"]
 
@@ -12,10 +15,33 @@ export default class extends Controller {
         const formData = new FormData(form);
         One.loader('show');
         let promise = this.sign_in(this.username, this.password)
-            .then(d => d === 204 ? form.submit() : alert(d))
+            .then(d => {
+
+                    if (d === 204) {
+                        form.submit();
+                    } else {
+                        One.loader('hide');
+                        let toast = {
+                            title: "Title",
+                            icon:"si si-bubble",
+                            message: d.message,
+                            status: TOAST_STATUS.DANGER
+                        }
+                        Toast.create(toast);
+                    }
+                }
+            )
             .catch(e => {
-                alert(e.detail);
                 One.loader('hide');
+                console.error(e.message);
+                let toast = {
+                    title: "Title",
+                    icon:"si si-bubble",
+                    message: ""+e.message,
+                    status: TOAST_STATUS.DANGER,
+                    content: "SSS"
+                }
+                Toast.create(toast);
             })
     }
 
@@ -49,7 +75,7 @@ export default class extends Controller {
                     }
                     reject(textStatus);
                 }).fail(function (xhr) {
-                    reject(JSON.parse(xhr.responseText).detail);
+                    reject(JSON.parse(xhr.responseText));
                 })
             )
         })

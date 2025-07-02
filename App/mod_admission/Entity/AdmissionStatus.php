@@ -1,8 +1,9 @@
 <?php
-
 namespace App\mod_admission\Entity;
 
 use HeyMoon\DoctrinePostgresEnum\Attribute\EnumType;
+
+
 
 #[EnumType('admission_status')]
 enum AdmissionStatus: string

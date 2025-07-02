@@ -69,7 +69,7 @@ class SecurityController extends AbstractController
         $session = $this->requestStack->getSession();
         $session->set('college', $college);
 
-        //$this->setMosregVisSessionParams($session);
+        $this->setMosregVisSessionParams($session);
         if ($this->isGranted('ROLE_ROOT')) {
             return $this->redirectToRoute('app_dashboard_index');
         }
@@ -86,25 +86,26 @@ class SecurityController extends AbstractController
     {
 
         /**
-         * @var College              $college
+         * @var User $user
          * @var ModMosregVis_College $mosregVisCollege
          */
 
-        $college = $this->getUser()->getCollege();
-        if ($this->isGranted('ROLE_STAFF_AB_PETITIONS_VIS')) {
-            $session->set('mosreg_vis_configuration', null);
-            $session->set('mosreg_vis_college', null);
-            $session->set('mosreg_vis_token', null);
+        $user = $this->getUser();
+        $session->set('mosreg_vis_configuration', null);
+        $session->set('mosreg_vis_college', null);
+        $session->set('mosreg_vis_token', null);
 
+        if ($this->isGranted('ROLE_STAFF_AB_PETITIONS_VIS') && $user->getModMosregVisConfiguration()) {
             /**
              * @var ModMosregVis_College $mosregVisCollege
              */
-            if (($mosregVisCollege = $college->getMosregVISCollege()) != null) {
+            $session->set('mosreg_vis_configuration', $user->getModMosregVisConfiguration());
+
+            if (($mosregVisCollege = $user->getModMosregVisConfiguration()->getMosregVISCollege()) != null) {
+
                 $session->set('mosreg_vis_college', $mosregVisCollege);
-                if (($mosregVis = $mosregVisCollege->getModMosregVIS()->getValues()) != null) {
-                    $session->set('mosreg_vis_configuration', $mosregVis[0]);
-                }
             }
         }
+        dump($session->get('mosreg_vis_configuration')->getId(), $session->get('mosreg_vis_college'));
     }
 }

@@ -21,6 +21,7 @@ class mosregApiConnection
     private string $collegeId;
     private string $yearId;
     private string $yearOrderId;
+    private string $spoOrgGuid;
     private string $username;
     private string $password;
     private string $apiUrl;
@@ -30,6 +31,8 @@ class mosregApiConnection
     private string $apiAvailableUrl;
     private string $apiSpoPetitionListUrl;
     private string $apiSpoPetitionUrl;
+    private string $ApiTrainingProgramGradationUrl;
+    private string $ApispoEducationYearDict;
     private array $apiHeaders;
     private int $admissionId;
 
@@ -49,6 +52,11 @@ class mosregApiConnection
         $this->setApiSpoPetitionListUrl($this->getApiUrl() . '/spoPetition/search/advancedSearch');
         $this->setApiSpoPetitionUrl($this->getApiUrl() . '/spoPetition/');
         $this->setApiSpoOrganisationUrl("{$this->getApiUrl()}/spoOrganization/");
+        $this->setApiTrainingProgramGradationUrl("{$this->getApiUrl()}/spo/reference/trainingProgramGradation/");
+        $this->setApispoEducationYearDict("{$this->getApiUrl()}/spoEducationYear/search/byOrg?page=0&size=20&organization=a58d08dc-8744-45f2-8f9e-b9b6015cda0e&projection=grid");
+
+
+
         $this->setApiHeaders([
             'Accept: */*',
             'Content-Type: application/json',
@@ -239,6 +247,36 @@ class mosregApiConnection
     public function setApiSpoOrganisationUrl(string $apiSpoOrganisationUrl): void
     {
         $this->apiSpoOrganisationUrl = $apiSpoOrganisationUrl;
+    }
+
+    public function getApiTrainingProgramGradationUrl(): string
+    {
+        return $this->ApiTrainingProgramGradationUrl;
+    }
+
+    public function setApiTrainingProgramGradationUrl(string $ApiTrainingProgramGradationUrl): void
+    {
+        $this->ApiTrainingProgramGradationUrl = $ApiTrainingProgramGradationUrl;
+    }
+
+    public function getApispoEducationYearDict(): string
+    {
+        return $this->ApispoEducationYearDict;
+    }
+
+    public function setApispoEducationYearDict(string $ApispoEducationYearDict): void
+    {
+        $this->ApispoEducationYearDict = $ApispoEducationYearDict;
+    }
+
+    public function getSpoOrgGuid(): string
+    {
+        return $this->spoOrgGuid;
+    }
+
+    public function setSpoOrgGuid(string $spoOrgGuid): void
+    {
+        $this->spoOrgGuid = $spoOrgGuid;
     }
 
 

@@ -7,6 +7,7 @@
 
 // Import required modules
 import Template from "./modules/template.js";
+import Helpers from "./modules/helpers";
 
 // App extends Template
 export default class App extends Template {
@@ -15,6 +16,7 @@ export default class App extends Template {
    *
    */
   constructor(options) {
+    Helpers.run('jq-notify');
     super(options);
   }
 
